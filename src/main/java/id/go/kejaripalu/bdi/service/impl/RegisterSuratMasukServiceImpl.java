@@ -11,27 +11,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.JenisSurat;
-import id.go.kejaripalu.bdi.domain.SuratMasuk;
-import id.go.kejaripalu.bdi.dto.SuratMasukCreateRequest;
-import id.go.kejaripalu.bdi.dto.SuratMasukResponse;
-import id.go.kejaripalu.bdi.dto.SuratMasukUpdateRequest;
+import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
+import id.go.kejaripalu.bdi.dto.RegisterSuratMasukCreateRequest;
+import id.go.kejaripalu.bdi.dto.RegisterSuratMasukResponse;
+import id.go.kejaripalu.bdi.dto.RegisterSuratMasukUpdateRequest;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
-import id.go.kejaripalu.bdi.repository.SuratMasukRepository;
-import id.go.kejaripalu.bdi.service.SuratMasukService;
+import id.go.kejaripalu.bdi.repository.RegisterSuratMasukRepository;
+import id.go.kejaripalu.bdi.service.RegisterSuratMasukService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
 @Slf4j
-public class SuratMasukServiceImpl implements SuratMasukService {
+public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService {
 
-	private SuratMasukRepository suratMasukRepository;
+	private RegisterSuratMasukRepository suratMasukRepository;
 	
 	@Override
 	@Transactional
-	public void createSuratMasuk(SuratMasukCreateRequest request) {
-		SuratMasuk suratMasuk = new SuratMasuk();
+	public void createSuratMasuk(RegisterSuratMasukCreateRequest request) {
+		RegisterSuratMasuk suratMasuk = new RegisterSuratMasuk();
 		suratMasuk.setWaktuPenerimaanSurat(request.getWaktuPenerimaanSurat());
 		suratMasuk.setAsal(request.getAsal());
 		suratMasuk.setPerihal(request.getPerihal());
@@ -49,8 +49,8 @@ public class SuratMasukServiceImpl implements SuratMasukService {
 
 	@Override
 	@Transactional
-	public void updateSuratMasuk(String id, SuratMasukUpdateRequest request) {
-		SuratMasuk suratMasuk = suratMasukRepository.findById(id)
+	public void updateSuratMasuk(String id, RegisterSuratMasukUpdateRequest request) {
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("ID Not Found!!!"));
 		suratMasuk.setWaktuPenerimaanSurat(
 				request.getWaktuPenerimaanSurat() == null ? 
@@ -81,7 +81,7 @@ public class SuratMasukServiceImpl implements SuratMasukService {
 
 	@Override
 	@Transactional
-	public Page<SuratMasuk> findSuratMasuk(String start, String end, String stringJenisSurat, 
+	public Page<RegisterSuratMasuk> findSuratMasuk(String start, String end, String stringJenisSurat, 
 			Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
@@ -98,7 +98,7 @@ public class SuratMasukServiceImpl implements SuratMasukService {
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<SuratMasuk> pagesSuratMasuk = suratMasukRepository.findSuratMasukAll(
+		Page<RegisterSuratMasuk> pagesSuratMasuk = suratMasukRepository.findSuratMasukAll(
 				startDate, endDate, jenisSurat, pageRequest);
 		
 		return pagesSuratMasuk;
@@ -106,11 +106,11 @@ public class SuratMasukServiceImpl implements SuratMasukService {
 	
 	@Override
 	@Transactional
-	public SuratMasukResponse findSuratMasukById(String id) {
-		SuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
+	public RegisterSuratMasukResponse findSuratMasukById(String id) {
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID Not Found!!!"));
 		
-		SuratMasukResponse response = new SuratMasukResponse();
+		RegisterSuratMasukResponse response = new RegisterSuratMasukResponse();
 		response.setId(suratMasuk.getId());
 		response.setWaktuPenerimaanSurat(suratMasuk.getWaktuPenerimaanSurat());
 		response.setAsal(suratMasuk.getAsal());
@@ -128,7 +128,7 @@ public class SuratMasukServiceImpl implements SuratMasukService {
 	@Override
 	@Transactional
 	public void deleteSuratMasuk(String id) {
-		SuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID Not Found!!!"));
 		suratMasuk.setDeleted(Boolean.TRUE);
 		suratMasukRepository.save(suratMasuk);

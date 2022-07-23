@@ -2,33 +2,28 @@ package id.go.kejaripalu.bdi.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import id.go.kejaripalu.bdi.domain.JenisSurat;
 import lombok.Data;
 
 @Data
-public class SuratMasukCreateRequest {
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="GMT+8")
+public class RegisterSuratMasukResponse {
+	
+	private String id;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
 	private Date waktuPenerimaanSurat;
 	
-    @NotBlank
-	private String asal;
+    private String asal;
 	
-    @NotBlank
-	private String nomorSurat;
+    private String nomorSurat;
 	
-    @NotBlank
-	private String perihal;
+    private String perihal;
 	
-	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalSurat;
 	
-	@NotNull
 	private JenisSurat jenisSurat;
 	
 	private String isiDisposisi;
@@ -36,5 +31,5 @@ public class SuratMasukCreateRequest {
 	private String tindakLanjutDisposisi;
 	
 	private String keterangan;
-	
+
 }

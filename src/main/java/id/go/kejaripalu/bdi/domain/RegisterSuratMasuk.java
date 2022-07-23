@@ -17,13 +17,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "surat_masuk")
+@Table(name = "register_surat_masuk")
 @Setter
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class SuratMasuk extends BaseUUIDEntity {
+public class RegisterSuratMasuk extends BaseUUIDEntity {
 	
 	@Column(name = "waktu_penerimaan_surat", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)

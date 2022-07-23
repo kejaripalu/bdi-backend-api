@@ -9,15 +9,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.JenisSurat;
-import id.go.kejaripalu.bdi.domain.SuratMasuk;
+import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
 
-public interface SuratMasukRepository extends JpaRepository<SuratMasuk, String> {
+public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSuratMasuk, String> {
 
 	@Query("SELECT s FROM SuratMasuk s WHERE s.deleted=false AND s.jenisSurat=:jenisSurat "
 			+ "AND s.waktuPenerimaanSurat BETWEEN :startDate AND :endDate "
 			+ "ORDER BY s.waktuPenerimaanSurat DESC")
-	Page<SuratMasuk> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
+	Page<RegisterSuratMasuk> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 		
-	Optional<SuratMasuk> findByIdAndDeletedFalse(String id);
+	Optional<RegisterSuratMasuk> findByIdAndDeletedFalse(String id);
 	
 }

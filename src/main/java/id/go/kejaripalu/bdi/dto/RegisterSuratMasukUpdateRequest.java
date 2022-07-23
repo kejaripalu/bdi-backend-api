@@ -8,7 +8,7 @@ import id.go.kejaripalu.bdi.domain.JenisSurat;
 import lombok.Data;
 
 @Data
-public class SuratMasukUpdateRequest {
+public class RegisterSuratMasukUpdateRequest {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
 	private Date waktuPenerimaanSurat;
