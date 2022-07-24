@@ -25,12 +25,12 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/surat-masuk")
+@RequestMapping("/api/v1")
 public class RegisterSuratMasukController {
 
 	private RegisterSuratMasukService suratMasukService;
 	
-	@GetMapping("/")
+	@GetMapping("/surat-masuk")
 	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasuk(
 				@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
 				@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
@@ -40,25 +40,25 @@ public class RegisterSuratMasukController {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));		
 	}
 	
-	@GetMapping("/{id}/detail")
+	@GetMapping("/surat-masuk/{id}/detail")
 	public ResponseEntity<RegisterSuratMasukResponse> findSuratMasukById(@PathVariable String id) {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasukById(id));
 	}
 	
-	@PostMapping("/")
+	@PostMapping("/surat-masuk")
 	public ResponseEntity<Void> createNewSuratMasuk(@Valid @RequestBody RegisterSuratMasukCreateRequest request) {
 		suratMasukService.createSuratMasuk(request);
 		return ResponseEntity.created(URI.create("/api/v1/surat-masuk")).build();
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/surat-masuk/{id}")
 	public ResponseEntity<Void> updateSuratMasuk(@PathVariable String id,
 			@RequestBody @Valid RegisterSuratMasukUpdateRequest request) {
 		suratMasukService.updateSuratMasuk(id, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/surat-masuk/{id}")
 	public ResponseEntity<Void> deleteSuratMasuk(@PathVariable String id) {
 		suratMasukService.deleteSuratMasuk(id);
 		return ResponseEntity.accepted().build();
