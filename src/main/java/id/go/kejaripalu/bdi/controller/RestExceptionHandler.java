@@ -18,7 +18,7 @@ public class RestExceptionHandler {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.BAD_REQUEST.value(), 
 				exception.getMessage(),
-				System.currentTimeMillis());
+				System.currentTimeMillis() / 1000);
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 	
@@ -28,7 +28,7 @@ public class RestExceptionHandler {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.NOT_FOUND.value(), 
 				exception.getMessage(),
-				System.currentTimeMillis());
+				System.currentTimeMillis() / 1000);
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 	
@@ -38,7 +38,7 @@ public class RestExceptionHandler {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.BAD_REQUEST.value(), 
 				exception.getMessage(),
-				System.currentTimeMillis());
+				System.currentTimeMillis() / 1000);
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 	
