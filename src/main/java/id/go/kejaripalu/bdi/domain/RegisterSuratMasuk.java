@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class RegisterSuratMasuk extends BaseUUIDEntity {
 	
 	@Column(name = "waktu_penerimaan_surat", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm", timezone = "GMT+8")
 	private Date waktuPenerimaanSurat;
 	
 	@Column(name = "asal", nullable = false)
@@ -40,6 +43,7 @@ public class RegisterSuratMasuk extends BaseUUIDEntity {
 	
 	@Column(name = "tanggal_surat", nullable = false)
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date tanggalSurat;
 	
 	@Column(name = "jenis_surat", nullable = false)
