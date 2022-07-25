@@ -26,8 +26,8 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1")
-@CrossOrigin("http://localhost:4200")
+@RequestMapping("${app.api-url}")
+@CrossOrigin("${app.origin-url}")
 public class RegisterSuratMasukController {
 
 	private RegisterSuratMasukService suratMasukService;

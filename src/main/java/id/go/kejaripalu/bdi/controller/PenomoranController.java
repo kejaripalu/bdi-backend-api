@@ -18,7 +18,7 @@ import id.go.kejaripalu.bdi.service.PenomoranService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("${app.api-url}")
 @AllArgsConstructor
 public class PenomoranController {
 
@@ -37,7 +37,7 @@ public class PenomoranController {
 	@PostMapping("/penomoran")
 	public ResponseEntity<Void> saveNewNomor(@RequestBody Penomoran penomoran) {
 		penomoranService.createNewNomor(penomoran);
-		return ResponseEntity.created(URI.create("/api/v1/penomoran")).build();
+		return ResponseEntity.created(URI.create("${app.api-url}/penomoran")).build();
 	}
 	
 	@PutMapping("/penomoran/{kode}")

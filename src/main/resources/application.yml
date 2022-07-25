@@ -10,3 +10,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+    
+app:
+  origin-url: http://localhost:4200
+  api-url: /api/v1
