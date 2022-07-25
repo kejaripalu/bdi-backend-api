@@ -17,7 +17,7 @@ public class RestExceptionHandler {
 	public ResponseEntity<BDIErrorResponse> handleException(DataIntegrityViolationException exception) {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.BAD_REQUEST.value(), 
-				exception.getMessage(),
+				"Data sudah pernah dimasukan!!!",
 				System.currentTimeMillis() / 1000);
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
