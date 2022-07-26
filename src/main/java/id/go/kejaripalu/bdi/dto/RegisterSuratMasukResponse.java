@@ -32,4 +32,6 @@ public class RegisterSuratMasukResponse {
 	
 	private String keterangan;
 
+	private String urlFile;
+	
 }

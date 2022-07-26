@@ -37,4 +37,6 @@ public class RegisterSuratMasukCreateRequest {
 	
 	private String keterangan;
 	
+	private String urlFile;
+	
 }

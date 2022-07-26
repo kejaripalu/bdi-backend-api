@@ -29,5 +29,7 @@ public class RegisterSuratMasukUpdateRequest {
 	private String tindakLanjutDisposisi;
 	
 	private String keterangan;
+	
+	private String urlFile;
 
 }

@@ -41,6 +41,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		suratMasuk.setIsiDisposisi(request.getIsiDisposisi());
 		suratMasuk.setTindakLanjutDisposisi(request.getTindakLanjutDisposisi());
 		suratMasuk.setKeterangan(request.getKeterangan());
+		suratMasuk.setUrlFile(request.getUrlFile());
 		
 		log.info("Surat Masuk Request: " + suratMasuk);
 		suratMasukRepository.save(suratMasuk);
@@ -73,6 +74,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		suratMasuk.setIsiDisposisi(request.getIsiDisposisi());
 		suratMasuk.setTindakLanjutDisposisi(request.getTindakLanjutDisposisi());
 		suratMasuk.setKeterangan(request.getKeterangan());
+		suratMasuk.setUrlFile(request.getUrlFile());
 		
 		log.info("Surat Masuk Request: " + suratMasuk);
 		suratMasukRepository.save(suratMasuk);
@@ -121,6 +123,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		response.setIsiDisposisi(suratMasuk.getIsiDisposisi());
 		response.setTindakLanjutDisposisi(suratMasuk.getTindakLanjutDisposisi());
 		response.setKeterangan(suratMasuk.getKeterangan());
+		response.setUrlFile(suratMasuk.getUrlFile());
 		
 		return response;
 	}
