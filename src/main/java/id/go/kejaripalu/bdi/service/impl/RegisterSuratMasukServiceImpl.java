@@ -134,6 +134,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratMasuk.setDeleted(Boolean.TRUE);
+		suratMasuk.setNomorSurat(suratMasuk.getId() + " | " + suratMasuk.getNomorSurat());
 		suratMasukRepository.save(suratMasuk);
 		log.info("Soft Delete: " + suratMasuk);
 	}
