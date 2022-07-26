@@ -27,7 +27,7 @@ public class PenomoranServiceImpl implements PenomoranService {
 	@Transactional
 	public Penomoran getByKodeSurat(String kodeSurat) {
 		Penomoran nomor= penomoranRepository.findByKodeSurat(kodeSurat)
-				.orElseThrow(() -> new NotFoundException("Kode Surat tidak ditemukan!!!"));
+				.orElseThrow(() -> new NotFoundException("KODE_SURAT_NOT_FOUND"));
 		return nomor;
 	}
 
@@ -41,7 +41,7 @@ public class PenomoranServiceImpl implements PenomoranService {
 	@Transactional
 	public void updateNomor(String kode, Penomoran nomor) {
 		Penomoran penomoran= penomoranRepository.findByKodeSurat(kode)
-				.orElseThrow(() -> new NotFoundException("Kode Surat tidak ditemukan!!!"));
+				.orElseThrow(() -> new NotFoundException("KODE_SURAT_NOT_FOUND"));
 		penomoran.setKodeSurat(
 				nomor.getKodeSurat() == null || nomor.getKodeSurat().isBlank() ?
 						penomoran.getKodeSurat() : nomor.getKodeSurat());
@@ -58,7 +58,7 @@ public class PenomoranServiceImpl implements PenomoranService {
 	@Transactional
 	public void deleteNomor(String kode) {
 		Penomoran nomor= penomoranRepository.findByKodeSurat(kode)
-				.orElseThrow(() -> new NotFoundException("Kode Surat tidak ditemukan!!!"));
+				.orElseThrow(() -> new NotFoundException("KODE_SURAT_NOT_FOUND"));
 		penomoranRepository.delete(nomor);
 	}
 

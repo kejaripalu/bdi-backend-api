@@ -52,7 +52,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	@Transactional
 	public void updateSuratMasuk(String id, RegisterSuratMasukUpdateRequest request) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("ID Not Found!!!"));
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratMasuk.setWaktuPenerimaanSurat(
 				request.getWaktuPenerimaanSurat() == null ? 
 						suratMasuk.getWaktuPenerimaanSurat() : request.getWaktuPenerimaanSurat());
@@ -110,7 +110,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	@Transactional
 	public RegisterSuratMasukResponse findSuratMasukById(String id) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
-				.orElseThrow(() -> new NotFoundException("ID Not Found!!!"));
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterSuratMasukResponse response = new RegisterSuratMasukResponse();
 		response.setId(suratMasuk.getId());
@@ -132,7 +132,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	@Transactional
 	public void deleteSuratMasuk(String id) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
-				.orElseThrow(() -> new NotFoundException("ID Not Found!!!"));
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratMasuk.setDeleted(Boolean.TRUE);
 		suratMasukRepository.save(suratMasuk);
 		log.info("Soft Delete: " + suratMasuk);
