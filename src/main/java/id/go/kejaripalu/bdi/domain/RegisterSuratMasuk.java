@@ -27,11 +27,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class RegisterSuratMasuk extends BaseUUIDEntity {
 	
-	@Column(name = "waktu_penerimaan_surat", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm", timezone = "GMT+8")
-	private Date waktuPenerimaanSurat;
+	@Column(name = "tanggal_penerimaan_surat", nullable = false)
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+	private Date tanggalPenerimaanSurat;
 	
+	@Column(name = "jam_penerimaan_surat", nullable = false)
+	@Temporal(TemporalType.TIME)
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
+	private Date jamPenerimaanSurat;
+	 
 	@Column(name = "asal", nullable = false)
 	private String asal;
 	
@@ -43,7 +48,7 @@ public class RegisterSuratMasuk extends BaseUUIDEntity {
 	
 	@Column(name = "tanggal_surat", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
 	private Date tanggalSurat;
 	
 	@Column(name = "jenis_surat", nullable = false)

@@ -12,8 +12,11 @@ public class RegisterSuratMasukResponse {
 	
 	private String id;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
-	private Date waktuPenerimaanSurat;
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	private Date tanggalPenerimaanSurat;
+	
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
+	private Date jamPenerimaanSurat;
 	
     private String asal;
 	

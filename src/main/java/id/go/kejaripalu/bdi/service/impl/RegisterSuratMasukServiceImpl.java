@@ -32,7 +32,8 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	@Transactional
 	public void createSuratMasuk(RegisterSuratMasukCreateRequest request) {
 		RegisterSuratMasuk suratMasuk = new RegisterSuratMasuk();
-		suratMasuk.setWaktuPenerimaanSurat(request.getWaktuPenerimaanSurat());
+		suratMasuk.setTanggalPenerimaanSurat(request.getTanggalPenerimaanSurat());
+		suratMasuk.setJamPenerimaanSurat(request.getJamPenerimaanSurat());
 		suratMasuk.setAsal(request.getAsal());
 		suratMasuk.setPerihal(request.getPerihal());
 		suratMasuk.setTanggalSurat(request.getTanggalSurat());
@@ -53,9 +54,12 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	public void updateSuratMasuk(String id, RegisterSuratMasukUpdateRequest request) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		suratMasuk.setWaktuPenerimaanSurat(
-				request.getWaktuPenerimaanSurat() == null ? 
-						suratMasuk.getWaktuPenerimaanSurat() : request.getWaktuPenerimaanSurat());
+		suratMasuk.setTanggalPenerimaanSurat(
+				request.getTanggalPenerimaanSurat() == null ? 
+						suratMasuk.getTanggalPenerimaanSurat() : request.getTanggalPenerimaanSurat());
+		suratMasuk.setJamPenerimaanSurat(
+				request.getJamPenerimaanSurat() == null ? 
+						suratMasuk.getJamPenerimaanSurat() : request.getJamPenerimaanSurat());
 		suratMasuk.setAsal(
 				request.getAsal() == null || request.getAsal().isBlank() ?
 						suratMasuk.getAsal() : request.getAsal());
@@ -114,7 +118,8 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		
 		RegisterSuratMasukResponse response = new RegisterSuratMasukResponse();
 		response.setId(suratMasuk.getId());
-		response.setWaktuPenerimaanSurat(suratMasuk.getWaktuPenerimaanSurat());
+		response.setTanggalPenerimaanSurat(suratMasuk.getTanggalPenerimaanSurat());
+		response.setJamPenerimaanSurat(suratMasuk.getJamPenerimaanSurat());
 		response.setAsal(suratMasuk.getAsal());
 		response.setNomorSurat(suratMasuk.getNomorSurat());
 		response.setPerihal(suratMasuk.getPerihal());

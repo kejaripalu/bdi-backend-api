@@ -10,8 +10,11 @@ import lombok.Data;
 @Data
 public class RegisterSuratMasukUpdateRequest {
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
-	private Date waktuPenerimaanSurat;
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
+	private Date tanggalPenerimaanSurat;
+	
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
+	private Date jamPenerimaanSurat;
 	
     private String asal;
 	

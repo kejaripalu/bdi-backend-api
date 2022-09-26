@@ -14,8 +14,8 @@ import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
 public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSuratMasuk, String> {
 
 	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
-			+ "AND r.waktuPenerimaanSurat BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.waktuPenerimaanSurat DESC")
+			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.tanggalPenerimaanSurat DESC")
 	Page<RegisterSuratMasuk> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 		
 	Optional<RegisterSuratMasuk> findByIdAndDeletedFalse(String id);
