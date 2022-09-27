@@ -17,7 +17,15 @@ public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSura
 			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalPenerimaanSurat DESC")
 	Page<RegisterSuratMasuk> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
-		
+
+	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
+			+ "AND (LOWER(r.asal) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.nomorSurat) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%'))) "
+			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.tanggalPenerimaanSurat DESC")
+	Page<RegisterSuratMasuk> findSuratMasukBySearching(Date startDate, Date endDate, String value, JenisSurat jenisSurat, Pageable pageable);
+	
 	Optional<RegisterSuratMasuk> findByIdAndDeletedFalse(String id);
 	
 }

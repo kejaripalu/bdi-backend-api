@@ -143,5 +143,33 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		suratMasukRepository.save(suratMasuk);
 		log.info("Soft Delete: " + suratMasuk);
 	}
+
+	@Override
+	@Transactional
+	public Page<RegisterSuratMasuk> findSuratMasukBySearching(
+			String start, String end, String value, String stringJenisSurat, Integer pages, Integer sizes) {
+		JenisSurat jenisSurat = JenisSurat.BIASA;
+		if (stringJenisSurat.equals("RAHASIA")) {
+			jenisSurat = JenisSurat.RAHASIA;
+		}
+		log.info("Value : " + value);
+		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+			log.error("Isi text pencarian kosong...");
+		}
+		
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+		} catch (ParseException e) {
+			log.error(e.getMessage());
+		}
+		
+		Pageable pageRequest = PageRequest.of(pages, sizes);
+		Page<RegisterSuratMasuk> pagesSuratMasuk = suratMasukRepository.findSuratMasukBySearching(
+				startDate, endDate, value, jenisSurat, pageRequest);
+		return pagesSuratMasuk;
+	}
 	
 }

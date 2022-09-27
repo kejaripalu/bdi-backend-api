@@ -47,6 +47,18 @@ public class RegisterSuratMasukController {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasukById(id));
 	}
 	
+	@GetMapping("/surat-masuk/search")
+	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasukBySearch(
+			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
+			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(name = "jenisSurat", required = true, defaultValue = "BIASA") String jenisSurat,
+			@RequestParam(name = "value", required = true) String value,
+			@RequestParam(name = "startDate", required = true) String startDate,
+			@RequestParam(name = "endDate", required = true) String endDate) {
+		return ResponseEntity.ok().body(suratMasukService.findSuratMasukBySearching(
+				startDate, endDate, value, jenisSurat, pages, sizes));
+	}
+	
 	@PostMapping("/surat-masuk")
 	public ResponseEntity<Void> createNewSuratMasuk(@Valid @RequestBody RegisterSuratMasukCreateRequest request) {
 		suratMasukService.createSuratMasuk(request);
