@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class RegisterSuratMasukResponse {
 	
-	private String id;
+private String id;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalPenerimaanSurat;
@@ -36,5 +36,5 @@ public class RegisterSuratMasukResponse {
 	private String keterangan;
 
 	private String urlFile;
-	
+
 }

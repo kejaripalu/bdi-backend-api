@@ -1,0 +1,57 @@
+package id.go.kejaripalu.bdi.domain;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "register_surat_keluar")
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterSuratKeluar extends BaseUUIDEntity {
+	
+	@Column(name = "tanggal_surat", nullable = false)
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	private Date tanggalSurat;
+	
+	@Column(name = "nomor_surat", nullable = false, unique = true)
+	private String nomorSurat;
+	
+	@Column(name = "kepada", nullable = false)
+	private String kepada;
+	
+	@Column(name = "perihal", nullable = false)
+	private String perihal;
+	
+	@Column(name = "lampiran")
+	private String lampiran;
+	
+	@Column(name = "keterangan")
+	private String keterangan;
+	
+	@Column(name = "jenis_surat", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private JenisSurat jenisSurat = JenisSurat.BIASA;
+	
+	@Column(name = "dikirim")
+	private Boolean isSended = false;
+
+}
