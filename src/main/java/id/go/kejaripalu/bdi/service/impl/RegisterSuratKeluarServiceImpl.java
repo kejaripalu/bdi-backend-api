@@ -14,6 +14,7 @@ import id.go.kejaripalu.bdi.domain.JenisSurat;
 import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
+import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarUpdateRequest;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterSuratKeluarRepository;
 import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
@@ -83,6 +84,34 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		response.setJenisSurat(suratKeluar.getJenisSurat());
 		
 		return response;
+	}
+
+	@Override
+	@Transactional
+	public void updateSuratMasuk(String id, RegisterSuratKeluarUpdateRequest request) {
+		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
+		suratKeluar.setTanggalSurat(
+				request.getTanggalSurat() == null ?
+						suratKeluar.getTanggalSurat() : request.getTanggalSurat());
+		suratKeluar.setNomorSurat(
+				request.getNomorSurat() == null ?
+						suratKeluar.getNomorSurat() : request.getNomorSurat());
+		suratKeluar.setKepada(
+				request.getKepada() == null ?
+						suratKeluar.getKepada() : request.getKepada());
+		suratKeluar.setPerihal(
+				request.getPerihal() == null ?
+						suratKeluar.getPerihal() : request.getPerihal());
+		suratKeluar.setJenisSurat(
+				request.getJenisSurat() == null ?
+						suratKeluar.getJenisSurat() : request.getJenisSurat());
+		suratKeluar.setLampiran(request.getLampiran());
+		suratKeluar.setKeterangan(request.getKeterangan());		
+		
+		log.info("Surat Keluar Request: " + suratKeluar);
+		suratKeluarRepository.save(suratKeluar);
+		log.info("Updated Surat Keluar: " + suratKeluar);
 	}
 
 }

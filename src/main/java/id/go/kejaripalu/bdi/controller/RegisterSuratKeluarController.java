@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
+import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarUpdateRequest;
 import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
 import lombok.AllArgsConstructor;
 
@@ -48,6 +50,13 @@ public class RegisterSuratKeluarController {
 	@GetMapping("/surat-keluar/{id}/detail")
 	public ResponseEntity<RegisterSuratKeluarResponse> findSuratKeluarById(@PathVariable String id) {
 		return ResponseEntity.ok().body(suratKeluarService.findSuratMasukById(id));
+	}
+	
+	@PutMapping("/surat-keluar/{id}")
+	public ResponseEntity<Void> updateSuratKeluar(@PathVariable String id,
+			@RequestBody @Valid RegisterSuratKeluarUpdateRequest request) {
+		suratKeluarService.updateSuratMasuk(id, request);
+		return ResponseEntity.ok().build();
 	}
 	
 }
