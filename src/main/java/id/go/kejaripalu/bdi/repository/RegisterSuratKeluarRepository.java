@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.repository;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,6 @@ public interface RegisterSuratKeluarRepository extends JpaRepository<RegisterSur
 			+ "ORDER BY r.tanggalSurat DESC")
 	Page<RegisterSuratKeluar> findSuratKeluar(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 
+	Optional<RegisterSuratKeluar> findByIdAndDeletedFalse(String id);
+	
 }

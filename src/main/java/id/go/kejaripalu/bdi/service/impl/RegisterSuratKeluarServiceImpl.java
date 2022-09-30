@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import id.go.kejaripalu.bdi.domain.JenisSurat;
 import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
+import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
+import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterSuratKeluarRepository;
 import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
 import lombok.AllArgsConstructor;
@@ -48,6 +50,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 	}
 
 	@Override
+	@Transactional
 	public void createSuratMasuk(RegisterSuratKeluarCreateRequest request) {
 		RegisterSuratKeluar suratKeluar = new RegisterSuratKeluar();
 		suratKeluar.setTanggalSurat(request.getTanggalSurat());
@@ -61,6 +64,25 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		log.info("Surat Keluar Request: " + suratKeluar);
 		suratKeluarRepository.save(suratKeluar);
 		log.info("Saved Surat Keluar: " + suratKeluar);
+	}
+
+	@Override
+	@Transactional
+	public RegisterSuratKeluarResponse findSuratMasukById(String id) {
+		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdAndDeletedFalse(id)
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
+		
+		RegisterSuratKeluarResponse response = new RegisterSuratKeluarResponse();
+		response.setId(suratKeluar.getId());
+		response.setTanggalSurat(suratKeluar.getTanggalSurat());
+		response.setNomorSurat(suratKeluar.getNomorSurat());
+		response.setKepada(suratKeluar.getKepada());
+		response.setPerihal(suratKeluar.getPerihal());
+		response.setLampiran(suratKeluar.getLampiran());
+		response.setKeterangan(suratKeluar.getKeterangan());
+		response.setJenisSurat(suratKeluar.getJenisSurat());
+		
+		return response;
 	}
 
 }

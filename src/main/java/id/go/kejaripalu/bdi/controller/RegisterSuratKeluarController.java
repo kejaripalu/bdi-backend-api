@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
+import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
 import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
 import lombok.AllArgsConstructor;
 
@@ -41,6 +43,11 @@ public class RegisterSuratKeluarController {
 	public ResponseEntity<Void> createNewSuratKeluar(@Valid @RequestBody RegisterSuratKeluarCreateRequest request) {
 		suratKeluarService.createSuratMasuk(request);
 		return ResponseEntity.created(URI.create("/api/v1/surat-keluar")).build();
+	}
+	
+	@GetMapping("/surat-keluar/{id}/detail")
+	public ResponseEntity<RegisterSuratKeluarResponse> findSuratKeluarById(@PathVariable String id) {
+		return ResponseEntity.ok().body(suratKeluarService.findSuratMasukById(id));
 	}
 	
 }
