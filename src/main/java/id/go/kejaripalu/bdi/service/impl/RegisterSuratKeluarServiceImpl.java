@@ -114,4 +114,15 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		log.info("Updated Surat Keluar: " + suratKeluar);
 	}
 
+	@Override
+	@Transactional
+	public void deleteSuratKeluar(String id) {
+		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
+		suratKeluar.setDeleted(Boolean.TRUE);
+		suratKeluar.setNomorSurat(suratKeluar.getId() + " | " + suratKeluar.getNomorSurat());
+		suratKeluarRepository.save(suratKeluar);
+		log.info("Soft Delete success: " + suratKeluar);
+	}
+
 }

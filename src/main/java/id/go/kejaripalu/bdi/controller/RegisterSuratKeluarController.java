@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +58,12 @@ public class RegisterSuratKeluarController {
 			@RequestBody @Valid RegisterSuratKeluarUpdateRequest request) {
 		suratKeluarService.updateSuratMasuk(id, request);
 		return ResponseEntity.ok().build();
+	}
+	
+	@DeleteMapping("/surat-keluar/{id}")
+	public ResponseEntity<Void> deleteSuratKeluar(@PathVariable String id) {
+		suratKeluarService.deleteSuratKeluar(id);
+		return ResponseEntity.accepted().build();
 	}
 	
 }

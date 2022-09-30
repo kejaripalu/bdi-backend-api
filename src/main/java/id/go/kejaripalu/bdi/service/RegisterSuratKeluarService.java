@@ -17,4 +17,6 @@ public interface RegisterSuratKeluarService {
 
 	RegisterSuratKeluarResponse findSuratMasukById(String id);
 	
+	void deleteSuratKeluar(String id);
+	
 }
