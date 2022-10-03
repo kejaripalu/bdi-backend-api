@@ -33,7 +33,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 	public Page<RegisterSuratKeluar> findSuratMasuk(String startDate, String endDate, String stringJenisSurat,
 			Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
-		if (stringJenisSurat.equals("R")) {
+		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
 		
@@ -123,6 +123,34 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		suratKeluar.setNomorSurat(suratKeluar.getId() + " | " + suratKeluar.getNomorSurat());
 		suratKeluarRepository.save(suratKeluar);
 		log.info("Soft Delete success: " + suratKeluar);
+	}
+
+	@Override
+	@Transactional
+	public Page<RegisterSuratKeluar> findSuratKeluarBySearching(String start, String end, String value,
+			String stringJenisSurat, Integer pages, Integer sizes) {
+		JenisSurat jenisSurat = JenisSurat.BIASA;
+		if (stringJenisSurat.equals("RAHASIA")) {
+			jenisSurat = JenisSurat.RAHASIA;
+		}
+		log.info("Value : " + value);
+		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+			log.error("Isi text pencarian kosong...");
+		}
+		
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+		} catch (ParseException e) {
+			log.error(e.getMessage());
+		}
+
+		Pageable pageRequest = PageRequest.of(pages, sizes);
+		Page<RegisterSuratKeluar> pagesSuratKeluar = suratKeluarRepository.findSuratKeluarBySearch(
+				startDate, endDate, value, jenisSurat, pageRequest);
+		return pagesSuratKeluar;
 	}
 
 }

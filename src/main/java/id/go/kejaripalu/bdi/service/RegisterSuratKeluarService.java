@@ -19,4 +19,6 @@ public interface RegisterSuratKeluarService {
 	
 	void deleteSuratKeluar(String id);
 	
+	Page<RegisterSuratKeluar> findSuratKeluarBySearching(String start, String end, String value, String stringJenisSurat, Integer pages, Integer sizes);
+	
 }

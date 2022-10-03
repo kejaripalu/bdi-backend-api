@@ -66,4 +66,16 @@ public class RegisterSuratKeluarController {
 		return ResponseEntity.accepted().build();
 	}
 	
+	@GetMapping("/surat-keluar/search")
+	public ResponseEntity<Page<RegisterSuratKeluar>> findSuratKeluarBySearch(
+			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
+			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(name = "jenisSurat", required = true, defaultValue = "BIASA") String jenisSurat,
+			@RequestParam(name = "value", required = true) String value,
+			@RequestParam(name = "startDate", required = true) String startDate,
+			@RequestParam(name = "endDate", required = true) String endDate) {
+		return ResponseEntity.ok().body(suratKeluarService.findSuratKeluarBySearching(
+				startDate, endDate, value, jenisSurat, pages, sizes));
+	}
+	
 }

@@ -18,6 +18,14 @@ public interface RegisterSuratKeluarRepository extends JpaRepository<RegisterSur
 			+ "ORDER BY r.tanggalSurat DESC")
 	Page<RegisterSuratKeluar> findSuratKeluar(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 
+	@Query("SELECT r FROM RegisterSuratKeluar r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
+			+ "AND (LOWER(r.nomorSurat) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.kepada) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%'))) "
+			+ "AND r.tanggalSurat BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.tanggalSurat DESC")
+	Page<RegisterSuratKeluar> findSuratKeluarBySearch(Date startDate, Date endDate, String value, JenisSurat jenisSurat, Pageable pageable);
+	
 	Optional<RegisterSuratKeluar> findByIdAndDeletedFalse(String id);
 	
 }
