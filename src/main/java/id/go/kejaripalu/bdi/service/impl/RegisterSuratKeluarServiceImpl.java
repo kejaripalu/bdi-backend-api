@@ -95,13 +95,13 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 				request.getTanggalSurat() == null ?
 						suratKeluar.getTanggalSurat() : request.getTanggalSurat());
 		suratKeluar.setNomorSurat(
-				request.getNomorSurat() == null ?
+				request.getNomorSurat() == null || request.getNomorSurat().isBlank() ?
 						suratKeluar.getNomorSurat() : request.getNomorSurat());
 		suratKeluar.setKepada(
-				request.getKepada() == null ?
+				request.getKepada() == null || request.getKepada().isBlank() ?
 						suratKeluar.getKepada() : request.getKepada());
 		suratKeluar.setPerihal(
-				request.getPerihal() == null ?
+				request.getPerihal() == null || request.getPerihal().isBlank() ?
 						suratKeluar.getPerihal() : request.getPerihal());
 		suratKeluar.setJenisSurat(
 				request.getJenisSurat() == null ?
