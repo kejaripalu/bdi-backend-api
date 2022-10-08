@@ -45,7 +45,7 @@ public class RegisterKerjaIntelijen extends BaseUUIDEntity {
 	@Column(name = "nilai_data_informasi", length = 2, nullable = false)
 	private String nilaiDataInformasi;
 	
-	@Column(name = "uraian_peristiwa_masalah", nullable = false)
+	@Column(name = "uraian_peristiwa_masalah", nullable = false, columnDefinition="TEXT")
 	private String uraianPeristiwaMasalah;
 	
 	@Column(name = "catatan")

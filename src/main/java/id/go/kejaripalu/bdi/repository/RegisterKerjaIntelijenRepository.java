@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.repository;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,9 @@ public interface RegisterKerjaIntelijenRepository extends JpaRepository<Register
 
 	@Query("SELECT r FROM RegisterKerjaIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
 			+ "AND r.tanggalWaktuDiterima BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.tanggalWaktuDiterima DESC")
+			+ "ORDER BY r.tanggalWaktuDiterima  DESC, r.jamWaktuDiterima DESC")
 	Page<RegisterKerjaIntelijen> findRKIAll(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
+
+	Optional<RegisterKerjaIntelijen> findByIdAndDeletedFalse(String id);
 	
 }

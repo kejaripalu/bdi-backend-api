@@ -76,6 +76,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 				request.getSektor() == null ?
 						rki.getSektor() : request.getSektor());
 		rki.setCatatan(request.getCatatan());
+		rki.setDisposisiTindakan(request.getDisposisiTindakan());
 		rki.setTindakLanjut(request.getTindakLanjut());
 		rki.setUrlFile(request.getUrlFile());
 		rki.setKeterangan(request.getKeterangan());
@@ -99,6 +100,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		response.setNilaiDataInformasi(rki.getNilaiDataInformasi());
 		response.setUraianPeristiwaMasalah(rki.getUraianPeristiwaMasalah());
 		response.setBidangDirektorat(rki.getBidangDirektorat());
+		response.setDisposisiTindakan(rki.getDisposisiTindakan());
 		response.setSektor(rki.getSektor());
 		response.setCatatan(rki.getCatatan());
 		response.setTindakLanjut(rki.getTindakLanjut());
@@ -138,6 +140,16 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		Page<RegisterKerjaIntelijen> pagesRKI = rkiRepository.findRKIAll(startDate, endDate, bidangDirektorat, pageRequest);
 		
 		return pagesRKI;
+	}
+
+	@Override
+	public void deleteRKI(String id) {
+		RegisterKerjaIntelijen rki = rkiRepository.findByIdAndDeletedFalse(id)
+				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
+		rki.setDeleted(Boolean.TRUE);
+		rki.setUraianPeristiwaMasalah(rki.getId() + " | " + rki.getUraianPeristiwaMasalah());
+		rkiRepository.save(rki);
+		log.info("Soft Delete: " + rki);	
 	}
 
 }
