@@ -143,6 +143,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	}
 
 	@Override
+	@Transactional
 	public void deleteRKI(String id) {
 		RegisterKerjaIntelijen rki = rkiRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
@@ -150,6 +151,43 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		rki.setUraianPeristiwaMasalah(rki.getId() + " | " + rki.getUraianPeristiwaMasalah());
 		rkiRepository.save(rki);
 		log.info("Soft Delete: " + rki);	
+	}
+
+	@Override
+	@Transactional
+	public Page<RegisterKerjaIntelijen> findRKIBySearching(String start, String end, String value, String stringBidangDirektorat,
+			Integer pages, Integer sizes) {
+		BidangDirektorat bidangDirektorat = null;
+		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
+			bidangDirektorat = BidangDirektorat.IPOLHANKAM;
+		} else if (stringBidangDirektorat.equals("SOSBUDMAS")) {
+			bidangDirektorat = BidangDirektorat.SOSBUDMAS;
+		} else if (stringBidangDirektorat.equals("EKOKEU")) {
+			bidangDirektorat = BidangDirektorat.EKOKEU;
+		} else if (stringBidangDirektorat.equals("PAMSTRA")) {
+			bidangDirektorat = BidangDirektorat.PAMSTRA;
+		} else if (stringBidangDirektorat.equals("TIPRODIN")) {
+			bidangDirektorat = BidangDirektorat.TIPRODIN;
+		}
+
+		log.info("Value : " + value);
+		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+			log.error("Isi text pencarian kosong...");
+		}
+		
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+		} catch (ParseException e) {
+			log.error(e.getMessage());
+		}
+		
+		Pageable pageRequest = PageRequest.of(pages, sizes);
+		Page<RegisterKerjaIntelijen> pagesRKI = rkiRepository.findRKIBySearching(
+				startDate, endDate, value, bidangDirektorat, pageRequest);
+		return pagesRKI;
 	}
 
 }

@@ -17,6 +17,12 @@ public interface RegisterKerjaIntelijenRepository extends JpaRepository<Register
 			+ "AND r.tanggalWaktuDiterima BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalWaktuDiterima  DESC, r.jamWaktuDiterima DESC")
 	Page<RegisterKerjaIntelijen> findRKIAll(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
+	
+	@Query("SELECT r FROM RegisterKerjaIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
+			+ "AND (LOWER(r.uraianPeristiwaMasalah) LIKE LOWER(CONCAT('%', :value, '%'))) "
+			+ "AND r.tanggalWaktuDiterima BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.tanggalWaktuDiterima  DESC, r.jamWaktuDiterima DESC")
+	Page<RegisterKerjaIntelijen> findRKIBySearching(Date startDate, Date endDate, String value, BidangDirektorat bidangDirektorat, Pageable pageable);
 
 	Optional<RegisterKerjaIntelijen> findByIdAndDeletedFalse(String id);
 	

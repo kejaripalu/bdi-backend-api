@@ -61,6 +61,19 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.ok().body(rkiService.findRKI(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
+	@GetMapping("/rki/search")
+	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKIBySearch(
+			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
+			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(name = "bidangDirektorat", required = true) String bidangDirektorat,
+			@RequestParam(name = "value", required = true) String value,
+			@RequestParam(name = "startDate", required = true) String startDate,
+			@RequestParam(name = "endDate", required = true) String endDate) {
+		return ResponseEntity.ok().body(rkiService.findRKIBySearching(
+				startDate, endDate, value, bidangDirektorat, pages, sizes));
+	}
+
+	
 	@DeleteMapping("/rki/{id}")
 	public ResponseEntity<Void> deleteRKI(@PathVariable String id) {
 		rkiService.deleteRKI(id);

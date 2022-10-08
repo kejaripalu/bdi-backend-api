@@ -16,6 +16,8 @@ public interface RegisterKerjaIntelijenService {
 	
 	Page<RegisterKerjaIntelijen> findRKI(String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes);
 	
+	Page<RegisterKerjaIntelijen> findRKIBySearching(String start, String end, String value, String stringBidangDirektorat, Integer pages, Integer sizes);
+	
 	void deleteRKI(String id);
 
 }
