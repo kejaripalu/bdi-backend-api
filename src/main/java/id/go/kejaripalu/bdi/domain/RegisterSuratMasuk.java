@@ -64,7 +64,7 @@ public class RegisterSuratMasuk extends BaseUUIDEntity {
 	@Column(name = "keterangan")
 	private String keterangan;
 	
-	@Column(name = "url_file")
+	@Column(name = "url_file", columnDefinition="TEXT")
 	private String urlFile;
 
 }

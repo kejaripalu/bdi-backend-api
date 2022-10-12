@@ -50,5 +50,8 @@ public class RegisterSuratKeluar extends BaseUUIDEntity {
 	@Column(name = "jenis_surat", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private JenisSurat jenisSurat = JenisSurat.BIASA;
+	
+	@Column(name = "url_file", columnDefinition="TEXT")
+	private String urlFile;
 
 }

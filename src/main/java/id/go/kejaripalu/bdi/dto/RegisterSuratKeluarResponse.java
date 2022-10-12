@@ -27,4 +27,6 @@ public class RegisterSuratKeluarResponse {
 
 	private JenisSurat jenisSurat;
 	
+	private String urlFile;
+	
 }

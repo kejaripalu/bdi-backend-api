@@ -54,13 +54,13 @@ public class RegisterEkspedisi extends BaseUUIDEntity {
 	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
 	private Date jamTandaTerima;
 
-	@Column(name = "nama_dan_paraf")
+	@Column(name = "nama_dan_paraf", columnDefinition="TEXT")
 	private String namaDanParaf;
 	
 	@Column(name = "keterangan")
 	private String keterangan;
 	
-	@Column(name = "url_file")
+	@Column(name = "url_file", columnDefinition="TEXT")
 	private String urlFile;
 	
 	@Column(name = "jenis_surat", nullable = false)

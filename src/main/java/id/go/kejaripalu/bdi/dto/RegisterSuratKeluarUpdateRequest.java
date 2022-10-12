@@ -31,5 +31,7 @@ public class RegisterSuratKeluarUpdateRequest {
     private String lampiran;
 	
 	private String keterangan;
+	
+	private String urlFile;
 		
 }

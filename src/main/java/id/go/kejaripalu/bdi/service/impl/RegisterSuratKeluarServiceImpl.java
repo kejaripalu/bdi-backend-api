@@ -61,6 +61,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		suratKeluar.setLampiran(request.getLampiran());
 		suratKeluar.setKeterangan(request.getKeterangan());
 		suratKeluar.setJenisSurat(request.getJenisSurat());
+		suratKeluar.setUrlFile(request.getUrlFile());
 		
 		log.info("Surat Keluar Request: " + suratKeluar);
 		suratKeluarRepository.save(suratKeluar);
@@ -82,6 +83,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		response.setLampiran(suratKeluar.getLampiran());
 		response.setKeterangan(suratKeluar.getKeterangan());
 		response.setJenisSurat(suratKeluar.getJenisSurat());
+		response.setUrlFile(suratKeluar.getUrlFile());
 		
 		return response;
 	}
@@ -108,6 +110,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 						suratKeluar.getJenisSurat() : request.getJenisSurat());
 		suratKeluar.setLampiran(request.getLampiran());
 		suratKeluar.setKeterangan(request.getKeterangan());		
+		suratKeluar.setUrlFile(request.getUrlFile());
 		
 		log.info("Surat Keluar Request: " + suratKeluar);
 		suratKeluarRepository.save(suratKeluar);
