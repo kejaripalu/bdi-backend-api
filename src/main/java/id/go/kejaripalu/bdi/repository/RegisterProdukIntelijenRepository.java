@@ -21,7 +21,7 @@ public interface RegisterProdukIntelijenRepository extends JpaRepository<Registe
             + "OR LOWER(r.bidang) LIKE LOWER(CONCAT('%', :value, '%')) "
             + "OR LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%'))) "
             + "AND r.tanggalProduk BETWEEN :startDate AND :endDate "
-            + "ORDER BY r.tanggalProduk DESC, r.jamPenerimaanSurat DESC")
+            + "ORDER BY r.tanggalProduk DESC")
     Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 
     Optional<RegisterProdukIntelijen> findByIdAndDeletedFalse(String id);

@@ -18,7 +18,7 @@ public class RegisterProdukIntelijenRequest {
     @NotBlank
     private String nomorProduk;
 
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date tanggalProduk;
 
     @NotNull

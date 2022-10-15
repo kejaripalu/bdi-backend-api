@@ -20,7 +20,7 @@ public class RegisterProdukIntelijenController {
 
     private RegisterProdukIntelijenService produkIntelijenService;
 
-    @GetMapping("/produk-intelijen")
+    @GetMapping("/prodin")
     public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijen(
             @RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
             @RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
@@ -29,12 +29,12 @@ public class RegisterProdukIntelijenController {
         return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijen(startDate, endDate, pages, sizes));
     }
 
-    @GetMapping("/produk-intelijen/{id}/detail")
+    @GetMapping("/prodin/{id}/detail")
     public ResponseEntity<RegisterProdukIntelijenResponse> findProdukIntelijenById(@PathVariable String id) {
         return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenById(id));
     }
 
-    @GetMapping("/produk-intelijen/search")
+    @GetMapping("/prodin/search")
     public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijenBySearch(
             @RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
             @RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
@@ -45,20 +45,20 @@ public class RegisterProdukIntelijenController {
                 startDate, endDate, value, pages, sizes));
     }
 
-    @PostMapping("/produk-intelijen")
+    @PostMapping("/prodin")
     public ResponseEntity<Void> createNewProdukIntelijen(@Valid @RequestBody RegisterProdukIntelijenRequest request) {
         produkIntelijenService.createProdukIntelijen(request);
         return ResponseEntity.created(URI.create("/api/v1//produk-intelijen")).build();
     }
 
-    @PutMapping("/produk-intelijen/{id}")
+    @PutMapping("/prodin/{id}")
     public ResponseEntity<Void> updateProdukIntelijen(@PathVariable String id,
                                                       @RequestBody @Valid RegisterProdukIntelijenRequest request) {
         produkIntelijenService.updateProdukIntelijen(id, request);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/surat-masuk/{id}")
+    @DeleteMapping("/prodin/{id}")
     public ResponseEntity<Void> deleteProdukIntelijen(@PathVariable String id) {
         produkIntelijenService.deleteProdukIntelijen(id);
         return ResponseEntity.accepted().build();
