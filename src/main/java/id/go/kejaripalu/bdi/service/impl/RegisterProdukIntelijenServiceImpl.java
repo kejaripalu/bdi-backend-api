@@ -1,5 +1,15 @@
 package id.go.kejaripalu.bdi.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import id.go.kejaripalu.bdi.domain.RegisterProdukIntelijen;
 import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenResponse;
@@ -8,15 +18,6 @@ import id.go.kejaripalu.bdi.repository.RegisterProdukIntelijenRepository;
 import id.go.kejaripalu.bdi.service.RegisterProdukIntelijenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         produkIntelijen.setJenisProdukIntelijen(request.getJenisProdukIntelijen());
         produkIntelijen.setNomorProduk(request.getNomorProduk());
         produkIntelijen.setTanggalProduk(request.getTanggalProduk());
-        produkIntelijen.setBidang(request.getBidang());
+        produkIntelijen.setSektor(request.getSektor());
         produkIntelijen.setPerihal(request.getPerihal());
         produkIntelijen.setDisposisiPimpinan(request.getDisposisiPimpinan());
         produkIntelijen.setKeterangan(request.getKeterangan());
@@ -57,9 +58,9 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         produkIntelijen.setTanggalProduk(
                 request.getTanggalProduk() == null ?
                         produkIntelijen.getTanggalProduk() : request.getTanggalProduk());
-        produkIntelijen.setBidang(
-                request.getBidang() == null ?
-                        produkIntelijen.getBidang() : request.getBidang());
+        produkIntelijen.setSektor(
+                request.getSektor() == null ?
+                        produkIntelijen.getSektor() : request.getSektor());
         produkIntelijen.setPerihal(
                 request.getPerihal() == null || request.getPerihal().isBlank() ?
                         produkIntelijen.getPerihal() : request.getPerihal());
@@ -87,7 +88,7 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         Pageable pageRequest = PageRequest.of(pages, sizes);
         Page<RegisterProdukIntelijen> pagesProdukIntelijen = produkIntelijenRepository.findProdukIntelijenAll(
                 startDate, endDate, pageRequest);
-
+        
         return pagesProdukIntelijen;
     }
 
@@ -126,8 +127,7 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         response.setJenisProdukIntelijen(produkIntelijen.getJenisProdukIntelijen());
         response.setNomorProduk(produkIntelijen.getNomorProduk());
         response.setTanggalProduk(produkIntelijen.getTanggalProduk());
-        response.setBidang(produkIntelijen.getBidang());
-        response.setDeskripsiBidang(produkIntelijen.getBidang().getDescription());
+        response.setSektor(produkIntelijen.getSektor());
         response.setPerihal(produkIntelijen.getPerihal());
         response.setDisposisiPimpinan(produkIntelijen.getDisposisiPimpinan());
         response.setKeterangan(produkIntelijen.getKeterangan());

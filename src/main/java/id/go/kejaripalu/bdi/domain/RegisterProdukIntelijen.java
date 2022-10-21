@@ -1,11 +1,23 @@
 package id.go.kejaripalu.bdi.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import id.go.kejaripalu.bdi.domain.bidang.BidangDirektorat;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import id.go.kejaripalu.bdi.domain.bidang.Sektor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "register_produk_intelijen")
@@ -28,9 +40,9 @@ public class RegisterProdukIntelijen extends BaseUUIDEntity {
     @JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
     private Date tanggalProduk;
 
-    @Column(name = "bidang", nullable = false)
+    @Column(name = "sektor", nullable = false)
     @Enumerated(EnumType.STRING)
-    private BidangDirektorat bidang;
+    private Sektor sektor;
 
     @Column(name = "perihal", nullable = false)
     private String perihal;

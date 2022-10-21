@@ -18,7 +18,7 @@ public interface RegisterProdukIntelijenRepository extends JpaRepository<Registe
 
     @Query("SELECT r FROM RegisterProdukIntelijen r WHERE r.deleted=false "
             + "AND (LOWER(r.nomorProduk) LIKE LOWER(CONCAT('%', :value, '%')) "
-            + "OR LOWER(r.bidang) LIKE LOWER(CONCAT('%', :value, '%')) "
+            + "OR LOWER(r.sektor) LIKE LOWER(CONCAT('%', :value, '%')) "
             + "OR LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%'))) "
             + "AND r.tanggalProduk BETWEEN :startDate AND :endDate "
             + "ORDER BY r.tanggalProduk DESC")

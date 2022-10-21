@@ -2,7 +2,7 @@ package id.go.kejaripalu.bdi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import id.go.kejaripalu.bdi.domain.JenisProdukIntelijen;
-import id.go.kejaripalu.bdi.domain.bidang.BidangDirektorat;
+import id.go.kejaripalu.bdi.domain.bidang.Sektor;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,9 +19,7 @@ public class RegisterProdukIntelijenResponse {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date tanggalProduk;
 
-    private BidangDirektorat bidang;
-
-    private String deskripsiBidang;
+    private Sektor sektor;
 
     private String perihal;
 
