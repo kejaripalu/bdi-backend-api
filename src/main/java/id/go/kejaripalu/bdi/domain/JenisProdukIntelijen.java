@@ -8,7 +8,7 @@ public enum JenisProdukIntelijen {
     LAPHASTUG("Laporan Hasil Pelaksanaan Tugas"),
     LAPOPSIN("Laporan Hasil Operasi Intelijen"),
     LAPAT("Laporan Atensi"),
-    LAHIN("Telaahan Intelijen"),
+//    LAHIN("Telaahan Intelijen"),
     KIRKA("Perkiraan Keadaan Intelijen"),
     TROOP_INFO("Troop-Info");
 
