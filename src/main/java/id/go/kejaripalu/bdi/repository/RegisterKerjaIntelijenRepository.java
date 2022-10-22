@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterKerjaIntelijen;
-import id.go.kejaripalu.bdi.domain.bidang.BidangDirektorat;
+import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
 
 public interface RegisterKerjaIntelijenRepository extends JpaRepository<RegisterKerjaIntelijen, String> {
 

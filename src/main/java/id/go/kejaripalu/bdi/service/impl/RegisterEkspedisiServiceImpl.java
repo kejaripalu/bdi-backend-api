@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import id.go.kejaripalu.bdi.domain.JenisSurat;
 import id.go.kejaripalu.bdi.domain.RegisterEkspedisi;
+import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 import id.go.kejaripalu.bdi.dto.RegisterEkspedisiRequest;
 import id.go.kejaripalu.bdi.dto.RegisterEkspedisiResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;

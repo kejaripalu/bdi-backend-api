@@ -7,8 +7,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.bidang.BidangDirektorat;
-import id.go.kejaripalu.bdi.domain.bidang.Sektor;
+import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
+import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.Data;
 
 @Data

@@ -1,4 +1,4 @@
-package id.go.kejaripalu.bdi.domain;
+package id.go.kejaripalu.bdi.domain.util;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import id.go.kejaripalu.bdi.domain.JenisSurat;
 import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
+import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 
 public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSuratMasuk, String> {
 

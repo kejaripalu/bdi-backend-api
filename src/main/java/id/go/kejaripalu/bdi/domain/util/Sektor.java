@@ -1,4 +1,4 @@
-package id.go.kejaripalu.bdi.domain.bidang;
+package id.go.kejaripalu.bdi.domain.util;
 
 public enum Sektor {
 	
