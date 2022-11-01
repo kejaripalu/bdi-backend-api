@@ -31,6 +31,7 @@ public class RegisterArsipRequest {
 	
 	private String lampiran;
 	
+	@NotBlank
 	private String kodePenyimpanan;
 	
 	private String keterangan;

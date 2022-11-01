@@ -53,7 +53,7 @@ public class RegisterArsip extends BaseUUIDEntity {
 	@Column(name = "lampiran")
 	private String lampiran;
 	
-	@Column(name = "kode_penyimpanan")
+	@Column(name = "kode_penyimpanan", nullable = false)
 	private String kodePenyimpanan;
 	
 	@Column(name = "keterangan")
