@@ -46,8 +46,8 @@ public class RegisterKegiatanIntelijen extends BaseUUIDEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggal;
 	
-	@Column(name = "peruntukan", nullable = false)
-	private String peruntukan;
+	@Column(name = "perihal", nullable = false)
+	private String perihal;
 	
 	@Column(name = "nama_petugas_pelaksana", columnDefinition="TEXT", nullable = false)
 	private String namaPetugasPelaksana;

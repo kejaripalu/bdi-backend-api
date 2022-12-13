@@ -18,7 +18,7 @@ public interface RegisterKegiatanIntelijenRepository extends JpaRepository<Regis
 	Page<RegisterKegiatanIntelijen> findAllKegiatan(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
-			+ "AND (LOWER(r.peruntukan) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "AND (LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.nomor) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.hasilPelaksanaanKegiatan) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.namaPetugasPelaksana) LIKE LOWER(CONCAT('%', :value, '%'))) "

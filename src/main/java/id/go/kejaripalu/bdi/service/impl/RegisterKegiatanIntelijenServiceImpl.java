@@ -35,7 +35,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		kegiatanIntelijen.setSektor(request.getSektor());
 		kegiatanIntelijen.setTanggal(request.getTanggal());
 		kegiatanIntelijen.setNomor(request.getNomor());
-		kegiatanIntelijen.setPeruntukan(request.getPeruntukan());
+		kegiatanIntelijen.setPerihal(request.getPerihal());
 		kegiatanIntelijen.setNamaPetugasPelaksana(request.getNamaPetugasPelaksana());
 		kegiatanIntelijen.setHasilPelaksanaanKegiatan(request.getHasilPelaksanaanKegiatan());
 		kegiatanIntelijen.setKeterangan(request.getKeterangan());
@@ -64,9 +64,9 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		kegiatanIntelijen.setNomor(
 				request.getNomor() == null || request.getNomor().isBlank() ? 
 						kegiatanIntelijen.getNomor() : request.getNomor());
-		kegiatanIntelijen.setPeruntukan(
-				request.getPeruntukan() == null || request.getPeruntukan().isBlank() ? 
-						kegiatanIntelijen.getPeruntukan() : request.getPeruntukan());
+		kegiatanIntelijen.setPerihal(
+				request.getPerihal() == null || request.getPerihal().isBlank() ? 
+						kegiatanIntelijen.getPerihal() : request.getPerihal());
 		kegiatanIntelijen.setNamaPetugasPelaksana(
 				request.getNamaPetugasPelaksana() == null || request.getNamaPetugasPelaksana().isBlank() ? 
 						kegiatanIntelijen.getNamaPetugasPelaksana() : request.getNamaPetugasPelaksana());
@@ -160,7 +160,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		response.setSektor(kegiatanIntelijen.getSektor());
 		response.setNomor(kegiatanIntelijen.getNomor());
 		response.setTanggal(kegiatanIntelijen.getTanggal());
-		response.setPeruntukan(kegiatanIntelijen.getPeruntukan());
+		response.setPerihal(kegiatanIntelijen.getPerihal());
 		response.setNamaPetugasPelaksana(kegiatanIntelijen.getNamaPetugasPelaksana());
 		response.setHasilPelaksanaanKegiatan(kegiatanIntelijen.getHasilPelaksanaanKegiatan());
 		response.setKeterangan(kegiatanIntelijen.getKeterangan());

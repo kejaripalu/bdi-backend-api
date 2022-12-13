@@ -22,7 +22,7 @@ public class RegisterKegiatanIntelijenResponse {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggal;
 	
-	private String peruntukan;
+	private String perihal;
 	
 	private String namaPetugasPelaksana;
 	

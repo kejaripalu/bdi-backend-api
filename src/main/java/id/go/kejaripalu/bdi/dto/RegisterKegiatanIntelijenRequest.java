@@ -27,7 +27,7 @@ public class RegisterKegiatanIntelijenRequest {
 	private Date tanggal;
 	
 	@NotBlank
-	private String peruntukan;
+	private String perihal;
 	
 	@NotBlank
 	private String namaPetugasPelaksana;
