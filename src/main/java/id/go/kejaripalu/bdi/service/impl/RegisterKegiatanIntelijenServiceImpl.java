@@ -156,6 +156,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKegiatanIntelijenResponse response = new RegisterKegiatanIntelijenResponse();
+		response.setId(kegiatanIntelijen.getId());
 		response.setBidangDirektorat(kegiatanIntelijen.getBidangDirektorat());
 		response.setSektor(kegiatanIntelijen.getSektor());
 		response.setNomor(kegiatanIntelijen.getNomor());
