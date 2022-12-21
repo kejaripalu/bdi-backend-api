@@ -41,7 +41,7 @@ public class RegisterKegiatanIntelijen extends BaseUUIDEntity {
 	@Column(name = "nomor", nullable = false, unique = true)
 	private String nomor;
 	
-	@Column(name = "tanggal_waktu_diterima", nullable = false)
+	@Column(name = "tanggal", nullable = false)
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggal;
