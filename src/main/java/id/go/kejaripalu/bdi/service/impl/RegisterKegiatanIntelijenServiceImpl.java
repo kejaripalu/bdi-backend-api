@@ -105,10 +105,10 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterKegiatanIntelijen> pagesKegiatanInteiljen = repository.findAllKegiatan(
+		Page<RegisterKegiatanIntelijen> pagesKegiatanIntelijen = repository.findAllKegiatan(
 				startDate, endDate, bidangDirektorat, pageRequest);
 		
-		return pagesKegiatanInteiljen;
+		return pagesKegiatanIntelijen;
 	}
 
 	@Override

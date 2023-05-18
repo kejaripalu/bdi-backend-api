@@ -15,7 +15,7 @@ import javax.validation.constraints.DecimalMin;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import id.go.kejaripalu.bdi.domain.util.BaseUUIDEntity;
-import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
+import id.go.kejaripalu.bdi.domain.util.HasilPamstra;
 import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,10 +32,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class RegisterKegiatanIntelijenPamstra extends BaseUUIDEntity {
 
-	@Column(name = "bidang_direktorat", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private BidangDirektorat bidangDirektorat;
-	
 	@Column(name = "sektor", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Sektor sektor;
@@ -66,11 +62,11 @@ public class RegisterKegiatanIntelijenPamstra extends BaseUUIDEntity {
 	@Column(name = "telaahan_intelijen", columnDefinition="TEXT")
 	private String telaahanIntelijen;
 	
-	@Column(name = "tindak_lanjut_diterima", columnDefinition="TEXT")
-	private String tindakLanjutDiterima;
+	@Column(name = "tindak_lanjut")
+	private Boolean tindakLanjut = Boolean.TRUE;
 	
-	@Column(name = "tindak_lanjut_ditolak", columnDefinition="TEXT")
-	private String tindakLanjutDitolak;
+	@Column(name = "tindak_lanjut_keterangan", columnDefinition="TEXT")
+	private String tindakLanjutKeterangan;
 	
 	@Column(name = "nomor_sprint_walpam", unique = true)
 	private String nomorSprintWalpam;
@@ -87,11 +83,12 @@ public class RegisterKegiatanIntelijenPamstra extends BaseUUIDEntity {
 	@DecimalMin(value = "0.0")
 	private BigDecimal nilaiKontrak;
 	
-	@Column(name = "hasil_pelaksanaan_selesai", columnDefinition="TEXT")
-	private String hasilPelaksanaanSelesai;
+	@Column(name = "hasil_pelaksanaan")
+	@Enumerated(EnumType.STRING)
+	private HasilPamstra hasilPelaksanaan = HasilPamstra.ON_PROGRESS;
 	
-	@Column(name = "hasil_pelaksanaan_dihentikan", columnDefinition="TEXT")
-	private String hasilPelaksanaanDihentikan;
+	@Column(name = "hasil_pelaksanaan_keterangan", columnDefinition="TEXT")
+	private String hasilPelaksanaanKeterangan;
 	
 	@Column(name = "nomor_kertas_kerja", unique = true)
 	private String nomorKertasKerja;
