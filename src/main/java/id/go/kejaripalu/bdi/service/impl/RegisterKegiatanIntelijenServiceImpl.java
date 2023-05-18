@@ -152,7 +152,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 	@Override
 	@Transactional
 	public RegisterKegiatanIntelijenResponse findById(String id) {
-		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findById(id)
+		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKegiatanIntelijenResponse response = new RegisterKegiatanIntelijenResponse();

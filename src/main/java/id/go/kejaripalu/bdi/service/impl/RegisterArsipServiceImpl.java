@@ -126,7 +126,7 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 	@Override
 	@Transactional
 	public RegisterArsipResponse findById(String id) {
-		RegisterArsip arsip = arsipRepository.findById(id)
+		RegisterArsip arsip = arsipRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterArsipResponse response = new RegisterArsipResponse();

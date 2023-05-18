@@ -16,6 +16,10 @@ public class RegisterKegiatanIntelijenPamstraResponse {
 	
 	private Sektor sektor;
 	
+	private String namaKegiatan;
+	
+	private String sumberDana;
+	
 	private String instansi;
 	
 	private BigDecimal paguAnggaran;

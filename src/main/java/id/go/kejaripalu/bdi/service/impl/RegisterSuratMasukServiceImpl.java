@@ -52,7 +52,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	@Override
 	@Transactional
 	public void updateSuratMasuk(String id, RegisterSuratMasukUpdateRequest request) {
-		RegisterSuratMasuk suratMasuk = suratMasukRepository.findById(id)
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratMasuk.setTanggalPenerimaanSurat(
 				request.getTanggalPenerimaanSurat() == null ? 

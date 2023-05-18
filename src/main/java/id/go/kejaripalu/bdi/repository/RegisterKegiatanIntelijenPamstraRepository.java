@@ -18,6 +18,8 @@ public interface RegisterKegiatanIntelijenPamstraRepository extends JpaRepositor
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
 			+ "AND (LOWER(r.instansi) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.namaKegiatan) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.sumberDana) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.nomorSuratPermohonan) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.tempatPemaparan) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.telaahanIntelijen) LIKE LOWER(CONCAT('%', :value, '%')) "

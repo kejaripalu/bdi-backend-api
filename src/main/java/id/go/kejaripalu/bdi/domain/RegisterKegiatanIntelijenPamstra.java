@@ -36,6 +36,12 @@ public class RegisterKegiatanIntelijenPamstra extends BaseUUIDEntity {
 	@Enumerated(EnumType.STRING)
 	private Sektor sektor;
 	
+	@Column(name = "nama_kegiatan", nullable = false)
+	private String namaKegiatan;
+	
+	@Column(name = "sumber_dana", nullable = false)
+	private String sumberDana;
+
 	@Column(name = "instansi", nullable = false)
 	private String instansi;
 	

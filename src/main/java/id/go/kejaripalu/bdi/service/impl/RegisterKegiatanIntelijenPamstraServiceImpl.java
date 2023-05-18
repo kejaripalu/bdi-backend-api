@@ -31,6 +31,8 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 	public void create(RegisterKegiatanIntelijenPamstraRequest request) {
 		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = new RegisterKegiatanIntelijenPamstra();
 		kegiatanIntelijen.setSektor(request.getSektor());
+		kegiatanIntelijen.setNamaKegiatan(request.getNamaKegiatan());
+		kegiatanIntelijen.setSumberDana(request.getSumberDana());
 		kegiatanIntelijen.setInstansi(request.getInstansi());
 		kegiatanIntelijen.setPaguAnggaran(request.getPaguAnggaran());
 		kegiatanIntelijen.setNomorSuratPermohonan(request.getNomorSuratPermohonan());
@@ -64,6 +66,12 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		kegiatanIntelijen.setSektor(
 				request.getSektor() == null ? 
 						kegiatanIntelijen.getSektor() : request.getSektor());
+		kegiatanIntelijen.setNamaKegiatan(
+				request.getNamaKegiatan() == null || request.getNamaKegiatan().isBlank() ? 
+						kegiatanIntelijen.getNamaKegiatan() : request.getNamaKegiatan());
+		kegiatanIntelijen.setSumberDana(
+				request.getSumberDana() == null || request.getSumberDana().isBlank() ? 
+						kegiatanIntelijen.getSumberDana() : request.getSumberDana());
 		kegiatanIntelijen.setInstansi(
 				request.getInstansi() == null || request.getInstansi().isBlank() ? 
 						kegiatanIntelijen.getInstansi() : request.getInstansi());
@@ -145,12 +153,14 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 	@Override
 	@Transactional
 	public RegisterKegiatanIntelijenPamstraResponse findById(String id) {
-		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findById(id)
+		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKegiatanIntelijenPamstraResponse response = new RegisterKegiatanIntelijenPamstraResponse();
 		response.setId(kegiatanIntelijen.getId());
 		response.setSektor(kegiatanIntelijen.getSektor());
+		response.setNamaKegiatan(kegiatanIntelijen.getNamaKegiatan());
+		response.setSumberDana(kegiatanIntelijen.getSumberDana());
 		response.setInstansi(kegiatanIntelijen.getInstansi());
 		response.setPaguAnggaran(kegiatanIntelijen.getPaguAnggaran());
 		response.setNomorSuratPermohonan(kegiatanIntelijen.getNomorSuratPermohonan());
@@ -182,6 +192,8 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		
 		kegiatanIntelijen.setDeleted(Boolean.TRUE);
 		kegiatanIntelijen.setNomorSprintWalpam(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomorSprintWalpam());
+		kegiatanIntelijen.setNomorSuratPermohonan(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomorSuratPermohonan());
+		kegiatanIntelijen.setNomorKertasKerja(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomorKertasKerja());
 		repository.save(kegiatanIntelijen);
 		log.info("Soft Delete: " + kegiatanIntelijen);
 	}

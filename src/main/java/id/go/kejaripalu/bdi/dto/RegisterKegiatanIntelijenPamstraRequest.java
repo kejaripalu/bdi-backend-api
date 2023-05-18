@@ -19,7 +19,13 @@ public class RegisterKegiatanIntelijenPamstraRequest {
 	private Sektor sektor;
 	
 	@NotBlank
-	private String instansi;
+	private String namaKegiatan;
+	
+	@NotBlank
+	private String sumberDana;
+	
+	@NotBlank
+	private String instansi;	
 	
 	@NotNull
 	private BigDecimal paguAnggaran;

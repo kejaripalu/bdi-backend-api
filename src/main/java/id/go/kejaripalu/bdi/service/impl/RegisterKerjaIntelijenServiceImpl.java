@@ -89,7 +89,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	@Override
 	@Transactional
 	public RegisterKerjaIntelijenResponse findRKIbyId(String id) {
-		RegisterKerjaIntelijen rki = rkiRepository.findById(id)
+		RegisterKerjaIntelijen rki = rkiRepository.findByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKerjaIntelijenResponse response = new RegisterKerjaIntelijenResponse();
