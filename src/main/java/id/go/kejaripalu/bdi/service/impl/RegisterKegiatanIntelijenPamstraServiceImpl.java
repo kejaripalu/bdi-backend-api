@@ -131,7 +131,8 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		
 		log.info("Value : " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.error("Isi text pencarian kosong...");
+			log.warn("Isi text pencarian kosong...");
+			return null;
 		}
 		
 		Date startDate = null;
@@ -144,10 +145,10 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterKegiatanIntelijenPamstra> pageArsip = repository.findBySearching(
+		Page<RegisterKegiatanIntelijenPamstra> pageKegiatan = repository.findBySearching(
 				startDate, endDate, value, pageRequest);
 		
-		return pageArsip;
+		return pageKegiatan;
 	}
 
 	@Override

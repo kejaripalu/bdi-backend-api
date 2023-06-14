@@ -97,7 +97,8 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
     public Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(String start, String end, String value, Integer pages, Integer sizes) {
         log.info("Value : " + value);
         if (value.isBlank() || value.isEmpty() || value.equals("")) {
-            log.error("Isi text pencarian kosong...");
+        	log.warn("Isi text pencarian kosong...");
+			return null;
         }
 
         Date startDate = null;

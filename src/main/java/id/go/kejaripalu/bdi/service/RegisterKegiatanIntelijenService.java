@@ -14,7 +14,7 @@ public interface RegisterKegiatanIntelijenService {
 	
 	Page<RegisterKegiatanIntelijen> findAll(String startDate, String endDate, String stringBidangDirektorat, Integer pages, Integer sizes);
 	
-	Page<RegisterKegiatanIntelijen> findBySearching(String start, String end, String value, String stringBidangDirektorat, Integer pages, Integer sizes);
+	Page<RegisterKegiatanIntelijen> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages, Integer sizes);
 	
 	RegisterKegiatanIntelijenResponse findById(String id); 
 	

@@ -138,7 +138,8 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		}
 		log.info("Value : " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.error("Isi text pencarian kosong...");
+			log.warn("Isi text pencarian kosong...");
+			return null;
 		}
 		
 		Date startDate = null;
