@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class RegisterOperasiIntelijenResponse {
 
-private String id;
+	private String id;
 	
 	private BidangDirektorat bidangDirektorat;
 
