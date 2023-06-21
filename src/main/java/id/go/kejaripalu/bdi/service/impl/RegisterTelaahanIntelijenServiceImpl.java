@@ -127,6 +127,7 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 		response.setTanggal(lahin.getTanggal());
 		response.setNomor(lahin.getNomor());
 		response.setPembuat(lahin.getPembuat());
+		response.setLampiran(lahin.getLampiran());
 		response.setPerihal(lahin.getPerihal());
 		response.setTindakLanjut(lahin.getTindakLanjut());
 		response.setKeterangan(lahin.getKeterangan());
