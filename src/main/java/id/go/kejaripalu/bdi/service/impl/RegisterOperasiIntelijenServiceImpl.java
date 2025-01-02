@@ -75,7 +75,7 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 		
 		log.info("Register Operasi Intelijen Request: " + opsin);
 		repository.save(opsin);
-		log.info("Saved Register Operasi Intelijen: " + opsin);
+		log.info("Updated Register Operasi Intelijen: " + opsin);
 	}
 
 	@Override

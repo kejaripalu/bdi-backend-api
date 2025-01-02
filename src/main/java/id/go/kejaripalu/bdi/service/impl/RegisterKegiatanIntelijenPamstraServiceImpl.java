@@ -102,7 +102,7 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		
 		log.info("Register Kegiatan Intelijen Pamstra Request: " + kegiatanIntelijen);
 		repository.save(kegiatanIntelijen);
-		log.info("Saved Register Kegiatan Intelijen Pamstra: " + kegiatanIntelijen);
+		log.info("Updated Register Kegiatan Intelijen Pamstra: " + kegiatanIntelijen);
 	}
 
 	@Override

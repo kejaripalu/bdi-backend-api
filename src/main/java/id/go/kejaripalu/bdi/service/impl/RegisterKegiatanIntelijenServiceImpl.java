@@ -76,7 +76,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		
 		log.info("Register Kegiatan Intelijen Request: " + kegiatanIntelijen);
 		repository.save(kegiatanIntelijen);
-		log.info("Saved Register Kegiatan Intelijen: " + kegiatanIntelijen);
+		log.info("Updated Register Kegiatan Intelijen: " + kegiatanIntelijen);
 	}
 
 	@Override
