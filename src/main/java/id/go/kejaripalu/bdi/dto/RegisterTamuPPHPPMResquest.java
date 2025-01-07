@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
 import lombok.Data;
 
 @Data
@@ -29,7 +30,7 @@ public class RegisterTamuPPHPPMResquest {
 	
 	private String alamat;
 	
-	private String jenisKelamin;
+	private JenisKelamin jenisKelamin;
 	
 	private String nomorHandphone;
 
@@ -45,8 +46,6 @@ public class RegisterTamuPPHPPMResquest {
 	private String informasiYangDisampaikan;
 
 	private String dokumenYangDisampaikan;
-
-	private String tandaTangan;
 
 	private String keterangan;
 

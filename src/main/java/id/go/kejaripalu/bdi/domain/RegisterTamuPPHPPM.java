@@ -4,17 +4,26 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import id.go.kejaripalu.bdi.domain.util.BaseUUIDEntity;
+import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+/**
+ * Register Register Tamu PPH & PPM ini memiliki
+ * field yang tidak didefinisikan yaitu field Tanda Tangan
+ * seperti yang dimuat dalam PERJA
+ */
 
 @Entity
 @Table(name = "register_tamu_ppm_pph")
@@ -53,7 +62,8 @@ public class RegisterTamuPPHPPM extends BaseUUIDEntity {
 	private String alamat;
 	
 	@Column(name = "jenis_kelamin")
-	private String jenisKelamin;
+	@Enumerated(EnumType.STRING)
+	private JenisKelamin jenisKelamin = JenisKelamin.TIDAK_DITENTUKAN;
 	
 	@Column(name = "nomor_handphone")
 	private String nomorHandphone;
@@ -73,11 +83,8 @@ public class RegisterTamuPPHPPM extends BaseUUIDEntity {
 	@Column(name = "informasi_yang_disampaikan", columnDefinition="TEXT", nullable = false)
 	private String informasiYangDisampaikan;
 	
-	@Column(name = "dokumen_yang_disampaikan", columnDefinition="TEXT")
+	@Column(name = "dokumen_yang_disampaikan")
 	private String dokumenYangDisampaikan;
-	
-	@Column(name = "tanda_tangan", columnDefinition="TEXT")
-	private String tandaTangan;
 	
 	@Column(name = "keterangan")
 	private String keterangan;

@@ -15,10 +15,8 @@ spring:
 spring:
   config:
     activate:
-      on-profile: development
-  jackson:
-    time-zone: Europe/Zagreb      
+      on-profile: development    
 app:
   origin-url: http://localhost:4200
   api-url: /api/v1
-  timezone: GMT+7
+#  timezone: GMT+7

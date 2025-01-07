@@ -45,7 +45,6 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		pphppm.setNamaOrganisasi(request.getNamaOrganisasi());
 		pphppm.setInformasiYangDisampaikan(request.getInformasiYangDisampaikan());
 		pphppm.setDokumenYangDisampaikan(request.getDokumenYangDisampaikan());
-		pphppm.setTandaTangan(request.getTandaTangan());
 		pphppm.setKeterangan(request.getKeterangan());
 		pphppm.setUrlFile(request.getUrlFile());
 		
@@ -104,9 +103,6 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		pphppm.setDokumenYangDisampaikan(
 				request.getDokumenYangDisampaikan() == null ?
 						pphppm.getDokumenYangDisampaikan() : request.getDokumenYangDisampaikan());
-		pphppm.setTandaTangan(
-				request.getTandaTangan() == null ?
-						pphppm.getTandaTangan() : request.getTandaTangan());
 		pphppm.setKeterangan(
 				request.getKeterangan() == null ?
 						pphppm.getKeterangan() : request.getKeterangan());
@@ -186,7 +182,6 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		response.setNamaOrganisasi(pphppm.getNamaOrganisasi());
 		response.setInformasiYangDisampaikan(pphppm.getInformasiYangDisampaikan());
 		response.setDokumenYangDisampaikan(pphppm.getDokumenYangDisampaikan());
-		response.setTandaTangan(pphppm.getTandaTangan());
 		response.setKeterangan(pphppm.getKeterangan());
 		response.setUrlFile(pphppm.getUrlFile());
 		
