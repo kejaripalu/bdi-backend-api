@@ -2,7 +2,7 @@ package id.go.kejaripalu.bdi.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import id.go.kejaripalu.bdi.domain.util.JenisKelamin;

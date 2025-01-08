@@ -28,7 +28,7 @@
                                       71325466452317                                      
                                                                                           
                              ==BANK DATA INTELIJEN KEJAKSAAN==
-                                     --->>>(BDI)<<<---                                            
+                               --->>>(BDI Backend API)<<<---                                            
                                                                                           
                                                                                           
                                                                                           
