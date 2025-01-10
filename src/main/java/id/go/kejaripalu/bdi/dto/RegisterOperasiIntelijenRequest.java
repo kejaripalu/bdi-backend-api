@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
@@ -12,8 +13,10 @@ import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.Data;
 
 @Data
-public class RegisterOperasiIntelijenRequest {
+public class RegisterOperasiIntelijenRequest implements Serializable {
 	
+	private static final long serialVersionUID = -6773136661883402850L;
+
 	@NotNull
 	private BidangDirektorat bidangDirektorat;
 

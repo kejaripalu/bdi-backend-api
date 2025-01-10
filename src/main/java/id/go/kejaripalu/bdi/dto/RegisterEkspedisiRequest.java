@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
@@ -11,8 +12,10 @@ import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 import lombok.Data;
 
 @Data
-public class RegisterEkspedisiRequest {
+public class RegisterEkspedisiRequest implements Serializable {
 	
+	private static final long serialVersionUID = -4801421775111817618L;
+
 	@NotBlank
 	private String nomorSurat;
 

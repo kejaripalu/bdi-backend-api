@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,7 +10,9 @@ import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.Data;
 
 @Data
-public class RegisterKerjaIntelijenResponse {
+public class RegisterKerjaIntelijenResponse implements Serializable {
+
+	private static final long serialVersionUID = 6652328186077114103L;
 
 	private String id;
 	

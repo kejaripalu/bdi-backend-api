@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -11,7 +12,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.BaseUUIDEntity;
+import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +33,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterTamuPPHPPM extends BaseUUIDEntity {
+public class RegisterTamuPPHPPM extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = -9043424490902526315L;
 
 	@Column(name = "nama_petugas_penerima", nullable = false)
 	private String namaPetugasPenerima;

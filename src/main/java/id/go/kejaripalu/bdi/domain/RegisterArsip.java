@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -10,7 +11,7 @@ import jakarta.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.BaseUUIDEntity;
+import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterArsip extends BaseUUIDEntity {
+public class RegisterArsip extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = -852341577189585171L;
 
 	@Column(name = "tanggal_penerimaan_arsip", nullable = false)
 	@Temporal(TemporalType.DATE)

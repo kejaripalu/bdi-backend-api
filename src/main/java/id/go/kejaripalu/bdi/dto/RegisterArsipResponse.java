@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
@@ -9,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class RegisterArsipResponse {
+public class RegisterArsipResponse implements Serializable {
 	
+	private static final long serialVersionUID = 9196266749399869259L;
+
 	private String id;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

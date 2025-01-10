@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +10,9 @@ import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
 import lombok.Data;
 
 @Data
-public class RegisterTamuPPHPPMResquest {
+public class RegisterTamuPPHPPMResquest implements Serializable {
+
+	private static final long serialVersionUID = -1286872086785196918L;
 
 	@NotBlank
 	private String namaPetugasPenerima;

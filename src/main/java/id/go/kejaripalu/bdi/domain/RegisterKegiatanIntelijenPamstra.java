@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import jakarta.validation.constraints.DecimalMin;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.BaseUUIDEntity;
+import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.HasilPamstra;
 import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterKegiatanIntelijenPamstra extends BaseUUIDEntity {
+public class RegisterKegiatanIntelijenPamstra extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = -4023679460470876278L;
 
 	@Column(name = "sektor", nullable = false)
 	@Enumerated(EnumType.STRING)

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,39 +33,44 @@ public class RegisterSuratMasukController {
 
 	private RegisterSuratMasukService suratMasukService;
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-masuk")
 	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasuk(
-				@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-				@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-				@RequestParam(name = "jenisSurat", required = true, defaultValue = "BIASA") String jenisSurat,
-				@RequestParam(name = "startDate", required = true) String startDate,
-				@RequestParam(name = "endDate", required = true) String endDate) {
+				@RequestParam(required = true, defaultValue = "0") Integer pages,
+				@RequestParam(required = true, defaultValue = "20") Integer sizes,
+				@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
+				@RequestParam(required = true) String startDate,
+				@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));		
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-masuk/{id}/detail")
 	public ResponseEntity<RegisterSuratMasukResponse> findSuratMasukById(@PathVariable String id) {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasukById(id));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-masuk/search")
 	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasukBySearch(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "jenisSurat", required = true, defaultValue = "BIASA") String jenisSurat,
-			@RequestParam(name = "value", required = true) String value,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
+			@RequestParam(required = true) String value,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasukBySearching(
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/surat-masuk")
 	public ResponseEntity<Void> createNewSuratMasuk(@Valid @RequestBody RegisterSuratMasukCreateRequest request) {
 		suratMasukService.createSuratMasuk(request);
 		return ResponseEntity.created(URI.create("/api/v1/surat-masuk")).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/surat-masuk/{id}")
 	public ResponseEntity<Void> updateSuratMasuk(@PathVariable String id,
 			@RequestBody @Valid RegisterSuratMasukUpdateRequest request) {
@@ -72,6 +78,7 @@ public class RegisterSuratMasukController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/surat-masuk/{id}")
 	public ResponseEntity<Void> deleteSuratMasuk(@PathVariable String id) {
 		suratMasukService.deleteSuratMasuk(id);

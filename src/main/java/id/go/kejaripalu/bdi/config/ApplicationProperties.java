@@ -13,5 +13,5 @@ public class ApplicationProperties {
 	private String originUrl;
 	private String apiUrl;
 	private String timezone;
-
+	
 }

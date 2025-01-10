@@ -6,12 +6,15 @@ import id.go.kejaripalu.bdi.domain.util.JenisProdukIntelijen;
 import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class RegisterProdukIntelijenResponse {
+public class RegisterProdukIntelijenResponse implements Serializable {
 
-    private String id;
+    private static final long serialVersionUID = 5466222738041315962L;
+
+	private String id;
 
     private JenisProdukIntelijen jenisProdukIntelijen;
 

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class RegisterOperasiIntelijenController {
 	
 	private RegisterOperasiIntelijenService opsinService;
 
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/opsin")
 	public ResponseEntity<Void> create(
 			@Valid @RequestBody RegisterOperasiIntelijenRequest request) {
@@ -38,6 +40,7 @@ public class RegisterOperasiIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/opsin")).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/opsin/{id}")
 	public ResponseEntity<Void> update(
 			@PathVariable String id,
@@ -46,33 +49,37 @@ public class RegisterOperasiIntelijenController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/opsin/{id}/detail")
 	public ResponseEntity<RegisterOperasiIntelijenResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(opsinService.findById(id));
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/opsin")
 	public ResponseEntity<Page<RegisterOperasiIntelijen>> findAll(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "bidangDirektorat", required = true) String bidangDirektorat,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true) String bidangDirektorat,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(opsinService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/opsin/search")
 	public ResponseEntity<Page<RegisterOperasiIntelijen>> findBySearch(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "bidangDirektorat", required = true) String bidangDirektorat,
-			@RequestParam(name = "value", required = true) String value,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true) String bidangDirektorat,
+			@RequestParam(required = true) String value,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(opsinService.findBySearching(
 				startDate, endDate, bidangDirektorat, value, pages, sizes));
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/opsin/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		opsinService.delete(id);

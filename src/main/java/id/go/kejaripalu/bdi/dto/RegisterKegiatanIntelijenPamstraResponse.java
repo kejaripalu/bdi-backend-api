@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,7 +11,9 @@ import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.Data;
 
 @Data
-public class RegisterKegiatanIntelijenPamstraResponse {
+public class RegisterKegiatanIntelijenPamstraResponse implements Serializable {
+
+	private static final long serialVersionUID = -3895039557714683393L;
 
 	private String id;
 	

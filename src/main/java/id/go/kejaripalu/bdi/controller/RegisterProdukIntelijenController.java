@@ -7,6 +7,7 @@ import id.go.kejaripalu.bdi.service.RegisterProdukIntelijenService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -20,37 +21,42 @@ public class RegisterProdukIntelijenController {
 
     private RegisterProdukIntelijenService produkIntelijenService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/prodin")
     public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijen(
-            @RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-            @RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-            @RequestParam(name = "startDate", required = true) String startDate,
-            @RequestParam(name = "endDate", required = true) String endDate) {
+            @RequestParam(required = true, defaultValue = "0") Integer pages,
+            @RequestParam(required = true, defaultValue = "20") Integer sizes,
+            @RequestParam(required = true) String startDate,
+            @RequestParam(required = true) String endDate) {
         return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijen(startDate, endDate, pages, sizes));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/prodin/{id}/detail")
     public ResponseEntity<RegisterProdukIntelijenResponse> findProdukIntelijenById(@PathVariable String id) {
         return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenById(id));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/prodin/search")
     public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijenBySearch(
-            @RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-            @RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-            @RequestParam(name = "value", required = true) String value,
-            @RequestParam(name = "startDate", required = true) String startDate,
-            @RequestParam(name = "endDate", required = true) String endDate) {
+            @RequestParam(required = true, defaultValue = "0") Integer pages,
+            @RequestParam(required = true, defaultValue = "20") Integer sizes,
+            @RequestParam(required = true) String value,
+            @RequestParam(required = true) String startDate,
+            @RequestParam(required = true) String endDate) {
         return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenBySearching(
                 startDate, endDate, value, pages, sizes));
     }
-
+    
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
     @PostMapping("/prodin")
     public ResponseEntity<Void> createNewProdukIntelijen(@Valid @RequestBody RegisterProdukIntelijenRequest request) {
         produkIntelijenService.createProdukIntelijen(request);
         return ResponseEntity.created(URI.create("/api/v1//produk-intelijen")).build();
     }
-
+    
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
     @PutMapping("/prodin/{id}")
     public ResponseEntity<Void> updateProdukIntelijen(@PathVariable String id,
                                                       @RequestBody @Valid RegisterProdukIntelijenRequest request) {
@@ -58,6 +64,7 @@ public class RegisterProdukIntelijenController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
     @DeleteMapping("/prodin/{id}")
     public ResponseEntity<Void> deleteProdukIntelijen(@PathVariable String id) {
         produkIntelijenService.deleteProdukIntelijen(id);

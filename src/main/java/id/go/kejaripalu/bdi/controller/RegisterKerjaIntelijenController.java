@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class RegisterKerjaIntelijenController {
 
 	private RegisterKerjaIntelijenService rkiService;
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/rki")
 	public ResponseEntity<Void> createNewRKI(
 			@Valid @RequestBody RegisterKerjaIntelijenRequest request) {
@@ -38,6 +40,7 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/rki")).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/rki/{id}")
 	public ResponseEntity<Void> updateRKI(
 			@PathVariable String id,
@@ -46,34 +49,37 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/rki/{id}/detail")
 	public ResponseEntity<RegisterKerjaIntelijenResponse> findRKIById(@PathVariable String id) {
 		return ResponseEntity.ok().body(rkiService.findRKIbyId(id));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/rki")
 	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKI(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "bidangDirektorat", required = true) String bidangDirektorat,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true) String bidangDirektorat,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(rkiService.findRKI(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/rki/search")
 	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKIBySearch(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "bidangDirektorat", required = true) String bidangDirektorat,
-			@RequestParam(name = "value", required = true) String value,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true) String bidangDirektorat,
+			@RequestParam(required = true) String value,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(rkiService.findRKIBySearching(
 				startDate, endDate, value, bidangDirektorat, pages, sizes));
 	}
 
-	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/rki/{id}")
 	public ResponseEntity<Void> deleteRKI(@PathVariable String id) {
 		rkiService.deleteRKI(id);

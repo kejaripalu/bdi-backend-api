@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +12,9 @@ import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 import lombok.Data;
 
 @Data
-public class RegisterSuratKeluarCreateRequest {
+public class RegisterSuratKeluarCreateRequest implements Serializable {
+
+	private static final long serialVersionUID = 6052058102972939478L;
 
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
 	private Date tanggalSurat;

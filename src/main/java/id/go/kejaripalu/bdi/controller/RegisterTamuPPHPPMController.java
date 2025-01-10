@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,37 +32,42 @@ public class RegisterTamuPPHPPMController {
 	
 	private RegisterTamuPPHPPMService pphppmService;
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pphppm")
 	public ResponseEntity<Page<RegisterTamuPPHPPM>> findAll(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(pphppmService.findRegisterTamu(startDate, endDate, pages, sizes));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pphppm/{id}/detail")
 	public ResponseEntity<RegisterTamuPPHPPMResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(pphppmService.findRegisterTamuById(id));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pphppm/search")
 	public ResponseEntity<Page<RegisterTamuPPHPPM>> findBySearch(
-			@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-			@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-			@RequestParam(name = "value", required = true) String value,
-			@RequestParam(name = "startDate", required = true) String startDate,
-			@RequestParam(name = "endDate", required = true) String endDate) {
+			@RequestParam(required = true, defaultValue = "0") Integer pages,
+			@RequestParam(required = true, defaultValue = "20") Integer sizes,
+			@RequestParam(required = true) String value,
+			@RequestParam(required = true) String startDate,
+			@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(pphppmService.findRegisterTamuBySearching(
 				startDate, endDate, value, pages, sizes));
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/pphppm")
 	public ResponseEntity<Void> create(@Valid @RequestBody RegisterTamuPPHPPMResquest request) {
 		pphppmService.createRegisterTamu(request);
 		return ResponseEntity.created(URI.create("/api/v1/pphppm")).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/pphppm/{id}")
 	public ResponseEntity<Void> update(@PathVariable String id,
 			@RequestBody @Valid RegisterTamuPPHPPMResquest request) {
@@ -69,6 +75,7 @@ public class RegisterTamuPPHPPMController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/pphppm/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		pphppmService.deleteRegisterTamu(id);

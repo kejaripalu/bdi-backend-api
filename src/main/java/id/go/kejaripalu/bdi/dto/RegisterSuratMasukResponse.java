@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -8,8 +9,10 @@ import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 import lombok.Data;
 
 @Data
-public class RegisterSuratMasukResponse {
+public class RegisterSuratMasukResponse implements Serializable {
 	
+	private static final long serialVersionUID = 3714834713043594391L;
+
 	private String id;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

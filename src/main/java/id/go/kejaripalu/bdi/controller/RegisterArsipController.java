@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,36 +32,41 @@ public class RegisterArsipController {
 	
 	private RegisterArsipService arsipService;
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/arsip")
 	public ResponseEntity<Page<RegisterArsip>> findAll(
-				@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-				@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-				@RequestParam(name = "startDate", required = true) String startDate,
-				@RequestParam(name = "endDate", required = true) String endDate) {
+				@RequestParam(required = true, defaultValue = "0") Integer pages,
+				@RequestParam(required = true, defaultValue = "20") Integer sizes,
+				@RequestParam(required = true) String startDate,
+				@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(arsipService.findAll(startDate, endDate, pages, sizes));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/arsip/{id}/detail")
 	public ResponseEntity<RegisterArsipResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(arsipService.findById(id));
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/arsip/search")
 	public ResponseEntity<Page<RegisterArsip>> findBySearch(
-				@RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
-				@RequestParam(name = "sizes", required = true, defaultValue = "20") Integer sizes,
-				@RequestParam(name = "value", required = true) String value,
-				@RequestParam(name = "startDate", required = true) String startDate,
-				@RequestParam(name = "endDate", required = true) String endDate) {
+				@RequestParam(required = true, defaultValue = "0") Integer pages,
+				@RequestParam(required = true, defaultValue = "20") Integer sizes,
+				@RequestParam(required = true) String value,
+				@RequestParam(required = true) String startDate,
+				@RequestParam(required = true) String endDate) {
 		return ResponseEntity.ok().body(arsipService.findBySearching(startDate, endDate, value, pages, sizes));
 	}
 
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/arsip")
 	public ResponseEntity<Void> create(@Valid @RequestBody RegisterArsipRequest request) {
 		arsipService.create(request);
 		return ResponseEntity.created(URI.create("/api/v1/arsip")).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/arsip/{id}")
 	public ResponseEntity<Void> update(@PathVariable String id,
 			@RequestBody @Valid RegisterArsipRequest request) {
@@ -68,6 +74,7 @@ public class RegisterArsipController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/arsip/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		arsipService.delete(id);

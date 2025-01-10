@@ -11,7 +11,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
-public class BaseUUIDEntity {
+public class BaseEntity {
 
 	@Id
 	@UuidGenerator

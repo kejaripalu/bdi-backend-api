@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -12,7 +13,7 @@ import jakarta.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.BaseUUIDEntity;
+import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
 import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,10 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterKegiatanIntelijen extends BaseUUIDEntity {
+public class RegisterKegiatanIntelijen extends BaseEntity implements Serializable {
 	
+	private static final long serialVersionUID = 6821548978478160684L;
+
 	@Column(name = "bidang_direktorat", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private BidangDirektorat bidangDirektorat;

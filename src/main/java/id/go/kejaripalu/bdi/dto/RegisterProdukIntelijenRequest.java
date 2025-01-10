@@ -8,12 +8,16 @@ import lombok.Data;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class RegisterProdukIntelijenRequest {
+public class RegisterProdukIntelijenRequest implements Serializable {
 
-    @NotNull
+    private static final long serialVersionUID = 6227614813321255106L;
+
+	@NotNull
     private JenisProdukIntelijen jenisProdukIntelijen;
 
     @NotBlank

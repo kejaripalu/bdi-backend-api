@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
@@ -12,9 +13,11 @@ import id.go.kejaripalu.bdi.domain.util.Sektor;
 import lombok.Data;
 
 @Data
-public class RegisterKerjaIntelijenRequest {
+public class RegisterKerjaIntelijenRequest implements Serializable {
 
-    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
+	private static final long serialVersionUID = 4351843613072863365L;
+
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
 	private Date tanggalWaktuDiterima;
     
     @JsonFormat(pattern="HH:mm", timezone="GMT+8")
