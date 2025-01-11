@@ -12,6 +12,10 @@ public class ApplicationProperties {
 	
 	private String originUrl;
 	private String apiUrl;
-	private String timezone;
+	private String timeZone;
+	private Integer tokenExpired;
+	private String zoneId;
+	private String issuer;
+	private String randomCode;
 	
 }

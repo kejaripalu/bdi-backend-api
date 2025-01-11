@@ -23,6 +23,7 @@ import id.go.kejaripalu.bdi.security.filter.UsernamePasswordAuthProcessingFilter
 import id.go.kejaripalu.bdi.security.handler.UsernamePasswordAuthFailureHandler;
 import id.go.kejaripalu.bdi.security.handler.UsernamePasswordAuthSuccessHandler;
 import id.go.kejaripalu.bdi.security.provider.UsernamePasswordAuthProvider;
+import id.go.kejaripalu.bdi.security.util.JWTTokenFactory;
 
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -32,13 +33,12 @@ public class SecurityConfig {
 	@Autowired
 	private Environment env;
 		
-
 	@Autowired
 	private UsernamePasswordAuthProvider usernamePasswordAuthProvider;
 
     @Bean
-    AuthenticationSuccessHandler successHandler(ObjectMapper objectMapper) {
-		return new UsernamePasswordAuthSuccessHandler(objectMapper);
+    AuthenticationSuccessHandler successHandler(ObjectMapper objectMapper, JWTTokenFactory jwtTokenFactory) {
+		return new UsernamePasswordAuthSuccessHandler(objectMapper, jwtTokenFactory);
 	}
 
     @Bean

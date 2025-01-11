@@ -19,4 +19,9 @@ spring:
 app:
   origin-url: http://localhost:4200
   api-url: /api/v1
-#  timezone: GMT+7
+  time-zone: GMT+8
+  zone-id: Asia/Makassar
+# Token Expired dalam menit 
+  token-expired: 15
+  issuer: ${ISSUER}
+  random-code: ${RANDOM_CODE}
