@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijenPamstra;
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenPamstraRequest;
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenPamstraResponse;
 import id.go.kejaripalu.bdi.service.RegisterKegiatanIntelijenPamstraService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,7 +30,6 @@ public class RegisterKegiatanIntelijenPamstraController {
 
 	private RegisterKegiatanIntelijenPamstraService kegiatanIntelijenService;
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/kegiatan-pamstra")
 	public ResponseEntity<Void> create(
 			@Valid @RequestBody RegisterKegiatanIntelijenPamstraRequest request) {
@@ -40,7 +37,6 @@ public class RegisterKegiatanIntelijenPamstraController {
 		return ResponseEntity.created(URI.create("/api/v1/kegiatan-pamstra")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/kegiatan-pamstra/{id}")
 	public ResponseEntity<Void> update(
 			@PathVariable String id,
@@ -49,13 +45,11 @@ public class RegisterKegiatanIntelijenPamstraController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/kegiatan-pamstra/{id}/detail")
 	public ResponseEntity<RegisterKegiatanIntelijenPamstraResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(kegiatanIntelijenService.findById(id));
 	}
 
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/kegiatan-pamstra")
 	public ResponseEntity<Page<RegisterKegiatanIntelijenPamstra>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -65,7 +59,6 @@ public class RegisterKegiatanIntelijenPamstraController {
 		return ResponseEntity.ok().body(kegiatanIntelijenService.findAll(startDate, endDate, pages, sizes));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/kegiatan-pamstra/search")
 	public ResponseEntity<Page<RegisterKegiatanIntelijenPamstra>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -77,7 +70,6 @@ public class RegisterKegiatanIntelijenPamstraController {
 				startDate, endDate, value, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/kegiatan-pamstra/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		kegiatanIntelijenService.delete(id);

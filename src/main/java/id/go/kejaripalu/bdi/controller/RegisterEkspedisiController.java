@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import id.go.kejaripalu.bdi.domain.RegisterEkspedisi;
 import id.go.kejaripalu.bdi.dto.RegisterEkspedisiRequest;
 import id.go.kejaripalu.bdi.dto.RegisterEkspedisiResponse;
 import id.go.kejaripalu.bdi.service.RegisterEkspedisiService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,7 +30,6 @@ public class RegisterEkspedisiController {
 
 	private RegisterEkspedisiService ekspedisiService;
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/ekspedisi")
 	public ResponseEntity<Page<RegisterEkspedisi>> findAll(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -43,13 +40,11 @@ public class RegisterEkspedisiController {
 		return ResponseEntity.ok().body(ekspedisiService.findEkspedisi(startDate, endDate, jenisSurat, pages, sizes));		
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/ekspedisi/{id}/detail")
 	public ResponseEntity<RegisterEkspedisiResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(ekspedisiService.findEkspedisiById(id));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/ekspedisi/search")
 	public ResponseEntity<Page<RegisterEkspedisi>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -62,14 +57,12 @@ public class RegisterEkspedisiController {
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/ekspedisi")
 	public ResponseEntity<Void> create(@Valid @RequestBody RegisterEkspedisiRequest request) {
 		ekspedisiService.createEkspedisi(request);
 		return ResponseEntity.created(URI.create("/api/v1/ekspedisi")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/ekspedisi/{id}")
 	public ResponseEntity<Void> update(@PathVariable String id,
 			@RequestBody @Valid RegisterEkspedisiRequest request) {
@@ -77,7 +70,6 @@ public class RegisterEkspedisiController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/ekspedisi/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		ekspedisiService.deleteEkspedisi(id);

@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +20,7 @@ import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarUpdateRequest;
 import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -33,7 +31,6 @@ public class RegisterSuratKeluarController {
 	
 	private RegisterSuratKeluarService suratKeluarService;
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-keluar")
 	public ResponseEntity<Page<RegisterSuratKeluar>> findSuratKeluar(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -44,20 +41,17 @@ public class RegisterSuratKeluarController {
 		return ResponseEntity.ok().body(suratKeluarService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/surat-keluar")
 	public ResponseEntity<Void> createNewSuratKeluar(@Valid @RequestBody RegisterSuratKeluarCreateRequest request) {
 		suratKeluarService.createSuratMasuk(request);
 		return ResponseEntity.created(URI.create("/api/v1/surat-keluar")).build();
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-keluar/{id}/detail")
 	public ResponseEntity<RegisterSuratKeluarResponse> findSuratKeluarById(@PathVariable String id) {
 		return ResponseEntity.ok().body(suratKeluarService.findSuratMasukById(id));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/surat-keluar/{id}")
 	public ResponseEntity<Void> updateSuratKeluar(@PathVariable String id,
 			@RequestBody @Valid RegisterSuratKeluarUpdateRequest request) {
@@ -65,14 +59,12 @@ public class RegisterSuratKeluarController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/surat-keluar/{id}")
 	public ResponseEntity<Void> deleteSuratKeluar(@PathVariable String id) {
 		suratKeluarService.deleteSuratKeluar(id);
 		return ResponseEntity.accepted().build();
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-keluar/search")
 	public ResponseEntity<Page<RegisterSuratKeluar>> findSuratKeluarBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,

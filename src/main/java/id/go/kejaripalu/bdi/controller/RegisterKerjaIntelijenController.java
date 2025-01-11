@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import id.go.kejaripalu.bdi.domain.RegisterKerjaIntelijen;
 import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterKerjaIntelijenService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,7 +30,6 @@ public class RegisterKerjaIntelijenController {
 
 	private RegisterKerjaIntelijenService rkiService;
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/rki")
 	public ResponseEntity<Void> createNewRKI(
 			@Valid @RequestBody RegisterKerjaIntelijenRequest request) {
@@ -40,7 +37,6 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/rki")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/rki/{id}")
 	public ResponseEntity<Void> updateRKI(
 			@PathVariable String id,
@@ -49,13 +45,11 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/rki/{id}/detail")
 	public ResponseEntity<RegisterKerjaIntelijenResponse> findRKIById(@PathVariable String id) {
 		return ResponseEntity.ok().body(rkiService.findRKIbyId(id));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/rki")
 	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKI(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -66,7 +60,6 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.ok().body(rkiService.findRKI(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/rki/search")
 	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKIBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -79,7 +72,6 @@ public class RegisterKerjaIntelijenController {
 				startDate, endDate, value, bidangDirektorat, pages, sizes));
 	}
 
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/rki/{id}")
 	public ResponseEntity<Void> deleteRKI(@PathVariable String id) {
 		rkiService.deleteRKI(id);

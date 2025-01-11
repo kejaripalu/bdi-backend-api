@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JWTTokenHeaderExtractor implements JWTTokenExtractor {
 
-	private static final String HEADER_PREFIX = "Bearer";
+	private static final String HEADER_PREFIX = "Bearer ";
 	
 	@Override
 	public String extract(String payload) {
 		
-		if (StringUtils.isAllBlank(payload)) {
+		if (StringUtils.isBlank(payload)) {
 			throw new AuthenticationServiceException("AUTHORIZATION_MISSING_OR_EMPTY");
 		}
 		if (payload.length() <= HEADER_PREFIX.length()) {

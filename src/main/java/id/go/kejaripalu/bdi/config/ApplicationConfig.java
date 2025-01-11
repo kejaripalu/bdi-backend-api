@@ -2,6 +2,8 @@ package id.go.kejaripalu.bdi.config;
 
 import java.security.Key;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +25,7 @@ public class ApplicationConfig {
 	Environment env;
 	
 	@Bean
-	Key key() {
+	SecretKey key() {
 		byte[] keyBites = Decoders.BASE64.decode(env.getProperty("app.random-code"));
 		return Keys.hmacShaKeyFor(keyBites);
 	}

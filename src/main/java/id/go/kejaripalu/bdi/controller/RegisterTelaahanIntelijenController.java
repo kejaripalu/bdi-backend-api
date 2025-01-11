@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import id.go.kejaripalu.bdi.domain.RegisterTelaahanIntelijen;
 import id.go.kejaripalu.bdi.dto.RegisterTelaahanIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterTelaahanIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterTelaahanIntelijenService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,7 +30,6 @@ public class RegisterTelaahanIntelijenController {
 
 	private RegisterTelaahanIntelijenService service;
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/lahin")
 	public ResponseEntity<Void> create(
 			@Valid @RequestBody RegisterTelaahanIntelijenRequest request) {
@@ -40,7 +37,6 @@ public class RegisterTelaahanIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/lahin")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/lahin/{id}")
 	public ResponseEntity<Void> update(
 			@PathVariable String id,
@@ -49,13 +45,11 @@ public class RegisterTelaahanIntelijenController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/lahin/{id}/detail")
 	public ResponseEntity<RegisterTelaahanIntelijenResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/lahin")
 	public ResponseEntity<Page<RegisterTelaahanIntelijen>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -65,7 +59,6 @@ public class RegisterTelaahanIntelijenController {
 		return ResponseEntity.ok().body(service.findAll(startDate, endDate, pages, sizes));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/lahin/search")
 	public ResponseEntity<Page<RegisterTelaahanIntelijen>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -77,7 +70,6 @@ public class RegisterTelaahanIntelijenController {
 				startDate, endDate, value, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/lahin/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.delete(id);

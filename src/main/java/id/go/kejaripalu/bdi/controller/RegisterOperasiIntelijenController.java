@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import id.go.kejaripalu.bdi.domain.RegisterOperasiIntelijen;
 import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterOperasiIntelijenService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,7 +30,6 @@ public class RegisterOperasiIntelijenController {
 	
 	private RegisterOperasiIntelijenService opsinService;
 
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/opsin")
 	public ResponseEntity<Void> create(
 			@Valid @RequestBody RegisterOperasiIntelijenRequest request) {
@@ -40,7 +37,6 @@ public class RegisterOperasiIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/opsin")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/opsin/{id}")
 	public ResponseEntity<Void> update(
 			@PathVariable String id,
@@ -49,13 +45,11 @@ public class RegisterOperasiIntelijenController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/opsin/{id}/detail")
 	public ResponseEntity<RegisterOperasiIntelijenResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(opsinService.findById(id));
 	}
 
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/opsin")
 	public ResponseEntity<Page<RegisterOperasiIntelijen>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -66,7 +60,6 @@ public class RegisterOperasiIntelijenController {
 		return ResponseEntity.ok().body(opsinService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/opsin/search")
 	public ResponseEntity<Page<RegisterOperasiIntelijen>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -79,7 +72,6 @@ public class RegisterOperasiIntelijenController {
 				startDate, endDate, bidangDirektorat, value, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/opsin/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		opsinService.delete(id);

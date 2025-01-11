@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,7 @@ import id.go.kejaripalu.bdi.domain.RegisterTamuPPHPPM;
 import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMResponse;
 import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMResquest;
 import id.go.kejaripalu.bdi.service.RegisterTamuPPHPPMService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,7 +30,6 @@ public class RegisterTamuPPHPPMController {
 	
 	private RegisterTamuPPHPPMService pphppmService;
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pphppm")
 	public ResponseEntity<Page<RegisterTamuPPHPPM>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -42,13 +39,11 @@ public class RegisterTamuPPHPPMController {
 		return ResponseEntity.ok().body(pphppmService.findRegisterTamu(startDate, endDate, pages, sizes));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pphppm/{id}/detail")
 	public ResponseEntity<RegisterTamuPPHPPMResponse> findById(@PathVariable String id) {
 		return ResponseEntity.ok().body(pphppmService.findRegisterTamuById(id));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/pphppm/search")
 	public ResponseEntity<Page<RegisterTamuPPHPPM>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -60,14 +55,12 @@ public class RegisterTamuPPHPPMController {
 				startDate, endDate, value, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/pphppm")
 	public ResponseEntity<Void> create(@Valid @RequestBody RegisterTamuPPHPPMResquest request) {
 		pphppmService.createRegisterTamu(request);
 		return ResponseEntity.created(URI.create("/api/v1/pphppm")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/pphppm/{id}")
 	public ResponseEntity<Void> update(@PathVariable String id,
 			@RequestBody @Valid RegisterTamuPPHPPMResquest request) {
@@ -75,7 +68,6 @@ public class RegisterTamuPPHPPMController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/pphppm/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		pphppmService.deleteRegisterTamu(id);

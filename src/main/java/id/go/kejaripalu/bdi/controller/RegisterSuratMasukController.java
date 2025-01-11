@@ -2,11 +2,8 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 
-import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +20,7 @@ import id.go.kejaripalu.bdi.dto.RegisterSuratMasukCreateRequest;
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukResponse;
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukUpdateRequest;
 import id.go.kejaripalu.bdi.service.RegisterSuratMasukService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -33,7 +31,6 @@ public class RegisterSuratMasukController {
 
 	private RegisterSuratMasukService suratMasukService;
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-masuk")
 	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasuk(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -44,13 +41,11 @@ public class RegisterSuratMasukController {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));		
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-masuk/{id}/detail")
 	public ResponseEntity<RegisterSuratMasukResponse> findSuratMasukById(@PathVariable String id) {
 		return ResponseEntity.ok().body(suratMasukService.findSuratMasukById(id));
 	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/surat-masuk/search")
 	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasukBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
@@ -63,14 +58,12 @@ public class RegisterSuratMasukController {
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PostMapping("/surat-masuk")
 	public ResponseEntity<Void> createNewSuratMasuk(@Valid @RequestBody RegisterSuratMasukCreateRequest request) {
 		suratMasukService.createSuratMasuk(request);
 		return ResponseEntity.created(URI.create("/api/v1/surat-masuk")).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@PutMapping("/surat-masuk/{id}")
 	public ResponseEntity<Void> updateSuratMasuk(@PathVariable String id,
 			@RequestBody @Valid RegisterSuratMasukUpdateRequest request) {
@@ -78,7 +71,6 @@ public class RegisterSuratMasukController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPERADMIN')")
 	@DeleteMapping("/surat-masuk/{id}")
 	public ResponseEntity<Void> deleteSuratMasuk(@PathVariable String id) {
 		suratMasukService.deleteSuratMasuk(id);

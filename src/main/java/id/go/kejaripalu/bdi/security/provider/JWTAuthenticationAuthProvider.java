@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JWTAuthenticationAuthProvider implements AuthenticationProvider {
 	
-	SecretKey key;
+	private final SecretKey key;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -35,6 +35,7 @@ public class JWTAuthenticationAuthProvider implements AuthenticationProvider {
 		//verifikasi dan parsing data isi token
 		Jws<Claims> jwsClaims = token.parseClaim(key);
 		String subject = jwsClaims.getPayload().getSubject();
+		@SuppressWarnings("unchecked")
 		List<String> scopes = jwsClaims.getPayload().get("scopes", List.class);
 		List<GrantedAuthority> authorities = 
 				scopes.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
