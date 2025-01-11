@@ -24,7 +24,7 @@ public class JWTTokenFactory {
 	
 	public AccessJWTToken createAccessJWTToken(String username, Collection<? extends GrantedAuthority> authorities) {
 		Claims claims = Jwts.claims().subject(username)
-							.add("scope", authorities.stream().map( a -> a.getAuthority()).collect(Collectors.toList()))
+							.add("scopes", authorities.stream().map( a -> a.getAuthority()).collect(Collectors.toList()))
 							.build();
 		
 		Integer expiredMinutes = Integer.parseInt(env.getProperty("app.token-expired"));
