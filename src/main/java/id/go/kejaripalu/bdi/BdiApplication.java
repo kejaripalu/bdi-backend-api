@@ -2,11 +2,10 @@ package id.go.kejaripalu.bdi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
-@EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
+@CrossOrigin(origins = "*")
 public class BdiApplication {
 
 	public static void main(String[] args) {

@@ -19,6 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,6 +48,7 @@ public class SecurityConfig {
 
 	@Autowired
 	private JWTAuthenticationAuthProvider jwtAuthenticationAuthProvider;
+	
 	
 	//tambahkan url endpoint yang permit dan authenticated sesuai kebutuhan, ubah ke List/Collection jika dibutuhkan
 	private String getAuthUrl() {
@@ -102,18 +106,31 @@ public class SecurityConfig {
 		filter.setAuthenticationManager(manager);
 		return filter;
 	}
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http,
 			UsernamePasswordAuthProcessingFilter usernamePasswordAuthProcessingFilter,
 			JWTAuthProcessingFilter jwtAuthProcessingFilter) throws Exception {
 		http.authorizeHttpRequests(autz -> 
-			autz.requestMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
+			autz.requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
 				.requestMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
-				.requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
+				.requestMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
 				.requestMatchers(HttpMethod.GET).hasAnyRole("GUEST", "USER", "ADMIN", "SUPERADMIN")
-				.requestMatchers(this.getAuthUrl() + "/**").permitAll()
+				.requestMatchers(this.getAuthUrl() + "/**").permitAll()				
 				.requestMatchers(this.getApiUrl()).authenticated())
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
