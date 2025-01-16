@@ -3,6 +3,11 @@ package id.go.kejaripalu.bdi.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import id.go.kejaripalu.bdi.domain.util.BaseEntity;
+import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
+import id.go.kejaripalu.bdi.domain.util.JenisPelayanan;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,10 +15,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import id.go.kejaripalu.bdi.domain.util.BaseEntity;
-import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,10 @@ import lombok.ToString;
 public class RegisterTamuPPHPPM extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -9043424490902526315L;
+	
+	@Column(name = "jenis_pelayanan", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private JenisPelayanan jenisPelayanan = JenisPelayanan.PPH;
 
 	@Column(name = "nama_petugas_penerima", nullable = false)
 	private String namaPetugasPenerima;

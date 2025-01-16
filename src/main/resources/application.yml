@@ -15,13 +15,15 @@ spring:
 spring:
   config:
     activate:
-      on-profile: development    
+      on-profile: dev
+server:
+  port: 8080 
 app:
   origin-url: http://localhost:4200
   api-url: /api/v1
   time-zone: GMT+8
   zone-id: Asia/Makassar
 # Token Expired dalam menit 
-  token-expired: 15
+  token-expired: 60
   issuer: ${ISSUER}
   random-code: ${RANDOM_CODE}

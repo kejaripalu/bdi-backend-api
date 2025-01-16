@@ -30,6 +30,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 	@Transactional
 	public void createRegisterTamu(RegisterTamuPPHPPMResquest request) {
 		RegisterTamuPPHPPM pphppm = new RegisterTamuPPHPPM();
+		pphppm.setJenisPelayanan(request.getJenisPelayanan());
 		pphppm.setNamaPetugasPenerima(request.getNamaPetugasPenerima());
 		pphppm.setTanggal(request.getTanggal());
 		pphppm.setJam(request.getJam());
@@ -58,6 +59,9 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 	public void updateRegisterTamu(String id, RegisterTamuPPHPPMResquest request) {
 		RegisterTamuPPHPPM pphppm = repository.findById(id)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
+		pphppm.setJenisPelayanan(
+				request.getJenisPelayanan() == null ?
+						pphppm.getJenisPelayanan() : request.getJenisPelayanan());
 		pphppm.setNamaPetugasPenerima(
 				request.getNamaPetugasPenerima() == null ?
 						pphppm.getNamaPetugasPenerima() : request.getNamaPetugasPenerima());
@@ -167,6 +171,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		
 		RegisterTamuPPHPPMResponse response = new RegisterTamuPPHPPMResponse();
 		response.setId(pphppm.getId());
+		response.setJenisPelayanan(pphppm.getJenisPelayanan());
 		response.setNamaPetugasPenerima(pphppm.getNamaPetugasPenerima());
 		response.setTanggal(pphppm.getTanggal());
 		response.setJam(pphppm.getJam());

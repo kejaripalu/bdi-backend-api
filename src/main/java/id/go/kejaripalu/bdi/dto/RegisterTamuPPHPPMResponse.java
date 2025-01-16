@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
+import id.go.kejaripalu.bdi.domain.util.JenisPelayanan;
 import lombok.Data;
 
 @Data
@@ -16,6 +17,8 @@ public class RegisterTamuPPHPPMResponse implements Serializable {
 	private static final long serialVersionUID = -818464337279197667L;
 
 	private String id;
+	
+	private JenisPelayanan jenisPelayanan;
 	
 	private String namaPetugasPenerima;
 	
