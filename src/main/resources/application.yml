@@ -27,3 +27,24 @@ app:
   token-expired: 60
   issuer: ${ISSUER}
   random-code: ${RANDOM_CODE}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    password: topeko
+    url: jdbc:postgresql://localhost:5432/bdi
+    username: postgres
+server:
+  port: 8181 
+app:
+  origin-url: http://localhost:8080, http://192.168.1.10:8080
+  api-url: /api/v1
+  time-zone: GMT+8
+  zone-id: Asia/Makassar
+# Token Expired dalam menit 
+  token-expired: 60
+  issuer: ${ISSUER}
+  random-code: ${RANDOM_CODE}
