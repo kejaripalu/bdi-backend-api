@@ -48,3 +48,6 @@ app:
   token-expired: 60
   issuer: ${ISSUER}
   random-code: ${RANDOM_CODE}
+logging:
+  file:
+    name: log/bdi.log
