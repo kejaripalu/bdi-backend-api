@@ -17,9 +17,9 @@ spring:
     activate:
       on-profile: dev
 server:
-  port: 8080 
+  port: 8888
 app:
-  origin-url: http://localhost:4200
+  origin-url: http://localhost:4200, http://192.168.1.13:4200
   api-url: /api/v1
   time-zone: GMT+8
   zone-id: Asia/Makassar
@@ -34,13 +34,13 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    password: topeko
-    url: jdbc:postgresql://localhost:5432/bdi
-    username: postgres
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
 server:
   port: 8181 
 app:
-  origin-url: http://localhost:8080, http://192.168.1.10:8080
+  origin-url: ${ORIGIN_URL}
   api-url: /api/v1
   time-zone: GMT+8
   zone-id: Asia/Makassar
