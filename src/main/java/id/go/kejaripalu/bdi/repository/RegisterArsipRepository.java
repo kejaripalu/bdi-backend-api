@@ -14,7 +14,7 @@ public interface RegisterArsipRepository extends JpaRepository<RegisterArsip, Lo
 
 	@Query("SELECT r FROM RegisterArsip r WHERE r.deleted=false "
 			+ "AND r.tanggalPenerimaanArsip BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.tanggalPenerimaanArsip DESC, r.id DESC")
+			+ "ORDER BY r.id DESC")
 	Page<RegisterArsip> findAllArsip(Date startDate, Date endDate, Pageable pageable);
 
 	@Query("SELECT r FROM RegisterArsip r WHERE r.deleted=false "
