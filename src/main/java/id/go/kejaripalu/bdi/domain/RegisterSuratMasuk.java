@@ -7,11 +7,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.JenisSurat;
@@ -31,6 +35,11 @@ import lombok.ToString;
 public class RegisterSuratMasuk extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 277099488884734027L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
+	private Long id;
 
 	@Column(name = "tanggal_penerimaan_surat", nullable = false)
 	@Temporal(TemporalType.DATE)

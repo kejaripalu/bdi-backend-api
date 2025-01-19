@@ -11,10 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijen;
 import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
 
-public interface RegisterKegiatanIntelijenRepository extends JpaRepository<RegisterKegiatanIntelijen, String> {
+public interface RegisterKegiatanIntelijenRepository extends JpaRepository<RegisterKegiatanIntelijen, Long> {
 
 	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
-			+ "AND r.tanggal BETWEEN :startDate AND :endDate ORDER BY r.tanggal  DESC")
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC")
 	Page<RegisterKegiatanIntelijen> findAllKegiatan(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
@@ -22,9 +23,15 @@ public interface RegisterKegiatanIntelijenRepository extends JpaRepository<Regis
 			+ "OR LOWER(r.nomor) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.hasilPelaksanaanKegiatan) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.namaPetugasPelaksana) LIKE LOWER(CONCAT('%', :value, '%'))) "
-			+ "AND r.tanggal BETWEEN :startDate AND :endDate ORDER BY r.tanggal  DESC")
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.tanggal  DESC")
 	Page<RegisterKegiatanIntelijen> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
 	
-	Optional<RegisterKegiatanIntelijen> findByIdAndDeletedFalse(String id);
+	Optional<RegisterKegiatanIntelijen> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggal DESC")
+	Page<RegisterKegiatanIntelijen> findAllKegiatanToPrint(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 }

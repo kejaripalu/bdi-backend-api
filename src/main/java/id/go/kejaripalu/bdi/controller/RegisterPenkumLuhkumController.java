@@ -41,7 +41,7 @@ public class RegisterPenkumLuhkumController {
 	}
 
 	@GetMapping("/penkumluhkum/{ids}/detail")
-	public ResponseEntity<RegisterPenkumLuhkumResponse> findByIds(@PathVariable String ids) {
+	public ResponseEntity<RegisterPenkumLuhkumResponse> findById(@PathVariable String ids) {
 		return ResponseEntity.ok().body(penkumLuhkumService.findByIds(ids));
 	}
 	

@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterProdukIntelijenController {
 
-    private RegisterProdukIntelijenService produkIntelijenService;
+    private final RegisterProdukIntelijenService produkIntelijenService;
 
     @GetMapping("/prodin")
     public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijen(
@@ -39,9 +39,9 @@ public class RegisterProdukIntelijenController {
         return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijen(startDate, endDate, pages, sizes));
     }
 
-    @GetMapping("/prodin/{id}/detail")
-    public ResponseEntity<RegisterProdukIntelijenResponse> findProdukIntelijenById(@PathVariable String id) {
-        return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenById(id));
+    @GetMapping("/prodin/{ids}/detail")
+    public ResponseEntity<RegisterProdukIntelijenResponse> findProdukIntelijenByIds(@PathVariable String ids) {
+        return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenByIds(ids));
     }
 
     @GetMapping("/prodin/search")
@@ -61,16 +61,16 @@ public class RegisterProdukIntelijenController {
         return ResponseEntity.created(URI.create("/api/v1//produk-intelijen")).build();
     }
     
-    @PutMapping("/prodin/{id}")
-    public ResponseEntity<Void> updateProdukIntelijen(@PathVariable String id,
+    @PutMapping("/prodin/{ids}")
+    public ResponseEntity<Void> updateProdukIntelijen(@PathVariable String ids,
                                                       @RequestBody @Valid RegisterProdukIntelijenRequest request) {
-        produkIntelijenService.updateProdukIntelijen(id, request);
+        produkIntelijenService.updateProdukIntelijen(ids, request);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/prodin/{id}")
-    public ResponseEntity<Void> deleteProdukIntelijen(@PathVariable String id) {
-        produkIntelijenService.deleteProdukIntelijen(id);
+    @DeleteMapping("/prodin/{ids}")
+    public ResponseEntity<Void> deleteProdukIntelijen(@PathVariable String ids) {
+        produkIntelijenService.deleteProdukIntelijen(ids);
         return ResponseEntity.accepted().build();
     }
 

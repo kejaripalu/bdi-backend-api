@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService {
 
-	private RegisterTamuPPHPPMRepository repository;
+	private final RegisterTamuPPHPPMRepository repository;
 	
 	@Override
 	@Transactional
@@ -49,21 +49,20 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		pphppm.setKeterangan(request.getKeterangan());
 		pphppm.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Tamu PPH & PPM request: " + pphppm);
 		repository.save(pphppm);
-		log.info("Saved Register Tamu PPH & PPM: " + pphppm);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Register Tamu PPH & PPM!!!");
 	}
 
 	@Override
 	@Transactional
-	public void updateRegisterTamu(String id, RegisterTamuPPHPPMResquest request) {
-		RegisterTamuPPHPPM pphppm = repository.findById(id)
+	public void updateRegisterTamu(String ids, RegisterTamuPPHPPMResquest request) {
+		RegisterTamuPPHPPM pphppm = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		pphppm.setJenisPelayanan(
 				request.getJenisPelayanan() == null ?
 						pphppm.getJenisPelayanan() : request.getJenisPelayanan());
 		pphppm.setNamaPetugasPenerima(
-				request.getNamaPetugasPenerima() == null ?
+				request.getNamaPetugasPenerima() == null || request.getNamaPetugasPenerima().isBlank() ?
 						pphppm.getNamaPetugasPenerima() : request.getNamaPetugasPenerima());
 		pphppm.setTanggal(
 				request.getTanggal() == null ?
@@ -72,7 +71,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 				request.getJam() == null ?
 						pphppm.getJam() : request.getJam());
 		pphppm.setNamaTamu(
-				request.getNamaTamu() == null ?
+				request.getNamaTamu() == null || request.getNamaTamu().isBlank() ?
 						pphppm.getNamaTamu() : request.getNamaTamu());
 		pphppm.setTempatLahirTamu(
 				request.getTempatLahirTamu() == null ?
@@ -102,7 +101,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 				request.getNamaOrganisasi() == null ? 
 						pphppm.getNamaOrganisasi() : request.getNamaOrganisasi());
 		pphppm.setInformasiYangDisampaikan(
-				request.getInformasiYangDisampaikan() == null ?
+				request.getInformasiYangDisampaikan() == null || request.getInformasiYangDisampaikan().isBlank() ?
 						pphppm.getInformasiYangDisampaikan() : request.getInformasiYangDisampaikan());
 		pphppm.setDokumenYangDisampaikan(
 				request.getDokumenYangDisampaikan() == null ?
@@ -114,9 +113,8 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 				request.getUrlFile() == null ?
 						pphppm.getUrlFile() : request.getUrlFile());
 		
-		log.info("Register Tamu PPH & PPM request: " + pphppm);
 		repository.save(pphppm);
-		log.info("Updated Register Tamu PPH & PPM: " + pphppm);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Tamu PPH & PPM!!!");
 	}
 
 	@Override
@@ -132,7 +130,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		}
 		
 		Pageable pageable = PageRequest.of(pages, sizes);
-		Page<RegisterTamuPPHPPM> pagesPPHPPM = repository.findAll(start, end, pageable);
+		Page<RegisterTamuPPHPPM> pagesPPHPPM = repository.findAllPPHPPM(start, end, pageable);
 				
 		return pagesPPHPPM;
 	}
@@ -142,9 +140,9 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 	public Page<RegisterTamuPPHPPM> findRegisterTamuBySearching(String startDate, String endDate, String value,
 			Integer pages, Integer sizes) {
 		
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -154,7 +152,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 			start = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 			end = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageable = PageRequest.of(pages, sizes);
@@ -165,12 +163,12 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 
 	@Override
 	@Transactional
-	public RegisterTamuPPHPPMResponse findRegisterTamuById(String id) {
-		RegisterTamuPPHPPM pphppm = repository.findByIdAndDeletedFalse(id)
+	public RegisterTamuPPHPPMResponse findRegisterTamuByIds(String ids) {
+		RegisterTamuPPHPPM pphppm = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterTamuPPHPPMResponse response = new RegisterTamuPPHPPMResponse();
-		response.setId(pphppm.getId());
+		response.setIds(pphppm.getIds());
 		response.setJenisPelayanan(pphppm.getJenisPelayanan());
 		response.setNamaPetugasPenerima(pphppm.getNamaPetugasPenerima());
 		response.setTanggal(pphppm.getTanggal());
@@ -195,13 +193,13 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 
 	@Override
 	@Transactional
-	public void deleteRegisterTamu(String id) {
-		RegisterTamuPPHPPM pphppm = repository.findById(id)
+	public void deleteRegisterTamu(String ids) {
+		RegisterTamuPPHPPM pphppm = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
-		pphppm.setDeleted(Boolean.TRUE);
+		pphppm.setDeleted(true);
 		repository.save(pphppm);
-		log.info("Soft Deleted: " + pphppm);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register PPH & PPM");
 	}
 
 }

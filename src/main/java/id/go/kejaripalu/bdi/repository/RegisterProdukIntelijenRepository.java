@@ -9,11 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Date;
 import java.util.Optional;
 
-public interface RegisterProdukIntelijenRepository extends JpaRepository<RegisterProdukIntelijen, String> {
+public interface RegisterProdukIntelijenRepository extends JpaRepository<RegisterProdukIntelijen, Long> {
 
     @Query("SELECT r FROM RegisterProdukIntelijen r WHERE r.deleted=false "
             + "AND r.tanggalProduk BETWEEN :startDate AND :endDate "
-            + "ORDER BY r.tanggalProduk DESC, r.tanggalProduk DESC")
+            + "ORDER BY r.id DESC")
     Page<RegisterProdukIntelijen> findProdukIntelijenAll(Date startDate, Date endDate, Pageable pageable);
 
     @Query("SELECT r FROM RegisterProdukIntelijen r WHERE r.deleted=false "
@@ -24,6 +24,11 @@ public interface RegisterProdukIntelijenRepository extends JpaRepository<Registe
             + "ORDER BY r.tanggalProduk DESC")
     Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 
-    Optional<RegisterProdukIntelijen> findByIdAndDeletedFalse(String id);
+    Optional<RegisterProdukIntelijen> findByIdsAndDeletedFalse(String ids);
+
+    @Query("SELECT r FROM RegisterProdukIntelijen r WHERE r.deleted=false "
+            + "AND r.tanggalProduk BETWEEN :startDate AND :endDate "
+            + "ORDER BY r.id DESC, r.tanggalProduk DESC, r.tanggalProduk DESC")
+    Page<RegisterProdukIntelijen> findProdukIntelijenAllToPrint(Date startDate, Date endDate, Pageable pageable);
 
 }

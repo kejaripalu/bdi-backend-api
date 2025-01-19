@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterKegiatanIntelijenPamstraController {
 
-	private RegisterKegiatanIntelijenPamstraService kegiatanIntelijenService;
+	private final RegisterKegiatanIntelijenPamstraService kegiatanIntelijenService;
 	
 	@PostMapping("/kegiatan-pamstra")
 	public ResponseEntity<Void> create(
@@ -37,17 +37,17 @@ public class RegisterKegiatanIntelijenPamstraController {
 		return ResponseEntity.created(URI.create("/api/v1/kegiatan-pamstra")).build();
 	}
 	
-	@PutMapping("/kegiatan-pamstra/{id}")
+	@PutMapping("/kegiatan-pamstra/{ids}")
 	public ResponseEntity<Void> update(
-			@PathVariable String id,
+			@PathVariable String ids,
 			@Valid @RequestBody RegisterKegiatanIntelijenPamstraRequest request) {
-		kegiatanIntelijenService.update(id, request);
+		kegiatanIntelijenService.update(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/kegiatan-pamstra/{id}/detail")
-	public ResponseEntity<RegisterKegiatanIntelijenPamstraResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(kegiatanIntelijenService.findById(id));
+	@GetMapping("/kegiatan-pamstra/{ids}/detail")
+	public ResponseEntity<RegisterKegiatanIntelijenPamstraResponse> findById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(kegiatanIntelijenService.findByIds(ids));
 	}
 
 	@GetMapping("/kegiatan-pamstra")
@@ -70,9 +70,9 @@ public class RegisterKegiatanIntelijenPamstraController {
 				startDate, endDate, value, pages, sizes));
 	}
 	
-	@DeleteMapping("/kegiatan-pamstra/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		kegiatanIntelijenService.delete(id);
+	@DeleteMapping("/kegiatan-pamstra/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		kegiatanIntelijenService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

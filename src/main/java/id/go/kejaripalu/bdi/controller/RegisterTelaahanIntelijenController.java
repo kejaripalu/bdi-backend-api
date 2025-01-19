@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterTelaahanIntelijenController {
 
-	private RegisterTelaahanIntelijenService service;
+	private final RegisterTelaahanIntelijenService service;
 	
 	@PostMapping("/lahin")
 	public ResponseEntity<Void> create(
@@ -37,17 +37,17 @@ public class RegisterTelaahanIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/lahin")).build();
 	}
 	
-	@PutMapping("/lahin/{id}")
+	@PutMapping("/lahin/{ids}")
 	public ResponseEntity<Void> update(
-			@PathVariable String id,
+			@PathVariable String ids,
 			@Valid @RequestBody RegisterTelaahanIntelijenRequest request) {
-		service.update(id, request);
+		service.update(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/lahin/{id}/detail")
-	public ResponseEntity<RegisterTelaahanIntelijenResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(service.findById(id));
+	@GetMapping("/lahin/{ids}/detail")
+	public ResponseEntity<RegisterTelaahanIntelijenResponse> findById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(service.findByIds(ids));
 	}
 
 	@GetMapping("/lahin")
@@ -70,9 +70,9 @@ public class RegisterTelaahanIntelijenController {
 				startDate, endDate, value, pages, sizes));
 	}
 	
-	@DeleteMapping("/lahin/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		service.delete(id);
+	@DeleteMapping("/lahin/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		service.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

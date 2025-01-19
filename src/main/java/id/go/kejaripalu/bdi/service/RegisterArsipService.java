@@ -10,14 +10,14 @@ public interface RegisterArsipService {
 	
 	void create(RegisterArsipRequest request);
 	
-	void update(String id, RegisterArsipRequest request);
+	void update(String ids, RegisterArsipRequest request);
 	
 	Page<RegisterArsip> findAll(String startDate, String endDate, Integer pages, Integer sizes);
 	
 	Page<RegisterArsip> findBySearching(String start, String end, String value, Integer pages, Integer sizes);
 	
-	RegisterArsipResponse findById(String id); 
+	RegisterArsipResponse findByIds(String ids); 
 	
-	void delete(String id);
+	void delete(String ids);
 
 }

@@ -10,14 +10,14 @@ public interface RegisterSuratMasukService {
 	
 	void createSuratMasuk(RegisterSuratMasukCreateRequest request);
 	
-	void updateSuratMasuk(String id, RegisterSuratMasukUpdateRequest request);
+	void updateSuratMasuk(String ids, RegisterSuratMasukUpdateRequest request);
 	
 	Page<RegisterSuratMasuk> findSuratMasuk(String startDate, String endDate, String stringJenisSurat, Integer pages, Integer sizes);
 	
 	Page<RegisterSuratMasuk> findSuratMasukBySearching(String start, String end, String value, String jenisSurat, Integer pages, Integer sizes);
 	
-	RegisterSuratMasukResponse findSuratMasukById(String id); 
+	RegisterSuratMasukResponse findSuratMasukByIds(String ids); 
 	
-	void deleteSuratMasuk(String id);
+	void deleteSuratMasuk(String ids);
 
 }

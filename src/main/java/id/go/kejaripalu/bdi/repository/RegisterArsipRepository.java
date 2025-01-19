@@ -10,12 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterArsip;
 
-public interface RegisterArsipRepository extends JpaRepository<RegisterArsip, String> {
+public interface RegisterArsipRepository extends JpaRepository<RegisterArsip, Long> {
 
 	@Query("SELECT r FROM RegisterArsip r WHERE r.deleted=false "
 			+ "AND r.tanggalPenerimaanArsip BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.tanggalPenerimaanArsip DESC, r.jamPenerimaanArsip DESC")
-	Page<RegisterArsip> findAll(Date startDate, Date endDate, Pageable pageable);
+			+ "ORDER BY r.tanggalPenerimaanArsip DESC, r.id DESC")
+	Page<RegisterArsip> findAllArsip(Date startDate, Date endDate, Pageable pageable);
 
 	@Query("SELECT r FROM RegisterArsip r WHERE r.deleted=false "
 			+ "AND (LOWER(r.diterimaDari) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -25,7 +25,12 @@ public interface RegisterArsipRepository extends JpaRepository<RegisterArsip, St
 			+ "AND r.tanggalPenerimaanArsip BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalPenerimaanArsip DESC, r.jamPenerimaanArsip DESC")
 	Page<RegisterArsip> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
+
+	Optional<RegisterArsip> findByIdsAndDeletedFalse(String ids);
 	
-	Optional<RegisterArsip> findByIdAndDeletedFalse(String id);
-	
+	@Query("SELECT r FROM RegisterArsip r WHERE r.deleted=false "
+			+ "AND r.tanggalPenerimaanArsip BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggalPenerimaanArsip DESC, r.jamPenerimaanArsip DESC")
+	Page<RegisterArsip> findAllArsipToPrint(Date startDate, Date endDate, Pageable pageable);
+
 }

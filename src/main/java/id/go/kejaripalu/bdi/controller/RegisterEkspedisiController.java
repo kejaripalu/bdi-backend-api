@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterEkspedisiController {
 
-	private RegisterEkspedisiService ekspedisiService;
+	private final RegisterEkspedisiService ekspedisiService;
 	
 	@GetMapping("/ekspedisi")
 	public ResponseEntity<Page<RegisterEkspedisi>> findAll(
@@ -40,9 +40,9 @@ public class RegisterEkspedisiController {
 		return ResponseEntity.ok().body(ekspedisiService.findEkspedisi(startDate, endDate, jenisSurat, pages, sizes));		
 	}
 	
-	@GetMapping("/ekspedisi/{id}/detail")
-	public ResponseEntity<RegisterEkspedisiResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(ekspedisiService.findEkspedisiById(id));
+	@GetMapping("/ekspedisi/{ids}/detail")
+	public ResponseEntity<RegisterEkspedisiResponse> findById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(ekspedisiService.findEkspedisiByIds(ids));
 	}
 	
 	@GetMapping("/ekspedisi/search")
@@ -63,16 +63,16 @@ public class RegisterEkspedisiController {
 		return ResponseEntity.created(URI.create("/api/v1/ekspedisi")).build();
 	}
 	
-	@PutMapping("/ekspedisi/{id}")
-	public ResponseEntity<Void> update(@PathVariable String id,
+	@PutMapping("/ekspedisi/{ids}")
+	public ResponseEntity<Void> update(@PathVariable String ids,
 			@RequestBody @Valid RegisterEkspedisiRequest request) {
-		ekspedisiService.updateEkspedisi(id, request);
+		ekspedisiService.updateEkspedisi(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/ekspedisi/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		ekspedisiService.deleteEkspedisi(id);
+	@DeleteMapping("/ekspedisi/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		ekspedisiService.deleteEkspedisi(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

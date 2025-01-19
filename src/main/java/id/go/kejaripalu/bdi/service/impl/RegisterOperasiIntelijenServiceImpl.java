@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntelijenService {
 	
-	private RegisterOperasiIntelijenRepository repository;
+	private final RegisterOperasiIntelijenRepository repository;
 
 	@Override
 	@Transactional
@@ -41,15 +41,14 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 		opsin.setKeterangan(request.getKeterangan());
 		opsin.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Operasi Intelijen Request: " + opsin);
 		repository.save(opsin);
-		log.info("Saved Operasi Kegiatan Intelijen: " + opsin);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Operasi Kegiatan Intelijen!!!");
 	}
 
 	@Override
 	@Transactional
-	public void update(String id, RegisterOperasiIntelijenRequest request) {
-		RegisterOperasiIntelijen opsin = repository.findById(id)
+	public void update(String ids, RegisterOperasiIntelijenRequest request) {
+		RegisterOperasiIntelijen opsin = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		opsin.setBidangDirektorat(
 				request.getBidangDirektorat() == null ? 
@@ -73,9 +72,8 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 		opsin.setKeterangan(request.getKeterangan());
 		opsin.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Operasi Intelijen Request: " + opsin);
 		repository.save(opsin);
-		log.info("Updated Register Operasi Intelijen: " + opsin);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Operasi Intelijen!!!");
 	}
 
 	@Override
@@ -127,9 +125,9 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 			bidangDirektorat = BidangDirektorat.TIPRODIN;
 		}
 		
-		log.info("Value : " + value);
+		log.info("🔎 Value : " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -139,7 +137,7 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -151,12 +149,12 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 
 	@Override
 	@Transactional
-	public RegisterOperasiIntelijenResponse findById(String id) {
-		RegisterOperasiIntelijen opsin = repository.findByIdAndDeletedFalse(id)
+	public RegisterOperasiIntelijenResponse findByIds(String ids) {
+		RegisterOperasiIntelijen opsin = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterOperasiIntelijenResponse response = new RegisterOperasiIntelijenResponse();
-		response.setId(opsin.getId());
+		response.setIds(opsin.getIds());
 		response.setBidangDirektorat(opsin.getBidangDirektorat());
 		response.setSektor(opsin.getSektor());
 		response.setNomor(opsin.getNomor());
@@ -172,14 +170,14 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 
 	@Override
 	@Transactional
-	public void delete(String id) {
-		RegisterOperasiIntelijen opsin = repository.findById(id)
+	public void delete(String ids) {
+		RegisterOperasiIntelijen opsin = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
-		opsin.setDeleted(Boolean.TRUE);
-		opsin.setNomor(opsin.getId() + " | " + opsin.getNomor());
+		opsin.setDeleted(true);
+		opsin.setNomor(opsin.getIds() + " | " + opsin.getNomor());
 		repository.save(opsin);
-		log.info("Soft Delete: " + opsin);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register Opsin!!!");
 	}
 
 }

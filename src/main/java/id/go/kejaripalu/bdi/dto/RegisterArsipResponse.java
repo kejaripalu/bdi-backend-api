@@ -14,7 +14,7 @@ public class RegisterArsipResponse implements Serializable {
 	
 	private static final long serialVersionUID = 9196266749399869259L;
 
-	private String id;
+	private String ids;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalPenerimaanArsip;

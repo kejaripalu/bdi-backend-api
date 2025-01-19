@@ -10,11 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterTamuPPHPPM;
 
-public interface RegisterTamuPPHPPMRepository extends JpaRepository<RegisterTamuPPHPPM, String> {
+public interface RegisterTamuPPHPPMRepository extends JpaRepository<RegisterTamuPPHPPM, Long> {
 
-	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false AND r.tanggal BETWEEN "
-			+ ":startDate AND :endDate ORDER BY r.tanggal DESC")
-	Page<RegisterTamuPPHPPM> findAll(Date startDate, Date endDate, Pageable pageable);
+	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC")
+	Page<RegisterTamuPPHPPM> findAllPPHPPM(Date startDate, Date endDate, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false "
 			+ "AND (LOWER(r.namaPetugasPenerima) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -28,6 +29,11 @@ public interface RegisterTamuPPHPPMRepository extends JpaRepository<RegisterTamu
 			+ "ORDER BY r.tanggal DESC")
 	Page<RegisterTamuPPHPPM> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 	
-	Optional<RegisterTamuPPHPPM> findByIdAndDeletedFalse(String id);	
+	Optional<RegisterTamuPPHPPM> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggal DESC")
+	Page<RegisterTamuPPHPPM> findAllPPHPPMtoPrint(Date startDate, Date endDate, Pageable pageable);
 	
 }

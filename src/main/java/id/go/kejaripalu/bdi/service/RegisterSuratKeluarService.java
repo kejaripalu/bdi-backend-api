@@ -11,13 +11,13 @@ public interface RegisterSuratKeluarService {
 
 	void createSuratMasuk(RegisterSuratKeluarCreateRequest request);
 	
-	void updateSuratMasuk(String id, RegisterSuratKeluarUpdateRequest request);
+	void updateSuratMasuk(String ids, RegisterSuratKeluarUpdateRequest request);
 	
 	Page<RegisterSuratKeluar> findSuratMasuk(String start, String end, String stringJenisSurat, Integer pages, Integer sizes);
 
-	RegisterSuratKeluarResponse findSuratMasukById(String id);
+	RegisterSuratKeluarResponse findSuratMasukByIds(String ids);
 	
-	void deleteSuratKeluar(String id);
+	void deleteSuratKeluar(String ids);
 	
 	Page<RegisterSuratKeluar> findSuratKeluarBySearching(String start, String end, String value, String stringJenisSurat, Integer pages, Integer sizes);
 	

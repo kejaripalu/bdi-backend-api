@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanIntelijenService {
 
-	private RegisterTelaahanIntelijenRepository repository;
+	private final RegisterTelaahanIntelijenRepository repository;
 	
 	@Override
 	@Transactional
@@ -39,15 +39,14 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 		lahin.setKeterangan(request.getKeterangan());
 		lahin.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Telaahan Intelijen Request: " + lahin);
 		repository.save(lahin);
-		log.info("Saved Telaahan Intelijen: " + lahin);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Telaahan Intelijen!!!");
 	}
 
 	@Override
 	@Transactional
-	public void update(String id, RegisterTelaahanIntelijenRequest request) {
-		RegisterTelaahanIntelijen lahin = repository.findById(id)
+	public void update(String ids, RegisterTelaahanIntelijenRequest request) {
+		RegisterTelaahanIntelijen lahin = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		lahin.setTanggal(
 				request.getTanggal() == null ? 
@@ -66,9 +65,8 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 		lahin.setKeterangan(request.getKeterangan());
 		lahin.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Telaahan Intelijen Request: " + lahin);
 		repository.save(lahin);
-		log.info("Saved Register Telaahan Intelijen: " + lahin);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ)Register Telaahan Intelijen!!!");
 	}
 
 	@Override
@@ -80,11 +78,11 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterTelaahanIntelijen> pagesLahin = repository.findAll(
+		Page<RegisterTelaahanIntelijen> pagesLahin = repository.findAllLahin(
 				startDate, endDate, pageRequest);
 		
 		return pagesLahin;
@@ -94,9 +92,9 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 	@Transactional
 	public Page<RegisterTelaahanIntelijen> findBySearching(String start, String end, String value, Integer pages,
 			Integer sizes) {
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -118,12 +116,12 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 
 	@Override
 	@Transactional
-	public RegisterTelaahanIntelijenResponse findById(String id) {
-		RegisterTelaahanIntelijen lahin = repository.findByIdAndDeletedFalse(id)
+	public RegisterTelaahanIntelijenResponse findByIds(String ids) {
+		RegisterTelaahanIntelijen lahin = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterTelaahanIntelijenResponse response = new RegisterTelaahanIntelijenResponse();
-		response.setId(lahin.getId());
+		response.setIds(lahin.getIds());
 		response.setTanggal(lahin.getTanggal());
 		response.setNomor(lahin.getNomor());
 		response.setPembuat(lahin.getPembuat());
@@ -138,14 +136,14 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 
 	@Override
 	@Transactional
-	public void delete(String id) {
-		RegisterTelaahanIntelijen lahin = repository.findByIdAndDeletedFalse(id)
+	public void delete(String ids) {
+		RegisterTelaahanIntelijen lahin = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
-		lahin.setDeleted(Boolean.TRUE);
-		lahin.setNomor(lahin.getId() + " | " + lahin.getNomor());
+		lahin.setDeleted(true);
+		lahin.setNomor(lahin.getIds() + " | " + lahin.getNomor());
 		repository.save(lahin);
-		log.info("Soft Delete: " + lahin);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Telaahan Intelijen");
 	}
 
 }

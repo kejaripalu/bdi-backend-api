@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelijenService {
 
-    private RegisterProdukIntelijenRepository produkIntelijenRepository;
+    private final RegisterProdukIntelijenRepository produkIntelijenRepository;
 
     @Override
     @Transactional
@@ -39,15 +39,14 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         produkIntelijen.setKeterangan(request.getKeterangan());
         produkIntelijen.setUrlFile(request.getUrlFile());
 
-        log.info("Produk Intelijen Request: " + produkIntelijen);
         produkIntelijenRepository.save(produkIntelijen);
-        log.info("Saved Produk Intelijen: " + produkIntelijen);
+        log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
     }
 
     @Override
     @Transactional
-    public void updateProdukIntelijen(String id, RegisterProdukIntelijenRequest request) {
-        RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findById(id)
+    public void updateProdukIntelijen(String ids, RegisterProdukIntelijenRequest request) {
+        RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdsAndDeletedFalse(ids)
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
         produkIntelijen.setJenisProdukIntelijen(
                 request.getJenisProdukIntelijen() == null ?
@@ -68,9 +67,8 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         produkIntelijen.setKeterangan(request.getKeterangan());
         produkIntelijen.setUrlFile(request.getUrlFile());
 
-        log.info("Produk Intelijen Request: " + produkIntelijen);
         produkIntelijenRepository.save(produkIntelijen);
-        log.info("Update Produk Intelijen: " + produkIntelijen);
+        log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
     }
 
     @Override
@@ -95,9 +93,9 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
     @Override
     @Transactional
     public Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(String start, String end, String value, Integer pages, Integer sizes) {
-        log.info("Value : " + value);
+        log.info("🔎 Value for searching: " + value);
         if (value.isBlank() || value.isEmpty() || value.equals("")) {
-        	log.warn("Isi text pencarian kosong...");
+        	log.warn("💀 Isi text pencarian kosong...");
 			return null;
         }
 
@@ -107,7 +105,7 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
             startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
             endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
         } catch (ParseException e) {
-            log.error(e.getMessage());
+            log.error("💀 " + e.getMessage());
         }
 
         Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -119,12 +117,12 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
 
     @Override
     @Transactional
-    public RegisterProdukIntelijenResponse findProdukIntelijenById(String id) {
-        RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdAndDeletedFalse(id)
+    public RegisterProdukIntelijenResponse findProdukIntelijenByIds(String ids) {
+        RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdsAndDeletedFalse(ids)
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 
         RegisterProdukIntelijenResponse response = new RegisterProdukIntelijenResponse();
-        response.setId(produkIntelijen.getId());
+        response.setIds(produkIntelijen.getIds());
         response.setJenisProdukIntelijen(produkIntelijen.getJenisProdukIntelijen());
         response.setNomorProduk(produkIntelijen.getNomorProduk());
         response.setTanggalProduk(produkIntelijen.getTanggalProduk());
@@ -139,13 +137,13 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
 
     @Override
     @Transactional
-    public void deleteProdukIntelijen(String id) {
-        RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdAndDeletedFalse(id)
+    public void deleteProdukIntelijen(String ids) {
+        RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdsAndDeletedFalse(ids)
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-        produkIntelijen.setDeleted(Boolean.TRUE);
-        produkIntelijen.setNomorProduk(produkIntelijen.getId() + " | " + produkIntelijen.getNomorProduk());
+        produkIntelijen.setDeleted(true);
+        produkIntelijen.setNomorProduk(produkIntelijen.getIds() + " | " + produkIntelijen.getNomorProduk());
         produkIntelijenRepository.save(produkIntelijen);
-        log.info("Soft Delete: " + produkIntelijen);
+        log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
     }
 
 }

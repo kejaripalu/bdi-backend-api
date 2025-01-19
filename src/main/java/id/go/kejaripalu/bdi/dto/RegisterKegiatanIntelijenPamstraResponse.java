@@ -15,7 +15,7 @@ public class RegisterKegiatanIntelijenPamstraResponse implements Serializable {
 
 	private static final long serialVersionUID = -3895039557714683393L;
 
-	private String id;
+	private String ids;
 	
 	private Sektor sektor;
 	

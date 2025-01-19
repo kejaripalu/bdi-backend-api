@@ -14,7 +14,7 @@ public class RegisterProdukIntelijenResponse implements Serializable {
 
     private static final long serialVersionUID = 5466222738041315962L;
 
-	private String id;
+	private String ids;
 
     private JenisProdukIntelijen jenisProdukIntelijen;
 

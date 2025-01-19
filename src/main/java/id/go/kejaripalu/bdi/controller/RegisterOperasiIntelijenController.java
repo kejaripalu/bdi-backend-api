@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterOperasiIntelijenController {
 	
-	private RegisterOperasiIntelijenService opsinService;
+	private final RegisterOperasiIntelijenService opsinService;
 
 	@PostMapping("/opsin")
 	public ResponseEntity<Void> create(
@@ -37,17 +37,17 @@ public class RegisterOperasiIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/opsin")).build();
 	}
 	
-	@PutMapping("/opsin/{id}")
+	@PutMapping("/opsin/{ids}")
 	public ResponseEntity<Void> update(
-			@PathVariable String id,
+			@PathVariable String ids,
 			@Valid @RequestBody RegisterOperasiIntelijenRequest request) {
-		opsinService.update(id, request);
+		opsinService.update(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/opsin/{id}/detail")
-	public ResponseEntity<RegisterOperasiIntelijenResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(opsinService.findById(id));
+	@GetMapping("/opsin/{ids}/detail")
+	public ResponseEntity<RegisterOperasiIntelijenResponse> findById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(opsinService.findByIds(ids));
 	}
 
 	@GetMapping("/opsin")
@@ -72,9 +72,9 @@ public class RegisterOperasiIntelijenController {
 				startDate, endDate, bidangDirektorat, value, pages, sizes));
 	}
 	
-	@DeleteMapping("/opsin/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		opsinService.delete(id);
+	@DeleteMapping("/opsin/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		opsinService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 

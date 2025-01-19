@@ -10,11 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterTelaahanIntelijen;
 
-public interface RegisterTelaahanIntelijenRepository extends JpaRepository<RegisterTelaahanIntelijen, String> {
+public interface RegisterTelaahanIntelijenRepository extends JpaRepository<RegisterTelaahanIntelijen, Long> {
 
 	@Query("SELECT r FROM RegisterTelaahanIntelijen r WHERE r.deleted=false "
-			+ "AND r.tanggal BETWEEN :startDate AND :endDate ORDER BY r.tanggal  DESC")
-	Page<RegisterTelaahanIntelijen> findAll(Date startDate, Date endDate, Pageable pageable);
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC")
+	Page<RegisterTelaahanIntelijen> findAllLahin(Date startDate, Date endDate, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterTelaahanIntelijen r WHERE r.deleted=false "
 			+ "AND (LOWER(r.nomor) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -24,6 +25,11 @@ public interface RegisterTelaahanIntelijenRepository extends JpaRepository<Regis
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate ORDER BY r.tanggal  DESC")
 	Page<RegisterTelaahanIntelijen> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 	
-	Optional<RegisterTelaahanIntelijen> findByIdAndDeletedFalse(String id);
+	Optional<RegisterTelaahanIntelijen> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterTelaahanIntelijen r WHERE r.deleted=false "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggal  DESC")
+	Page<RegisterTelaahanIntelijen> findAllLahinToPrint(Date startDate, Date endDate, Pageable pageable);
 	
 }

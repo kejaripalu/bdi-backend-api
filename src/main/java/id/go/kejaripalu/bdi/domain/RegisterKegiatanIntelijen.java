@@ -7,11 +7,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
@@ -32,6 +36,11 @@ import lombok.ToString;
 public class RegisterKegiatanIntelijen extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 6821548978478160684L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
+	private Long id;
 
 	@Column(name = "bidang_direktorat", nullable = false)
 	@Enumerated(EnumType.STRING)

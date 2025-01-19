@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterTamuPPHPPMController {
 	
-	private RegisterTamuPPHPPMService pphppmService;
+	private final RegisterTamuPPHPPMService pphppmService;
 	
 	@GetMapping("/pphppm")
 	public ResponseEntity<Page<RegisterTamuPPHPPM>> findAll(
@@ -39,9 +39,9 @@ public class RegisterTamuPPHPPMController {
 		return ResponseEntity.ok().body(pphppmService.findRegisterTamu(startDate, endDate, pages, sizes));
 	}
 	
-	@GetMapping("/pphppm/{id}/detail")
-	public ResponseEntity<RegisterTamuPPHPPMResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(pphppmService.findRegisterTamuById(id));
+	@GetMapping("/pphppm/{ids}/detail")
+	public ResponseEntity<RegisterTamuPPHPPMResponse> findByIds(@PathVariable String ids) {
+		return ResponseEntity.ok().body(pphppmService.findRegisterTamuByIds(ids));
 	}
 	
 	@GetMapping("/pphppm/search")
@@ -61,16 +61,16 @@ public class RegisterTamuPPHPPMController {
 		return ResponseEntity.created(URI.create("/api/v1/pphppm")).build();
 	}
 	
-	@PutMapping("/pphppm/{id}")
-	public ResponseEntity<Void> update(@PathVariable String id,
+	@PutMapping("/pphppm/{ids}")
+	public ResponseEntity<Void> update(@PathVariable String ids,
 			@RequestBody @Valid RegisterTamuPPHPPMResquest request) {
-		pphppmService.updateRegisterTamu(id, request);
+		pphppmService.updateRegisterTamu(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/pphppm/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		pphppmService.deleteRegisterTamu(id);
+	@DeleteMapping("/pphppm/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		pphppmService.deleteRegisterTamu(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

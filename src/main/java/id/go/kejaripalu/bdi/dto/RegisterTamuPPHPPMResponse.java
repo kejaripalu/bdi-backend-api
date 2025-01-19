@@ -16,7 +16,7 @@ public class RegisterTamuPPHPPMResponse implements Serializable {
 
 	private static final long serialVersionUID = -818464337279197667L;
 
-	private String id;
+	private String ids;
 	
 	private JenisPelayanan jenisPelayanan;
 	

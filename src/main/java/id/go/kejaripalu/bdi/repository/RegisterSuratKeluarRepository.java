@@ -11,11 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
 import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 
-public interface RegisterSuratKeluarRepository extends JpaRepository<RegisterSuratKeluar, String> {
+public interface RegisterSuratKeluarRepository extends JpaRepository<RegisterSuratKeluar, Long> {
 	
 	@Query("SELECT r FROM RegisterSuratKeluar r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
 			+ "AND r.tanggalSurat BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.tanggalSurat DESC")
+			+ "ORDER BY r.id DESC")
 	Page<RegisterSuratKeluar> findSuratKeluar(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 
 	@Query("SELECT r FROM RegisterSuratKeluar r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
@@ -26,6 +26,11 @@ public interface RegisterSuratKeluarRepository extends JpaRepository<RegisterSur
 			+ "ORDER BY r.tanggalSurat DESC")
 	Page<RegisterSuratKeluar> findSuratKeluarBySearch(Date startDate, Date endDate, String value, JenisSurat jenisSurat, Pageable pageable);
 	
-	Optional<RegisterSuratKeluar> findByIdAndDeletedFalse(String id);
+	Optional<RegisterSuratKeluar> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterSuratKeluar r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
+			+ "AND r.tanggalSurat BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggalSurat DESC")
+	Page<RegisterSuratKeluar> findSuratKeluarToPrint(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 	
 }

@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterArsipController {
 	
-	private RegisterArsipService arsipService;
+	private final RegisterArsipService arsipService;
 	
 	@GetMapping("/arsip")
 	public ResponseEntity<Page<RegisterArsip>> findAll(
@@ -39,9 +39,9 @@ public class RegisterArsipController {
 		return ResponseEntity.ok().body(arsipService.findAll(startDate, endDate, pages, sizes));
 	}
 	
-	@GetMapping("/arsip/{id}/detail")
-	public ResponseEntity<RegisterArsipResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(arsipService.findById(id));
+	@GetMapping("/arsip/{ids}/detail")
+	public ResponseEntity<RegisterArsipResponse> findById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(arsipService.findByIds(ids));
 	}
 	
 	@GetMapping("/arsip/search")
@@ -60,16 +60,16 @@ public class RegisterArsipController {
 		return ResponseEntity.created(URI.create("/api/v1/arsip")).build();
 	}
 	
-	@PutMapping("/arsip/{id}")
-	public ResponseEntity<Void> update(@PathVariable String id,
+	@PutMapping("/arsip/{ids}")
+	public ResponseEntity<Void> update(@PathVariable String ids,
 			@RequestBody @Valid RegisterArsipRequest request) {
-		arsipService.update(id, request);
+		arsipService.update(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/arsip/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		arsipService.delete(id);
+	@DeleteMapping("/arsip/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		arsipService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

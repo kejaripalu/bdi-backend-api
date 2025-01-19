@@ -44,13 +44,13 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		penkumLuhkum.setUrlFoto4(request.getUrlFoto4());
 		
 		repository.save(penkumLuhkum);
-		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum: " + penkumLuhkum);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum!!!");
 	}
 
 	@Override
 	@Transactional
 	public void update(String ids, RegisterPenkumLuhkumRequest request) {
-		RegisterPenkumLuhkum penkumLuhkum = repository.findByIds(ids)
+		RegisterPenkumLuhkum penkumLuhkum = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		penkumLuhkum.setJenisPenkumLuhkum(
 				request.getJenisPenkumLuhkum() == null ?
@@ -77,7 +77,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		penkumLuhkum.setUrlFoto4(request.getUrlFoto4());
 		
 		repository.save(penkumLuhkum);
-		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum: " + penkumLuhkum);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum!!!");
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	@Override
 	@Transactional
 	public RegisterPenkumLuhkumResponse findByIds(String ids) {
-		RegisterPenkumLuhkum penkumLuhkum = repository.findByIds(ids)
+		RegisterPenkumLuhkum penkumLuhkum = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterPenkumLuhkumResponse response = new RegisterPenkumLuhkumResponse();
@@ -157,13 +157,13 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	@Override
 	@Transactional
 	public void delete(String ids) {
-		RegisterPenkumLuhkum penkumLuhkum = repository.findByIds(ids)
+		RegisterPenkumLuhkum penkumLuhkum = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 
 		penkumLuhkum.setDeleted(true);
 		penkumLuhkum.setNomorSuratPerintah(penkumLuhkum.getIds() + " | " + penkumLuhkum.getNomorSuratPerintah());
 		repository.save(penkumLuhkum);
-		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register Penkum Luhkum: " + penkumLuhkum);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register Penkum Luhkum!!!");
 	}
 	
 	private JenisPenkumLuhkum getJenisPenkumLuhkum(String stringJenisPenkumLuhkum) {

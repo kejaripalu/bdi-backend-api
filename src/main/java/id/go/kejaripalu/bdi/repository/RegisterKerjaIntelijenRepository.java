@@ -11,11 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import id.go.kejaripalu.bdi.domain.RegisterKerjaIntelijen;
 import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
 
-public interface RegisterKerjaIntelijenRepository extends JpaRepository<RegisterKerjaIntelijen, String> {
+public interface RegisterKerjaIntelijenRepository extends JpaRepository<RegisterKerjaIntelijen, Long> {
 
 	@Query("SELECT r FROM RegisterKerjaIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
 			+ "AND r.tanggalWaktuDiterima BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.tanggalWaktuDiterima  DESC, r.jamWaktuDiterima DESC")
+			+ "ORDER BY r.id DESC")
 	Page<RegisterKerjaIntelijen> findRKIAll(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterKerjaIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
@@ -24,6 +24,11 @@ public interface RegisterKerjaIntelijenRepository extends JpaRepository<Register
 			+ "ORDER BY r.tanggalWaktuDiterima  DESC, r.jamWaktuDiterima DESC")
 	Page<RegisterKerjaIntelijen> findRKIBySearching(Date startDate, Date endDate, String value, BidangDirektorat bidangDirektorat, Pageable pageable);
 
-	Optional<RegisterKerjaIntelijen> findByIdAndDeletedFalse(String id);
+	Optional<RegisterKerjaIntelijen> findByIdsAndDeletedFalse(String ids);
 	
+	@Query("SELECT r FROM RegisterKerjaIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
+			+ "AND r.tanggalWaktuDiterima BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggalWaktuDiterima  DESC, r.jamWaktuDiterima DESC")
+	Page<RegisterKerjaIntelijen> findRKIAllToPrint(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
+
 }

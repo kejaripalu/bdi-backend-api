@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanIntelijenService {
 	
-	private RegisterKegiatanIntelijenRepository repository;
+	private final RegisterKegiatanIntelijenRepository repository;
 
 	@Override
 	@Transactional
@@ -41,16 +41,15 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		kegiatanIntelijen.setKeterangan(request.getKeterangan());
 		kegiatanIntelijen.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Kegiatan Intelijen Request: " + kegiatanIntelijen);
 		repository.save(kegiatanIntelijen);
-		log.info("Saved Register Kegiatan Intelijen: " + kegiatanIntelijen);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen!!!");
 
 	}
 
 	@Override
 	@Transactional
-	public void update(String id, RegisterKegiatanIntelijenRequest request) {
-		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findById(id)
+	public void update(String ids, RegisterKegiatanIntelijenRequest request) {
+		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		kegiatanIntelijen.setBidangDirektorat(
 				request.getBidangDirektorat() == null ? 
@@ -74,9 +73,8 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		kegiatanIntelijen.setKeterangan(request.getKeterangan());
 		kegiatanIntelijen.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Kegiatan Intelijen Request: " + kegiatanIntelijen);
 		repository.save(kegiatanIntelijen);
-		log.info("Updated Register Kegiatan Intelijen: " + kegiatanIntelijen);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen!!!");
 	}
 
 	@Override
@@ -128,9 +126,9 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 			bidangDirektorat = BidangDirektorat.TIPRODIN;
 		}
 		
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.error("Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 		}
 		
 		Date startDate = null;
@@ -139,7 +137,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -151,12 +149,12 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 
 	@Override
 	@Transactional
-	public RegisterKegiatanIntelijenResponse findById(String id) {
-		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdAndDeletedFalse(id)
+	public RegisterKegiatanIntelijenResponse findByIds(String ids) {
+		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKegiatanIntelijenResponse response = new RegisterKegiatanIntelijenResponse();
-		response.setId(kegiatanIntelijen.getId());
+		response.setIds(kegiatanIntelijen.getIds());
 		response.setBidangDirektorat(kegiatanIntelijen.getBidangDirektorat());
 		response.setSektor(kegiatanIntelijen.getSektor());
 		response.setNomor(kegiatanIntelijen.getNomor());
@@ -172,14 +170,14 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 
 	@Override
 	@Transactional
-	public void delete(String id) {
-		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findById(id)
+	public void delete(String ids) {
+		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
-		kegiatanIntelijen.setDeleted(Boolean.TRUE);
-		kegiatanIntelijen.setNomor(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomor());
+		kegiatanIntelijen.setDeleted(true);
+		kegiatanIntelijen.setNomor(kegiatanIntelijen.getIds() + " | " + kegiatanIntelijen.getNomor());
 		repository.save(kegiatanIntelijen);
-		log.info("Soft Delete: " + kegiatanIntelijen);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Kegiatan Intelijen!!!");
 	}
 
 }

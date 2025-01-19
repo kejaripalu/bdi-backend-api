@@ -5,11 +5,15 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -28,6 +32,11 @@ import lombok.ToString;
 public class RegisterArsip extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -852341577189585171L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
+	private Long id;
 
 	@Column(name = "tanggal_penerimaan_arsip", nullable = false)
 	@Temporal(TemporalType.DATE)

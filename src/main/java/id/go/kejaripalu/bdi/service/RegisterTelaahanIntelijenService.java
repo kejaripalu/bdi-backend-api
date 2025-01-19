@@ -10,14 +10,14 @@ public interface RegisterTelaahanIntelijenService {
 	
 	void create(RegisterTelaahanIntelijenRequest request);
 	
-	void update(String id, RegisterTelaahanIntelijenRequest request);
+	void update(String ids, RegisterTelaahanIntelijenRequest request);
 	
 	Page<RegisterTelaahanIntelijen> findAll(String start, String end, Integer pages, Integer sizes);
 	
 	Page<RegisterTelaahanIntelijen> findBySearching(String start, String end, String value, Integer pages, Integer sizes);
 	
-	RegisterTelaahanIntelijenResponse findById(String id); 
+	RegisterTelaahanIntelijenResponse findByIds(String ids); 
 	
-	void delete(String id);
+	void delete(String ids);
 
 }

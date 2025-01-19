@@ -10,10 +10,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijenPamstra;
 
-public interface RegisterKegiatanIntelijenPamstraRepository extends JpaRepository<RegisterKegiatanIntelijenPamstra, String> {
+public interface RegisterKegiatanIntelijenPamstraRepository extends JpaRepository<RegisterKegiatanIntelijenPamstra, Long> {
 
 	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
-			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate ORDER BY r.tanggalSuratPermohonan  DESC")
+			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC")
 	Page<RegisterKegiatanIntelijenPamstra> findAllKegiatan(Date startDate, Date endDate, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
@@ -27,9 +28,15 @@ public interface RegisterKegiatanIntelijenPamstraRepository extends JpaRepositor
 			+ "OR LOWER(r.nomorSprintWalpam) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.hasilPelaksanaanKeterangan) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.namaPetugasPelaksana) LIKE LOWER(CONCAT('%', :value, '%'))) "
-			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate ORDER BY r.tanggalSuratPermohonan  DESC")
+			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.tanggalSuratPermohonan DESC")
 	Page<RegisterKegiatanIntelijenPamstra> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 	
-	Optional<RegisterKegiatanIntelijenPamstra> findByIdAndDeletedFalse(String id);
+	Optional<RegisterKegiatanIntelijenPamstra> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
+			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id  DESC, r.tanggalSuratPermohonan DESC")
+	Page<RegisterKegiatanIntelijenPamstra> findAllKegiatanToPrint(Date startDate, Date endDate, Pageable pageable);
 	
 }

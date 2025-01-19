@@ -3,7 +3,10 @@ package id.go.kejaripalu.bdi.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
@@ -12,6 +15,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -34,9 +40,15 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicUpdate
 public class RegisterTamuPPHPPM extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -9043424490902526315L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
+	private Long id;
 	
 	@Column(name = "jenis_pelayanan", nullable = false)
 	@Enumerated(EnumType.STRING)

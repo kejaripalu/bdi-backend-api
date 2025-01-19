@@ -1,17 +1,14 @@
 package id.go.kejaripalu.bdi.domain;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import id.go.kejaripalu.bdi.domain.util.BaseEntity;
 import id.go.kejaripalu.bdi.domain.util.JenisPenkumLuhkum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +34,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
-public class RegisterPenkumLuhkum implements Serializable {
+public class RegisterPenkumLuhkum extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = -7493255284311796254L;
 
@@ -45,11 +42,7 @@ public class RegisterPenkumLuhkum implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore
 	private Long id;
-	
-	@UuidGenerator
-	@Column(name = "id_secure", nullable = false, updatable = false, unique = true)
-	private String ids;
-	
+		
 	@Column(name = "nomor_surat_perintah", nullable = false, unique = true)
 	private String nomorSuratPerintah;
 	
@@ -86,17 +79,4 @@ public class RegisterPenkumLuhkum implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private JenisPenkumLuhkum jenisPenkumLuhkum = JenisPenkumLuhkum.PENERANGAN_HUKUM;
 	
-	@JsonIgnore
-	private boolean deleted = false;
-	
-	@JsonIgnore
-	@CreationTimestamp
-	@Column(updatable = false, name = "create_time")
-	private LocalDateTime createAt;
-	
-	@JsonIgnore
-	@UpdateTimestamp
-	@Column(name = "update_time")
-	private LocalDateTime updateAt;
-
 }

@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegiatanIntelijenPamstraService {
 	
-	private RegisterKegiatanIntelijenPamstraRepository repository;
+	private final RegisterKegiatanIntelijenPamstraRepository repository;
 
 	@Override
 	@Transactional
@@ -53,15 +53,14 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		kegiatanIntelijen.setKeterangan(request.getKeterangan());
 		kegiatanIntelijen.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Kegiatan Intelijen Pamstra Request: " + kegiatanIntelijen);
 		repository.save(kegiatanIntelijen);
-		log.info("Saved Register Kegiatan Pamstra Intelijen: " + kegiatanIntelijen);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Register Kegiatan Pamstra Intelijen!!!");
 	}
 
 	@Override
 	@Transactional
-	public void update(String id, RegisterKegiatanIntelijenPamstraRequest request) {
-		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findById(id)
+	public void update(String ids, RegisterKegiatanIntelijenPamstraRequest request) {
+		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		kegiatanIntelijen.setSektor(
 				request.getSektor() == null ? 
@@ -100,9 +99,8 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		kegiatanIntelijen.setKeterangan(request.getKeterangan());
 		kegiatanIntelijen.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Kegiatan Intelijen Pamstra Request: " + kegiatanIntelijen);
 		repository.save(kegiatanIntelijen);
-		log.info("Updated Register Kegiatan Intelijen Pamstra: " + kegiatanIntelijen);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen Pamstra!!!");
 	}
 
 	@Override
@@ -114,7 +112,7 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -129,9 +127,9 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 	public Page<RegisterKegiatanIntelijenPamstra> findBySearching(String start, String end, String value, Integer pages,
 			Integer sizes) {
 		
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -153,12 +151,12 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 
 	@Override
 	@Transactional
-	public RegisterKegiatanIntelijenPamstraResponse findById(String id) {
-		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findByIdAndDeletedFalse(id)
+	public RegisterKegiatanIntelijenPamstraResponse findByIds(String ids) {
+		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKegiatanIntelijenPamstraResponse response = new RegisterKegiatanIntelijenPamstraResponse();
-		response.setId(kegiatanIntelijen.getId());
+		response.setIds(kegiatanIntelijen.getIds());
 		response.setSektor(kegiatanIntelijen.getSektor());
 		response.setNamaKegiatan(kegiatanIntelijen.getNamaKegiatan());
 		response.setSumberDana(kegiatanIntelijen.getSumberDana());
@@ -187,16 +185,16 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 
 	@Override
 	@Transactional
-	public void delete(String id) {
-		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findById(id)
+	public void delete(String ids) {
+		RegisterKegiatanIntelijenPamstra kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
-		kegiatanIntelijen.setDeleted(Boolean.TRUE);
-		kegiatanIntelijen.setNomorSprintWalpam(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomorSprintWalpam());
-		kegiatanIntelijen.setNomorSuratPermohonan(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomorSuratPermohonan());
-		kegiatanIntelijen.setNomorKertasKerja(kegiatanIntelijen.getId() + " | " + kegiatanIntelijen.getNomorKertasKerja());
+		kegiatanIntelijen.setDeleted(true);
+		kegiatanIntelijen.setNomorSprintWalpam(kegiatanIntelijen.getIds() + " | " + kegiatanIntelijen.getNomorSprintWalpam());
+		kegiatanIntelijen.setNomorSuratPermohonan(kegiatanIntelijen.getIds() + " | " + kegiatanIntelijen.getNomorSuratPermohonan());
+		kegiatanIntelijen.setNomorKertasKerja(kegiatanIntelijen.getIds() + " | " + kegiatanIntelijen.getNomorKertasKerja());
 		repository.save(kegiatanIntelijen);
-		log.info("Soft Delete: " + kegiatanIntelijen);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) RKI Pamstra!!!");
 	}
 
 }

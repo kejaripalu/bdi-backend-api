@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterSuratKeluarController {
 	
-	private RegisterSuratKeluarService suratKeluarService;
+	private final RegisterSuratKeluarService suratKeluarService;
 	
 	@GetMapping("/surat-keluar")
 	public ResponseEntity<Page<RegisterSuratKeluar>> findSuratKeluar(
@@ -47,21 +47,21 @@ public class RegisterSuratKeluarController {
 		return ResponseEntity.created(URI.create("/api/v1/surat-keluar")).build();
 	}
 	
-	@GetMapping("/surat-keluar/{id}/detail")
-	public ResponseEntity<RegisterSuratKeluarResponse> findSuratKeluarById(@PathVariable String id) {
-		return ResponseEntity.ok().body(suratKeluarService.findSuratMasukById(id));
+	@GetMapping("/surat-keluar/{ids}/detail")
+	public ResponseEntity<RegisterSuratKeluarResponse> findSuratKeluarByIds(@PathVariable String ids) {
+		return ResponseEntity.ok().body(suratKeluarService.findSuratMasukByIds(ids));
 	}
 	
-	@PutMapping("/surat-keluar/{id}")
-	public ResponseEntity<Void> updateSuratKeluar(@PathVariable String id,
+	@PutMapping("/surat-keluar/{ids}")
+	public ResponseEntity<Void> updateSuratKeluar(@PathVariable String ids,
 			@RequestBody @Valid RegisterSuratKeluarUpdateRequest request) {
-		suratKeluarService.updateSuratMasuk(id, request);
+		suratKeluarService.updateSuratMasuk(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/surat-keluar/{id}")
-	public ResponseEntity<Void> deleteSuratKeluar(@PathVariable String id) {
-		suratKeluarService.deleteSuratKeluar(id);
+	@DeleteMapping("/surat-keluar/{ids}")
+	public ResponseEntity<Void> deleteSuratKeluar(@PathVariable String ids) {
+		suratKeluarService.deleteSuratKeluar(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

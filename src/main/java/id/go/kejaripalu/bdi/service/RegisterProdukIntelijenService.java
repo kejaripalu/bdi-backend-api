@@ -9,14 +9,14 @@ public interface RegisterProdukIntelijenService {
 	
 	void createProdukIntelijen(RegisterProdukIntelijenRequest request);
 	
-	void updateProdukIntelijen(String id, RegisterProdukIntelijenRequest request);
+	void updateProdukIntelijen(String ids, RegisterProdukIntelijenRequest request);
 	
 	Page<RegisterProdukIntelijen> findProdukIntelijen(String startDate, String endDate, Integer pages, Integer sizes);
 	
 	Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(String start, String end, String value, Integer pages, Integer sizes);
 	
-	RegisterProdukIntelijenResponse findProdukIntelijenById(String id);
+	RegisterProdukIntelijenResponse findProdukIntelijenByIds(String ids);
 	
-	void deleteProdukIntelijen(String id);
+	void deleteProdukIntelijen(String ids);
 
 }

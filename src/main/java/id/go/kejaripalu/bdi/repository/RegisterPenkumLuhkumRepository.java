@@ -14,7 +14,8 @@ import id.go.kejaripalu.bdi.domain.util.JenisPenkumLuhkum;
 public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPenkumLuhkum, Long> {
 
 	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisPenkumLuhkum=:jenisPenkumLuhkum "
-			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate ORDER BY r.id  DESC")
+			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC")
 	Page<RegisterPenkumLuhkum> findAllPenkumLuhkum(Date startDate, Date endDate, JenisPenkumLuhkum jenisPenkumLuhkum, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisPenkumLuhkum=:jenisPenkumLuhkum "
@@ -25,12 +26,11 @@ public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPe
 			+ "ORDER BY r.tanggalKegiatan DESC")
 	Page<RegisterPenkumLuhkum> findBySearching(Date startDate, Date endDate, JenisPenkumLuhkum jenisPenkumLuhkum, String value, Pageable pageable);
 	
-	Optional<RegisterPenkumLuhkum> findByIds(String ids);
-	
 	Optional<RegisterPenkumLuhkum> findByIdsAndDeletedFalse(String ids);
 
 	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisPenkumLuhkum=:jenisPenkumLuhkum "
-			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate ORDER BY r.id  DESC, r.tanggalKegiatan DESC")
+			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id  DESC, r.tanggalKegiatan DESC")
 	Page<RegisterPenkumLuhkum> findAllPenkumLuhkumToPrint(Date startDate, Date endDate, JenisPenkumLuhkum jenisPenkumLuhkum, Pageable pageable);
 	
 }

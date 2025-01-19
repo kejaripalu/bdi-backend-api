@@ -11,11 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
 import id.go.kejaripalu.bdi.domain.util.JenisSurat;
 
-public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSuratMasuk, String> {
+public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSuratMasuk, Long> {
 
 	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
 			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
-			+ "ORDER BY r.tanggalPenerimaanSurat DESC, r.jamPenerimaanSurat DESC")
+			+ "ORDER BY r.id DESC")
 	Page<RegisterSuratMasuk> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 
 	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
@@ -26,6 +26,12 @@ public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSura
 			+ "ORDER BY r.tanggalPenerimaanSurat DESC, r.jamPenerimaanSurat DESC")
 	Page<RegisterSuratMasuk> findSuratMasukBySearching(Date startDate, Date endDate, String value, JenisSurat jenisSurat, Pageable pageable);
 	
-	Optional<RegisterSuratMasuk> findByIdAndDeletedFalse(String id);
+	Optional<RegisterSuratMasuk> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
+			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggalPenerimaanSurat DESC, r.jamPenerimaanSurat DESC")
+	Page<RegisterSuratMasuk> findSuratMasukAllToPrint(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
+
 	
 }

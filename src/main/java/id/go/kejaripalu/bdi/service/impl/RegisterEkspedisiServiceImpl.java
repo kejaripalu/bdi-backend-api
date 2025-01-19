@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 
-	private RegisterEkspedisiRepository ekspedisiRepository;
+	private final RegisterEkspedisiRepository ekspedisiRepository;
 	
 	@Override
 	@Transactional
@@ -43,15 +43,14 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 		ekspedisi.setKeterangan(request.getKeterangan());
 		ekspedisi.setUrlFile(request.getUrlFile());
 		
-		log.info("Surat Masuk Request: " + ekspedisi);
 		ekspedisiRepository.save(ekspedisi);
-		log.info("Saved Surat Masuk: " + ekspedisi);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
 	}
 
 	@Override
 	@Transactional
-	public void updateEkspedisi(String id, RegisterEkspedisiRequest request) {
-		RegisterEkspedisi ekspedisi = ekspedisiRepository.findById(id)
+	public void updateEkspedisi(String ids, RegisterEkspedisiRequest request) {
+		RegisterEkspedisi ekspedisi = ekspedisiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		ekspedisi.setNomorSurat(
 				request.getNomorSurat() == null || request.getNomorSurat().isBlank() ?
@@ -79,9 +78,8 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 				request.getJenisSurat() == null ?
 						ekspedisi.getJenisSurat() : request.getJenisSurat());
 		
-		log.info("Ekspedisi Request: " + ekspedisi);
 		ekspedisiRepository.save(ekspedisi);
-		log.info("Updated Ekspedisi: " + ekspedisi);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Ekspedisi!!!");
 	}
 
 	@Override
@@ -99,7 +97,7 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -111,12 +109,12 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 	
 	@Override
 	@Transactional
-	public RegisterEkspedisiResponse findEkspedisiById(String id) {
-		RegisterEkspedisi ekspedisi = ekspedisiRepository.findByIdAndDeletedFalse(id)
+	public RegisterEkspedisiResponse findEkspedisiByIds(String ids) {
+		RegisterEkspedisi ekspedisi = ekspedisiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterEkspedisiResponse response = new RegisterEkspedisiResponse();
-		response.setId(ekspedisi.getId());
+		response.setIds(ekspedisi.getIds());
 		response.setNomorSurat(ekspedisi.getNomorSurat());
 		response.setTanggalSurat(ekspedisi.getTanggalSurat());
 		response.setKepada(ekspedisi.getKepada());
@@ -134,13 +132,13 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 
 	@Override
 	@Transactional
-	public void deleteEkspedisi(String id) {
-		RegisterEkspedisi ekspedisi = ekspedisiRepository.findByIdAndDeletedFalse(id)
+	public void deleteEkspedisi(String ids) {
+		RegisterEkspedisi ekspedisi = ekspedisiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		ekspedisi.setDeleted(Boolean.TRUE);
-		ekspedisi.setNomorSurat(ekspedisi.getId() + " | " + ekspedisi.getNomorSurat());
+		ekspedisi.setDeleted(true);
+		ekspedisi.setNomorSurat(ekspedisi.getIds() + " | " + ekspedisi.getNomorSurat());
 		ekspedisiRepository.save(ekspedisi);
-		log.info("Soft Delete: " + ekspedisi);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Ekspedisi!!!");
 	}
 
 	@Override
@@ -151,9 +149,9 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -163,7 +161,7 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);

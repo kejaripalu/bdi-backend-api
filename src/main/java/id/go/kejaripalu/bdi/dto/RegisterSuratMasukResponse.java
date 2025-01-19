@@ -13,7 +13,7 @@ public class RegisterSuratMasukResponse implements Serializable {
 	
 	private static final long serialVersionUID = 3714834713043594391L;
 
-	private String id;
+	private String ids;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalPenerimaanSurat;

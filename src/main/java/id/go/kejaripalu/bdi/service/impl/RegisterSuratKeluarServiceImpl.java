@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarService {
 	
-	private RegisterSuratKeluarRepository suratKeluarRepository;
+	private final RegisterSuratKeluarRepository suratKeluarRepository;
 
 	@Override
 	@Transactional
@@ -63,19 +63,18 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		suratKeluar.setJenisSurat(request.getJenisSurat());
 		suratKeluar.setUrlFile(request.getUrlFile());
 		
-		log.info("Surat Keluar Request: " + suratKeluar);
 		suratKeluarRepository.save(suratKeluar);
-		log.info("Saved Surat Keluar: " + suratKeluar);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
 	}
 
 	@Override
 	@Transactional
-	public RegisterSuratKeluarResponse findSuratMasukById(String id) {
-		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdAndDeletedFalse(id)
+	public RegisterSuratKeluarResponse findSuratMasukByIds(String ids) {
+		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterSuratKeluarResponse response = new RegisterSuratKeluarResponse();
-		response.setId(suratKeluar.getId());
+		response.setIds(suratKeluar.getIds());
 		response.setTanggalSurat(suratKeluar.getTanggalSurat());
 		response.setNomorSurat(suratKeluar.getNomorSurat());
 		response.setKepada(suratKeluar.getKepada());
@@ -90,8 +89,8 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 
 	@Override
 	@Transactional
-	public void updateSuratMasuk(String id, RegisterSuratKeluarUpdateRequest request) {
-		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findById(id)
+	public void updateSuratMasuk(String ids, RegisterSuratKeluarUpdateRequest request) {
+		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratKeluar.setTanggalSurat(
 				request.getTanggalSurat() == null ?
@@ -112,20 +111,19 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		suratKeluar.setKeterangan(request.getKeterangan());		
 		suratKeluar.setUrlFile(request.getUrlFile());
 		
-		log.info("Surat Keluar Request: " + suratKeluar);
 		suratKeluarRepository.save(suratKeluar);
-		log.info("Updated Surat Keluar: " + suratKeluar);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
 	}
 
 	@Override
 	@Transactional
-	public void deleteSuratKeluar(String id) {
-		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findById(id)
+	public void deleteSuratKeluar(String ids) {
+		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		suratKeluar.setDeleted(Boolean.TRUE);
-		suratKeluar.setNomorSurat(suratKeluar.getId() + " | " + suratKeluar.getNomorSurat());
+		suratKeluar.setDeleted(true);
+		suratKeluar.setNomorSurat(suratKeluar.getIds() + " | " + suratKeluar.getNomorSurat());
 		suratKeluarRepository.save(suratKeluar);
-		log.info("Soft Delete success: " + suratKeluar);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
 	}
 
 	@Override
@@ -136,9 +134,9 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -148,7 +146,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 
 		Pageable pageRequest = PageRequest.of(pages, sizes);

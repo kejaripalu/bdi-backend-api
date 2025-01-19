@@ -10,14 +10,14 @@ public interface RegisterKerjaIntelijenService {
 	
 	void createRKI(RegisterKerjaIntelijenRequest request);
 
-	void updateRKI(String id, RegisterKerjaIntelijenRequest request);
+	void updateRKI(String ids, RegisterKerjaIntelijenRequest request);
 	
-	RegisterKerjaIntelijenResponse findRKIbyId(String id);
+	RegisterKerjaIntelijenResponse findRKIbyIds(String ids);
 	
 	Page<RegisterKerjaIntelijen> findRKI(String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes);
 	
 	Page<RegisterKerjaIntelijen> findRKIBySearching(String start, String end, String value, String stringBidangDirektorat, Integer pages, Integer sizes);
 	
-	void deleteRKI(String id);
+	void deleteRKI(String ids);
 
 }

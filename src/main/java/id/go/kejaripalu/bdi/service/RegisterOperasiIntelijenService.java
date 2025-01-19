@@ -10,14 +10,14 @@ public interface RegisterOperasiIntelijenService {
 	
 	void create(RegisterOperasiIntelijenRequest request);
 	
-	void update(String id, RegisterOperasiIntelijenRequest request);
+	void update(String ids, RegisterOperasiIntelijenRequest request);
 	
 	Page<RegisterOperasiIntelijen> findAll(String startDate, String endDate, String stringBidangDirektorat, Integer pages, Integer sizes);
 	
 	Page<RegisterOperasiIntelijen> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages, Integer sizes);
 	
-	RegisterOperasiIntelijenResponse findById(String id); 
+	RegisterOperasiIntelijenResponse findByIds(String ids); 
 	
-	void delete(String id);
+	void delete(String ids);
 
 }

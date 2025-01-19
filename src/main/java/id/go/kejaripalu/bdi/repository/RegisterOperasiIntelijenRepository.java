@@ -11,10 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import id.go.kejaripalu.bdi.domain.RegisterOperasiIntelijen;
 import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
 
-public interface RegisterOperasiIntelijenRepository extends JpaRepository<RegisterOperasiIntelijen, String> {
+public interface RegisterOperasiIntelijenRepository extends JpaRepository<RegisterOperasiIntelijen, Long> {
 
 	@Query("SELECT r FROM RegisterOperasiIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
-			+ "AND r.tanggal BETWEEN :startDate AND :endDate ORDER BY r.tanggal  DESC")
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC")
 	Page<RegisterOperasiIntelijen> findAllOpsin(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterOperasiIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
@@ -25,6 +26,11 @@ public interface RegisterOperasiIntelijenRepository extends JpaRepository<Regist
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate ORDER BY r.tanggal  DESC")
 	Page<RegisterOperasiIntelijen> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
 	
-	Optional<RegisterOperasiIntelijen> findByIdAndDeletedFalse(String id);
+	Optional<RegisterOperasiIntelijen> findByIdsAndDeletedFalse(String ids);
+	
+	@Query("SELECT r FROM RegisterOperasiIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
+			+ "ORDER BY r.id DESC, r.tanggal DESC")
+	Page<RegisterOperasiIntelijen> findAllOpsinToPrint(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 }

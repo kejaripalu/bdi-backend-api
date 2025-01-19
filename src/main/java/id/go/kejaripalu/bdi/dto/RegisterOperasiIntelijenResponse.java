@@ -14,7 +14,7 @@ public class RegisterOperasiIntelijenResponse implements Serializable {
 
 	private static final long serialVersionUID = 9000865980135503287L;
 
-	private String id;
+	private String ids;
 	
 	private BidangDirektorat bidangDirektorat;
 

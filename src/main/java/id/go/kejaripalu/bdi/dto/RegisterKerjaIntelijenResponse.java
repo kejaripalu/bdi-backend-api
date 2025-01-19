@@ -14,7 +14,7 @@ public class RegisterKerjaIntelijenResponse implements Serializable {
 
 	private static final long serialVersionUID = 6652328186077114103L;
 
-	private String id;
+	private String ids;
 	
     @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
 	private Date tanggalWaktuDiterima;

@@ -10,14 +10,14 @@ public interface RegisterTamuPPHPPMService {
 	
 	void createRegisterTamu(RegisterTamuPPHPPMResquest request);
 	
-	void updateRegisterTamu(String id, RegisterTamuPPHPPMResquest resquest);
+	void updateRegisterTamu(String ids, RegisterTamuPPHPPMResquest resquest);
 	
 	Page<RegisterTamuPPHPPM> findRegisterTamu(String startDate, String endDate, Integer pages, Integer sizes);
 	
 	Page<RegisterTamuPPHPPM> findRegisterTamuBySearching(String startDate, String endDate, String value, Integer pages, Integer sizes);
 	
-	RegisterTamuPPHPPMResponse findRegisterTamuById(String id);
+	RegisterTamuPPHPPMResponse findRegisterTamuByIds(String ids);
 	
-	void deleteRegisterTamu(String id);
+	void deleteRegisterTamu(String ids);
 	
 }

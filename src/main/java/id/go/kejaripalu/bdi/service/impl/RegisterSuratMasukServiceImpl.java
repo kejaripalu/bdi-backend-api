@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService {
 
-	private RegisterSuratMasukRepository suratMasukRepository;
+	private final RegisterSuratMasukRepository suratMasukRepository;
 	
 	@Override
 	@Transactional
@@ -44,15 +44,14 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		suratMasuk.setKeterangan(request.getKeterangan());
 		suratMasuk.setUrlFile(request.getUrlFile());
 		
-		log.info("Surat Masuk Request: " + suratMasuk);
 		suratMasukRepository.save(suratMasuk);
-		log.info("Saved Surat Masuk: " + suratMasuk);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Surat Masuk!!!");
 	}
 
 	@Override
 	@Transactional
-	public void updateSuratMasuk(String id, RegisterSuratMasukUpdateRequest request) {
-		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
+	public void updateSuratMasuk(String ids, RegisterSuratMasukUpdateRequest request) {
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratMasuk.setTanggalPenerimaanSurat(
 				request.getTanggalPenerimaanSurat() == null ? 
@@ -80,9 +79,8 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		suratMasuk.setKeterangan(request.getKeterangan());
 		suratMasuk.setUrlFile(request.getUrlFile());
 		
-		log.info("Surat Masuk Request: " + suratMasuk);
 		suratMasukRepository.save(suratMasuk);
-		log.info("Updated Surat Masuk: " + suratMasuk);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
 	}
 
 	@Override
@@ -112,12 +110,12 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 	
 	@Override
 	@Transactional
-	public RegisterSuratMasukResponse findSuratMasukById(String id) {
-		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
+	public RegisterSuratMasukResponse findSuratMasukByIds(String ids) {
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterSuratMasukResponse response = new RegisterSuratMasukResponse();
-		response.setId(suratMasuk.getId());
+		response.setIds(suratMasuk.getIds());
 		response.setTanggalPenerimaanSurat(suratMasuk.getTanggalPenerimaanSurat());
 		response.setJamPenerimaanSurat(suratMasuk.getJamPenerimaanSurat());
 		response.setAsal(suratMasuk.getAsal());
@@ -135,13 +133,13 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 
 	@Override
 	@Transactional
-	public void deleteSuratMasuk(String id) {
-		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdAndDeletedFalse(id)
+	public void deleteSuratMasuk(String ids) {
+		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		suratMasuk.setDeleted(Boolean.TRUE);
-		suratMasuk.setNomorSurat(suratMasuk.getId() + " | " + suratMasuk.getNomorSurat());
+		suratMasuk.setDeleted(true);
+		suratMasuk.setNomorSurat(suratMasuk.getIds() + " | " + suratMasuk.getNomorSurat());
 		suratMasukRepository.save(suratMasuk);
-		log.info("Soft Delete: " + suratMasuk);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ): Surat Masuk!!!");
 	}
 
 	@Override
@@ -152,9 +150,9 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -164,7 +162,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);

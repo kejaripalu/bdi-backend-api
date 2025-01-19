@@ -10,14 +10,14 @@ public interface RegisterKegiatanIntelijenPamstraService {
 
 	void create(RegisterKegiatanIntelijenPamstraRequest request);
 	
-	void update(String id, RegisterKegiatanIntelijenPamstraRequest request);
+	void update(String ids, RegisterKegiatanIntelijenPamstraRequest request);
 	
 	Page<RegisterKegiatanIntelijenPamstra> findAll(String startDate, String endDate, Integer pages, Integer sizes);
 	
 	Page<RegisterKegiatanIntelijenPamstra> findBySearching(String start, String end, String value, Integer pages, Integer sizes);
 	
-	RegisterKegiatanIntelijenPamstraResponse findById(String id); 
+	RegisterKegiatanIntelijenPamstraResponse findByIds(String ids); 
 	
-	void delete(String id);
+	void delete(String ids);
 	
 }

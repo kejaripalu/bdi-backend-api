@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijenService {
 
-	private RegisterKerjaIntelijenRepository rkiRepository;
+	private final RegisterKerjaIntelijenRepository rkiRepository;
 	
 	@Override
 	@Transactional
@@ -44,15 +44,14 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		rki.setBidangDirektorat(request.getBidangDirektorat());
 		rki.setSektor(request.getSektor());
 		
-		log.info("RKI Request: " + rki);
 		rkiRepository.save(rki);
-		log.info("Saved RKI: " + rki);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");
 	}
 
 	@Override
 	@Transactional
-	public void updateRKI(String id, RegisterKerjaIntelijenRequest request) {
-		RegisterKerjaIntelijen rki = rkiRepository.findById(id)
+	public void updateRKI(String ids, RegisterKerjaIntelijenRequest request) {
+		RegisterKerjaIntelijen rki = rkiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		rki.setTanggalWaktuDiterima(
 				request.getTanggalWaktuDiterima() == null ?
@@ -81,19 +80,18 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		rki.setUrlFile(request.getUrlFile());
 		rki.setKeterangan(request.getKeterangan());
 		
-		log.info("RKI Update Request: " + rki);
 		rkiRepository.save(rki);
-		log.info("RKI Updated!!! ");		
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");		
 	}
 
 	@Override
 	@Transactional
-	public RegisterKerjaIntelijenResponse findRKIbyId(String id) {
-		RegisterKerjaIntelijen rki = rkiRepository.findByIdAndDeletedFalse(id)
+	public RegisterKerjaIntelijenResponse findRKIbyIds(String ids) {
+		RegisterKerjaIntelijen rki = rkiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterKerjaIntelijenResponse response = new RegisterKerjaIntelijenResponse();
-		response.setId(rki.getId());
+		response.setIds(rki.getIds());
 		response.setTanggalWaktuDiterima(rki.getTanggalWaktuDiterima());
 		response.setJamWaktuDiterima(rki.getJamWaktuDiterima());
 		response.setSumberBapul(rki.getSumberBapul());
@@ -133,7 +131,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 
 		Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -144,13 +142,13 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 
 	@Override
 	@Transactional
-	public void deleteRKI(String id) {
-		RegisterKerjaIntelijen rki = rkiRepository.findByIdAndDeletedFalse(id)
+	public void deleteRKI(String ids) {
+		RegisterKerjaIntelijen rki = rkiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		rki.setDeleted(Boolean.TRUE);
-		rki.setUraianPeristiwaMasalah(rki.getId() + " | " + rki.getUraianPeristiwaMasalah());
+		rki.setDeleted(true);
+		rki.setUraianPeristiwaMasalah(rki.getIds() + " | " + rki.getUraianPeristiwaMasalah());
 		rkiRepository.save(rki);
-		log.info("Soft Delete: " + rki);	
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ): " + rki);	
 	}
 
 	@Override
@@ -170,9 +168,9 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 			bidangDirektorat = BidangDirektorat.TIPRODIN;
 		}
 
-		log.info("Value : " + value);
+		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -182,7 +180,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);

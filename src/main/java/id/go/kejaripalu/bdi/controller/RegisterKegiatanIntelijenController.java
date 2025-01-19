@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterKegiatanIntelijenController {
 
-	private RegisterKegiatanIntelijenService kegiatanIntelijenService;
+	private final RegisterKegiatanIntelijenService kegiatanIntelijenService;
 	
 	@PostMapping("/kegiatan")
 	public ResponseEntity<Void> create(
@@ -37,17 +37,17 @@ public class RegisterKegiatanIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/kegiatan")).build();
 	}
 	
-	@PutMapping("/kegiatan/{id}")
+	@PutMapping("/kegiatan/{ids}")
 	public ResponseEntity<Void> update(
-			@PathVariable String id,
+			@PathVariable String ids,
 			@Valid @RequestBody RegisterKegiatanIntelijenRequest request) {
-		kegiatanIntelijenService.update(id, request);
+		kegiatanIntelijenService.update(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/kegiatan/{id}/detail")
-	public ResponseEntity<RegisterKegiatanIntelijenResponse> findById(@PathVariable String id) {
-		return ResponseEntity.ok().body(kegiatanIntelijenService.findById(id));
+	@GetMapping("/kegiatan/{ids}/detail")
+	public ResponseEntity<RegisterKegiatanIntelijenResponse> findById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(kegiatanIntelijenService.findByIds(ids));
 	}
 
 	@GetMapping("/kegiatan")
@@ -72,9 +72,9 @@ public class RegisterKegiatanIntelijenController {
 				startDate, endDate, bidangDirektorat, value, pages, sizes));
 	}
 	
-	@DeleteMapping("/kegiatan/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		kegiatanIntelijenService.delete(id);
+	@DeleteMapping("/kegiatan/{ids}")
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		kegiatanIntelijenService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

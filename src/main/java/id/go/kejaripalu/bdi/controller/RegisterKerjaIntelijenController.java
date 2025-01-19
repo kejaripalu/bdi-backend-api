@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterKerjaIntelijenController {
 
-	private RegisterKerjaIntelijenService rkiService;
+	private final RegisterKerjaIntelijenService rkiService;
 	
 	@PostMapping("/rki")
 	public ResponseEntity<Void> createNewRKI(
@@ -37,17 +37,17 @@ public class RegisterKerjaIntelijenController {
 		return ResponseEntity.created(URI.create("/api/v1/rki")).build();
 	}
 	
-	@PutMapping("/rki/{id}")
+	@PutMapping("/rki/{ids}")
 	public ResponseEntity<Void> updateRKI(
-			@PathVariable String id,
+			@PathVariable String ids,
 			@Valid @RequestBody RegisterKerjaIntelijenRequest request) {
-		rkiService.updateRKI(id, request);
+		rkiService.updateRKI(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping("/rki/{id}/detail")
-	public ResponseEntity<RegisterKerjaIntelijenResponse> findRKIById(@PathVariable String id) {
-		return ResponseEntity.ok().body(rkiService.findRKIbyId(id));
+	@GetMapping("/rki/{ids}/detail")
+	public ResponseEntity<RegisterKerjaIntelijenResponse> findRKIById(@PathVariable String ids) {
+		return ResponseEntity.ok().body(rkiService.findRKIbyIds(ids));
 	}
 	
 	@GetMapping("/rki")
@@ -72,9 +72,9 @@ public class RegisterKerjaIntelijenController {
 				startDate, endDate, value, bidangDirektorat, pages, sizes));
 	}
 
-	@DeleteMapping("/rki/{id}")
-	public ResponseEntity<Void> deleteRKI(@PathVariable String id) {
-		rkiService.deleteRKI(id);
+	@DeleteMapping("/rki/{ids}")
+	public ResponseEntity<Void> deleteRKI(@PathVariable String ids) {
+		rkiService.deleteRKI(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

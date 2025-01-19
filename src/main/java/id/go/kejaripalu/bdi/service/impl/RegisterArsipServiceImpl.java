@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegisterArsipServiceImpl implements RegisterArsipService {
 	
-	private RegisterArsipRepository arsipRepository;
+	private final RegisterArsipRepository arsipRepository;
 
 	@Override
 	@Transactional
@@ -41,15 +41,14 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 		arsip.setKeterangan(request.getKeterangan());
 		arsip.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Arsip Request: " + arsip);
 		arsipRepository.save(arsip);
-		log.info("Saved Register Arsip: " + arsip);
+		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Arsip!!!");
 	}
 
 	@Override
 	@Transactional
-	public void update(String id, RegisterArsipRequest request) {
-		RegisterArsip arsip = arsipRepository.findById(id)
+	public void update(String ids, RegisterArsipRequest request) {
+		RegisterArsip arsip = arsipRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		arsip.setTanggalPenerimaanArsip(
 				request.getTanggalPenerimaanArsip() == null ?
@@ -74,9 +73,8 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 		arsip.setKeterangan(request.getKeterangan());
 		arsip.setUrlFile(request.getUrlFile());
 		
-		log.info("Register Arsip Request: " + arsip);
 		arsipRepository.save(arsip);
-		log.info("Updated Register Arsip: " + arsip);
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Arsip!!!");
 	}
 
 	@Override
@@ -88,11 +86,11 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterArsip> pagesArsip = arsipRepository.findAll(
+		Page<RegisterArsip> pagesArsip = arsipRepository.findAllArsip(
 				startDate, endDate, pageRequest);
 		
 		return pagesArsip;
@@ -104,7 +102,7 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 			String start, String end, String value, Integer pages, Integer sizes) {
 		log.info("Value : " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
-			log.warn("Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 		
@@ -114,7 +112,7 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("💀 " + e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
@@ -126,12 +124,12 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 
 	@Override
 	@Transactional
-	public RegisterArsipResponse findById(String id) {
-		RegisterArsip arsip = arsipRepository.findByIdAndDeletedFalse(id)
+	public RegisterArsipResponse findByIds(String ids) {
+		RegisterArsip arsip = arsipRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
 		RegisterArsipResponse response = new RegisterArsipResponse();
-		response.setId(arsip.getId());
+		response.setIds(arsip.getIds());
 		response.setTanggalPenerimaanArsip(arsip.getTanggalPenerimaanArsip());
 		response.setJamPenerimaanArsip(arsip.getJamPenerimaanArsip());
 		response.setDiterimaDari(arsip.getDiterimaDari());
@@ -148,13 +146,13 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 
 	@Override
 	@Transactional
-	public void delete(String id) {
-		RegisterArsip arsip = arsipRepository.findById(id)
+	public void delete(String ids) {
+		RegisterArsip arsip = arsipRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		arsip.setDeleted(Boolean.TRUE);
-		arsip.setNomorSurat(arsip.getId() + " | " + arsip.getNomorSurat());
+		arsip.setDeleted(true);
+		arsip.setNomorSurat(arsip.getIds() + " | " + arsip.getNomorSurat());
 		arsipRepository.save(arsip);
-		log.info("Soft Delete: " + arsip);
+		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register Arsip!!!");
 	}
 
 }
