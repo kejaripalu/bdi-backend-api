@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -35,5 +36,12 @@ public interface RegisterTamuPPHPPMRepository extends JpaRepository<RegisterTamu
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC, r.tanggal DESC")
 	Page<RegisterTamuPPHPPM> findAllPPHPPMtoPrint(Date startDate, Date endDate, Pageable pageable);
+	
+	@Query("SELECT "
+			+ "(SELECT COUNT(r.jenisPelayanan) r FROM RegisterTamuPPHPPM r WHERE r.jenisPelayanan = 'PPH' "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate), "
+			+ "(SELECT COUNT(r.jenisPelayanan) r FROM RegisterTamuPPHPPM r WHERE r.jenisPelayanan = 'PPM' "
+			+ "AND r.tanggal BETWEEN :startDate AND :endDate)")
+	List<Integer[]> countPPHPPM(Date startDate, Date endDate);
 	
 }

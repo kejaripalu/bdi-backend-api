@@ -2,6 +2,7 @@ package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -77,13 +78,15 @@ public class RegisterProdukIntelijenController {
     }
     
     @GetMapping("/prodin/count")
-    public ResponseEntity<Map<String, Integer>> countProdin(
-    		@RequestParam(required = true) String jenisProdin,
+    public ResponseEntity<Map<String, Integer>> countsProdin(
     		@RequestParam(required = true) String startDate,
             @RequestParam(required = true) String endDate) {
-    	int count = produkIntelijenService.countByJenisProdukIntelijen(jenisProdin, startDate, endDate);
-    	Map<String, Integer> map = new HashMap<>();
-    	map.put("count", count);
+    	List<Integer[]> dataCountLapin = produkIntelijenService.countJenisProdukIntelijen(startDate, endDate);
+    	Map<String, Integer> map = new HashMap<>(); 
+    	map.put("countLapinhar", (dataCountLapin.get(0))[0]);
+    	map.put("countLapinsus", (dataCountLapin.get(0))[1]);
+    	map.put("countLaphastug", (dataCountLapin.get(0))[2]);
+    	map.put("countLapopsin", (dataCountLapin).get(0)[3]);    	    	
     	return ResponseEntity.ok().body(map);
     }
 

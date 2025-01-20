@@ -1,5 +1,7 @@
 package id.go.kejaripalu.bdi.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import id.go.kejaripalu.bdi.domain.RegisterTamuPPHPPM;
@@ -19,5 +21,7 @@ public interface RegisterTamuPPHPPMService {
 	RegisterTamuPPHPPMResponse findRegisterTamuByIds(String ids);
 	
 	void deleteRegisterTamu(String ids);
+	
+	List<Integer[]> countPPHPPM(String startDate, String endDate);
 	
 }

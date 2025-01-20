@@ -3,6 +3,7 @@ package id.go.kejaripalu.bdi.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterProdukIntelijen;
-import id.go.kejaripalu.bdi.domain.util.JenisProdukIntelijen;
 import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
@@ -148,26 +148,7 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
     }
 
 	@Override
-	public int countByJenisProdukIntelijen(String jenisProdin, String start, String end) {
-		JenisProdukIntelijen jenisProdukIntelijen = null;
-		if (jenisProdin.equals("LAPINHAR")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.LAPINHAR;
-		} else if (jenisProdin.equals("LAPINSUS")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.LAPINSUS;			
-		} else if (jenisProdin.equals("LAPSUS")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.LAPSUS;			
-		} else if (jenisProdin.equals("LAPHASTUG")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.LAPHASTUG;			
-		} else if (jenisProdin.equals("LAPOPSIN")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.LAPOPSIN;			
-		} else if (jenisProdin.equals("LAPAT")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.LAPAT;			
-		} else if (jenisProdin.equals("KIRKA")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.KIRKA;			
-		} else if (jenisProdin.equals("TROOP_INFO")) {
-			jenisProdukIntelijen = JenisProdukIntelijen.TROOP_INFO;			
-		}
-		
+	public List<Integer[]> countJenisProdukIntelijen(String start, String end) {
 		Date startDate = null;
 		Date endDate = null;
 		try {
@@ -177,8 +158,8 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
 			log.error(e.getMessage());
 		}
 		
-		Integer countProdin = produkIntelijenRepository.countByJenisProdukIntelijen(jenisProdukIntelijen, startDate, endDate);
-		return countProdin;
+		List<Integer[]> countLapin = produkIntelijenRepository.countLaporanIntelijen(startDate, endDate);
+		return countLapin;
 	}
 
 }

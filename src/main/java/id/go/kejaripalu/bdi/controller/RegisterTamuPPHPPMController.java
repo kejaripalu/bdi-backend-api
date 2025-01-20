@@ -1,6 +1,9 @@
 package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +75,17 @@ public class RegisterTamuPPHPPMController {
 	public ResponseEntity<Void> delete(@PathVariable String ids) {
 		pphppmService.deleteRegisterTamu(ids);
 		return ResponseEntity.accepted().build();
+	}
+	
+	@GetMapping("/pphppm/count")
+	public ResponseEntity<Map<String, Integer>> countsPphPpm(
+			@RequestParam(required = true) String startDate,
+            @RequestParam(required = true) String endDate) {
+		List<Integer[]> dataCountPphPpm = pphppmService.countPPHPPM(startDate, endDate);
+		Map<String, Integer> map = new HashMap<>();
+		map.put("countPPH", (dataCountPphPpm.get(0))[0]);
+		map.put("countPPM", (dataCountPphPpm.get(0))[1]);
+		return ResponseEntity.ok().body(map);
 	}
 	
 }

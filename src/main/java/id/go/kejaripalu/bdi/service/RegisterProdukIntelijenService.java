@@ -1,5 +1,7 @@
 package id.go.kejaripalu.bdi.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import id.go.kejaripalu.bdi.domain.RegisterProdukIntelijen;
@@ -20,6 +22,6 @@ public interface RegisterProdukIntelijenService {
 	
 	void deleteProdukIntelijen(String ids);
 	
-	int countByJenisProdukIntelijen(String stringJenisProdin, String startDate, String endDate);
-	
+	List<Integer[]> countJenisProdukIntelijen(String startDate, String endDate);
+
 }

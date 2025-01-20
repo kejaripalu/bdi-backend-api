@@ -3,6 +3,11 @@ spring:
     password: ${DB_PASSWORD}
     url: ${DB_URL}
     username: ${DB_USERNAME}
+    hikari:
+      connection-timeout: 600000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: update

@@ -3,6 +3,7 @@ package id.go.kejaripalu.bdi.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -200,6 +201,21 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		pphppm.setDeleted(true);
 		repository.save(pphppm);
 		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register PPH & PPM");
+	}
+
+	@Override
+	public List<Integer[]> countPPHPPM(String start, String end) {
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+		} catch (ParseException e) {
+			log.error(e.getMessage());
+		}
+		
+		List<Integer[]> countPphPpm = repository.countPPHPPM(startDate, endDate);
+		return countPphPpm;
 	}
 
 }
