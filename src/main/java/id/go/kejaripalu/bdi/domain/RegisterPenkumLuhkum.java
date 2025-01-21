@@ -3,13 +3,14 @@ package id.go.kejaripalu.bdi.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import id.go.kejaripalu.bdi.domain.util.ProgramPenkumLuhkum;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import id.go.kejaripalu.bdi.domain.util.BaseEntity;
-import id.go.kejaripalu.bdi.domain.util.JenisPenkumLuhkum;
+import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -75,8 +76,12 @@ public class RegisterPenkumLuhkum extends BaseEntity implements Serializable {
 	@Column(name = "url_foto_4", columnDefinition="TEXT")
 	private String urlFoto4;
 
-	@Column(name = "jenis_penkum_luhkum")
+	@Column(name = "jenis_kegiatan", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private JenisPenkumLuhkum jenisPenkumLuhkum = JenisPenkumLuhkum.PENERANGAN_HUKUM;
+	private JenisKegiatanPenkumLuhkum jenisKegiatan = JenisKegiatanPenkumLuhkum.PENERANGAN_HUKUM;
+
+	@Column(name = "program", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private ProgramPenkumLuhkum program;
 	
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterPenkumLuhkum;
-import id.go.kejaripalu.bdi.domain.util.JenisPenkumLuhkum;
+import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
 import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumRequest;
 import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
@@ -31,7 +31,8 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	@Transactional
 	public void create(RegisterPenkumLuhkumRequest request) {
 		RegisterPenkumLuhkum penkumLuhkum = new RegisterPenkumLuhkum();
-		penkumLuhkum.setJenisPenkumLuhkum(request.getJenisPenkumLuhkum());
+		penkumLuhkum.setJenisKegiatan(request.getJenisKegiatan());
+		penkumLuhkum.setProgram(request.getProgram());
 		penkumLuhkum.setNomorSuratPerintah(request.getNomorSuratPerintah());
 		penkumLuhkum.setSasaranKegiatan(request.getSasaranKegiatan());
 		penkumLuhkum.setTanggalKegiatan(request.getTanggalKegiatan());
@@ -52,9 +53,12 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	public void update(String ids, RegisterPenkumLuhkumRequest request) {
 		RegisterPenkumLuhkum penkumLuhkum = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		penkumLuhkum.setJenisPenkumLuhkum(
-				request.getJenisPenkumLuhkum() == null ?
-						penkumLuhkum.getJenisPenkumLuhkum() : request.getJenisPenkumLuhkum());
+		penkumLuhkum.setJenisKegiatan(
+				request.getJenisKegiatan() == null ?
+						penkumLuhkum.getJenisKegiatan() : request.getJenisKegiatan());
+		penkumLuhkum.setProgram(
+				request.getProgram() == null ?
+						penkumLuhkum.getProgram() : request.getProgram());
 		penkumLuhkum.setNomorSuratPerintah(
 				request.getNomorSuratPerintah() == null || request.getNomorSuratPerintah().isBlank() ?
 						penkumLuhkum.getNomorSuratPerintah() : request.getNomorSuratPerintah());		
@@ -85,7 +89,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	public Page<RegisterPenkumLuhkum> findAll(String start, String end, String stringJenisPenkumLuhkum,
 			Integer pages, Integer sizes) {
 		
-		JenisPenkumLuhkum jenisPenkumLuhkum = getJenisPenkumLuhkum(stringJenisPenkumLuhkum);		
+		JenisKegiatanPenkumLuhkum jenisPenkumLuhkum = getJenisPenkumLuhkum(stringJenisPenkumLuhkum);		
 		Date startDate = null;
 		Date endDate = null;
 		
@@ -113,7 +117,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 			log.error("💀 Isi text pencarian kosong...");
 		}
 
-		JenisPenkumLuhkum jenisPenkumLuhkum = getJenisPenkumLuhkum(stringJenisPenkumLuhkum);
+		JenisKegiatanPenkumLuhkum jenisPenkumLuhkum = getJenisPenkumLuhkum(stringJenisPenkumLuhkum);
 		Date startDate = null;
 		Date endDate = null;
 		
@@ -139,7 +143,8 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		
 		RegisterPenkumLuhkumResponse response = new RegisterPenkumLuhkumResponse();
 		response.setIds(penkumLuhkum.getIds());
-		response.setJenisPenkumLuhkum(penkumLuhkum.getJenisPenkumLuhkum());
+		response.setJenisKegiatan(penkumLuhkum.getJenisKegiatan());
+		response.setProgram(penkumLuhkum.getProgram());
 		response.setNomorSuratPerintah(penkumLuhkum.getNomorSuratPerintah());
 		response.setSasaranKegiatan(penkumLuhkum.getSasaranKegiatan());
 		response.setTanggalKegiatan(penkumLuhkum.getTanggalKegiatan());
@@ -166,12 +171,12 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register Penkum Luhkum!!!");
 	}
 	
-	private JenisPenkumLuhkum getJenisPenkumLuhkum(String stringJenisPenkumLuhkum) {
-		JenisPenkumLuhkum jenisPenkumLuhkum = null;
+	private JenisKegiatanPenkumLuhkum getJenisPenkumLuhkum(String stringJenisPenkumLuhkum) {
+		JenisKegiatanPenkumLuhkum jenisPenkumLuhkum = null;
 		if (stringJenisPenkumLuhkum.equals("PENERANGAN_HUKUM")) {
-			jenisPenkumLuhkum = JenisPenkumLuhkum.PENERANGAN_HUKUM;
+			jenisPenkumLuhkum = JenisKegiatanPenkumLuhkum.PENERANGAN_HUKUM;
 		} else if (stringJenisPenkumLuhkum.equals("PENYULUHAN_HUKUM")) {
-			jenisPenkumLuhkum = JenisPenkumLuhkum.PENYULUHAN_HUKUM;			
+			jenisPenkumLuhkum = JenisKegiatanPenkumLuhkum.PENYULUHAN_HUKUM;			
 		} else {
 			return null;
 		}

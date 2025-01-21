@@ -5,7 +5,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.JenisPenkumLuhkum;
+import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
+import id.go.kejaripalu.bdi.domain.util.ProgramPenkumLuhkum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -41,6 +42,9 @@ public class RegisterPenkumLuhkumRequest implements Serializable {
 	private String urlFoto4;
 	
 	@NotNull
-	private JenisPenkumLuhkum jenisPenkumLuhkum;
+	private JenisKegiatanPenkumLuhkum jenisKegiatan;
+	
+	@NotNull
+	private ProgramPenkumLuhkum program;
 
 }

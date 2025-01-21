@@ -5,7 +5,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.JenisPenkumLuhkum;
+import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
+import id.go.kejaripalu.bdi.domain.util.ProgramPenkumLuhkum;
 import lombok.Data;
 
 @Data
@@ -36,6 +37,8 @@ public class RegisterPenkumLuhkumResponse implements Serializable {
 	
 	private String urlFoto4;
 	
-	private JenisPenkumLuhkum jenisPenkumLuhkum;
+	private JenisKegiatanPenkumLuhkum jenisKegiatan;
+	
+	private ProgramPenkumLuhkum program;
 	
 }
