@@ -86,10 +86,10 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 
 	@Override
 	@Transactional
-	public Page<RegisterPenkumLuhkum> findAll(String start, String end, String stringJenisPenkumLuhkum,
+	public Page<RegisterPenkumLuhkum> findAll(String start, String end, String stringJenisKegiatan,
 			Integer pages, Integer sizes) {
 		
-		JenisKegiatanPenkumLuhkum jenisPenkumLuhkum = getJenisPenkumLuhkum(stringJenisPenkumLuhkum);		
+		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
 		Date startDate = null;
 		Date endDate = null;
 		
@@ -102,7 +102,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 		Page<RegisterPenkumLuhkum> pagesPenkumLuhkum = repository.findAllPenkumLuhkum(
-				startDate, endDate, jenisPenkumLuhkum, pageRequest);
+				startDate, endDate, jenisKegiatan, pageRequest);
 		
 		return pagesPenkumLuhkum;
 	}
@@ -110,14 +110,14 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	@Override
 	@Transactional
 	public Page<RegisterPenkumLuhkum> findBySearching(String start, String end, 
-			String stringJenisPenkumLuhkum, String value, Integer pages, Integer sizes) {
+			String stringJenisKegiatan, String value, Integer pages, Integer sizes) {
 		
 		log.info("🔎 Value for searching: " + value);
 		if (value.isBlank() || value.isEmpty() || value.equals("")) {
 			log.error("💀 Isi text pencarian kosong...");
 		}
 
-		JenisKegiatanPenkumLuhkum jenisPenkumLuhkum = getJenisPenkumLuhkum(stringJenisPenkumLuhkum);
+		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
 		Date startDate = null;
 		Date endDate = null;
 		
@@ -130,7 +130,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 		Page<RegisterPenkumLuhkum> pagesPenkumLuhkum = repository.findBySearching(
-				startDate, endDate, jenisPenkumLuhkum, value, pageRequest);
+				startDate, endDate, jenisKegiatan, value, pageRequest);
 		
 		return pagesPenkumLuhkum;
 	}
@@ -171,16 +171,16 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Register Penkum Luhkum!!!");
 	}
 	
-	private JenisKegiatanPenkumLuhkum getJenisPenkumLuhkum(String stringJenisPenkumLuhkum) {
-		JenisKegiatanPenkumLuhkum jenisPenkumLuhkum = null;
-		if (stringJenisPenkumLuhkum.equals("PENERANGAN_HUKUM")) {
-			jenisPenkumLuhkum = JenisKegiatanPenkumLuhkum.PENERANGAN_HUKUM;
-		} else if (stringJenisPenkumLuhkum.equals("PENYULUHAN_HUKUM")) {
-			jenisPenkumLuhkum = JenisKegiatanPenkumLuhkum.PENYULUHAN_HUKUM;			
+	private JenisKegiatanPenkumLuhkum getJenisKegiatan(String stringJenisKegiatan) {
+		JenisKegiatanPenkumLuhkum jenisKegiatan = null;
+		if (stringJenisKegiatan.equals("PENERANGAN_HUKUM")) {
+			jenisKegiatan = JenisKegiatanPenkumLuhkum.PENERANGAN_HUKUM;
+		} else if (stringJenisKegiatan.equals("PENYULUHAN_HUKUM")) {
+			jenisKegiatan = JenisKegiatanPenkumLuhkum.PENYULUHAN_HUKUM;
 		} else {
 			return null;
 		}
-		return jenisPenkumLuhkum;
+		return jenisKegiatan;
 	}
 
 }

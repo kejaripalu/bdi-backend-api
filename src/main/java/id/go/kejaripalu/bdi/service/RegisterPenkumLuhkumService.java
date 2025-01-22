@@ -12,9 +12,9 @@ public interface RegisterPenkumLuhkumService {
 
 	void update(String ids, RegisterPenkumLuhkumRequest request);
 
-	Page<RegisterPenkumLuhkum> findAll(String start, String end, String stringJenisPenkumLuhkum, Integer pages, Integer sizes);
+	Page<RegisterPenkumLuhkum> findAll(String start, String end, String stringJenisKegiatan, Integer pages, Integer sizes);
 
-	Page<RegisterPenkumLuhkum> findBySearching(String start, String end, String stringJenisPenkumLuhkum, String value, Integer pages, Integer sizes);
+	Page<RegisterPenkumLuhkum> findBySearching(String start, String end, String stringJenisKegiatan, String value, Integer pages, Integer sizes);
 
 	RegisterPenkumLuhkumResponse findByIds(String ids);
 

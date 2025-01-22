@@ -13,24 +13,24 @@ import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
 
 public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPenkumLuhkum, Long> {
 
-	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisPenkumLuhkum=:jenisPenkumLuhkum "
+	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisKegiatan=:jenisKegiatan "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC")
-	Page<RegisterPenkumLuhkum> findAllPenkumLuhkum(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisPenkumLuhkum, Pageable pageable);
+	Page<RegisterPenkumLuhkum> findAllPenkumLuhkum(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
 	
-	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisPenkumLuhkum=:jenisPenkumLuhkum "
+	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisKegiatan=:jenisKegiatan "
 			+ "AND (LOWER(r.nomorSuratPerintah) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.sasaranKegiatan) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.materi) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalKegiatan DESC")
-	Page<RegisterPenkumLuhkum> findBySearching(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisPenkumLuhkum, String value, Pageable pageable);
+	Page<RegisterPenkumLuhkum> findBySearching(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, String value, Pageable pageable);
 	
 	Optional<RegisterPenkumLuhkum> findByIdsAndDeletedFalse(String ids);
 
-	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisPenkumLuhkum=:jenisPenkumLuhkum "
+	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisKegiatan=:jenisKegiatan "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id  DESC, r.tanggalKegiatan DESC")
-	Page<RegisterPenkumLuhkum> findAllPenkumLuhkumToPrint(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisPenkumLuhkum, Pageable pageable);
+	Page<RegisterPenkumLuhkum> findAllPenkumLuhkumToPrint(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
 	
 }

@@ -34,10 +34,10 @@ public class RegisterPenkumLuhkumController {
 	public ResponseEntity<Page<RegisterPenkumLuhkum>> findAll(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
-				@RequestParam(required = true) String jenisPenkumLuhkum,
+				@RequestParam(required = true) String jenisKegiatan,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(penkumLuhkumService.findAll(startDate, endDate, jenisPenkumLuhkum, pages, sizes));
+		return ResponseEntity.ok().body(penkumLuhkumService.findAll(startDate, endDate, jenisKegiatan, pages, sizes));
 	}
 
 	@GetMapping("/penkumluhkum/{ids}/detail")
@@ -49,11 +49,11 @@ public class RegisterPenkumLuhkumController {
 	public ResponseEntity<Page<RegisterPenkumLuhkum>> findBySearch(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
-				@RequestParam(required = true) String jenisPenkumLuhkum,
+				@RequestParam(required = true) String jenisKegiatan,
 				@RequestParam(required = true) String value,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(penkumLuhkumService.findBySearching(startDate, endDate, jenisPenkumLuhkum, value, pages, sizes));
+		return ResponseEntity.ok().body(penkumLuhkumService.findBySearching(startDate, endDate, jenisKegiatan, value, pages, sizes));
 	}
 
 	@PostMapping("/penkumluhkum")
