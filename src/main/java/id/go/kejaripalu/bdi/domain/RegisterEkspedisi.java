@@ -46,7 +46,7 @@ public class RegisterEkspedisi extends BaseEntity implements Serializable {
 
 	@Column(name = "tanggal_surat", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalSurat;
 
 	@Column(name = "kepada", nullable = false)
@@ -60,7 +60,7 @@ public class RegisterEkspedisi extends BaseEntity implements Serializable {
 	
 	@Column(name = "tanggal_tanda_terima", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalTandaTerima;
 	
 	@Column(name = "jam_tanda_terima", nullable = false)

@@ -47,7 +47,7 @@ public class RegisterKerjaIntelijen extends BaseEntity implements Serializable {
 
 	@Column(name = "tanggal_waktu_diterima", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalWaktuDiterima;
 	
 	@Column(name = "jam_waktu_diterima", nullable = false)

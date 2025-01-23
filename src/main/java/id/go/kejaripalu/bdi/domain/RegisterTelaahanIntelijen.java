@@ -40,7 +40,7 @@ public class RegisterTelaahanIntelijen extends BaseEntity implements Serializabl
 
 	@Column(name = "tanggal", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggal;
 
 	@Column(name = "nomor", nullable = false, unique = true)

@@ -51,7 +51,7 @@ public class RegisterProdukIntelijen extends BaseEntity implements Serializable 
 
     @Column(name = "tanggal_produk", nullable = false)
     @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date tanggalProduk;
 
     @Column(name = "sektor", nullable = false)
