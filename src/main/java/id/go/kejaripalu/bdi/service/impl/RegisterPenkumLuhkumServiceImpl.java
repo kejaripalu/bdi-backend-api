@@ -34,8 +34,10 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		penkumLuhkum.setJenisKegiatan(request.getJenisKegiatan());
 		penkumLuhkum.setProgram(request.getProgram());
 		penkumLuhkum.setNomorSuratPerintah(request.getNomorSuratPerintah());
+		penkumLuhkum.setTanggalSuratPerintah(request.getTanggalSuratPerintah());
 		penkumLuhkum.setSasaranKegiatan(request.getSasaranKegiatan());
 		penkumLuhkum.setTanggalKegiatan(request.getTanggalKegiatan());
+		penkumLuhkum.setTempat(request.getTempat());
 		penkumLuhkum.setMateri(request.getMateri());
 		penkumLuhkum.setJumlahPeserta(request.getJumlahPeserta());
 		penkumLuhkum.setKeterangan(request.getKeterangan());
@@ -61,13 +63,19 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 						penkumLuhkum.getProgram() : request.getProgram());
 		penkumLuhkum.setNomorSuratPerintah(
 				request.getNomorSuratPerintah() == null || request.getNomorSuratPerintah().isBlank() ?
-						penkumLuhkum.getNomorSuratPerintah() : request.getNomorSuratPerintah());		
+						penkumLuhkum.getNomorSuratPerintah() : request.getNomorSuratPerintah());	
+		penkumLuhkum.setTanggalSuratPerintah(
+				request.getTanggalSuratPerintah() == null ?
+						penkumLuhkum.getTanggalSuratPerintah() : request.getTanggalSuratPerintah());
 		penkumLuhkum.setSasaranKegiatan(
 				request.getSasaranKegiatan() == null || request.getSasaranKegiatan().isBlank() ?
 						penkumLuhkum.getSasaranKegiatan() : request.getSasaranKegiatan());
 		penkumLuhkum.setTanggalKegiatan(
 				request.getTanggalKegiatan() == null ?
 						penkumLuhkum.getTanggalKegiatan() : request.getTanggalKegiatan());
+		penkumLuhkum.setTempat(
+				request.getTempat() == null || request.getTempat().isBlank() ? 
+						penkumLuhkum.getTempat() : request.getTempat());
 		penkumLuhkum.setMateri(
 				request.getMateri() == null || request.getMateri().isBlank() ? 
 						penkumLuhkum.getMateri() : request.getMateri());
@@ -146,8 +154,10 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 		response.setJenisKegiatan(penkumLuhkum.getJenisKegiatan());
 		response.setProgram(penkumLuhkum.getProgram());
 		response.setNomorSuratPerintah(penkumLuhkum.getNomorSuratPerintah());
+		response.setTanggalSuratPerintah(penkumLuhkum.getTanggalSuratPerintah());
 		response.setSasaranKegiatan(penkumLuhkum.getSasaranKegiatan());
 		response.setTanggalKegiatan(penkumLuhkum.getTanggalKegiatan());
+		response.setTempat(penkumLuhkum.getTempat());
 		response.setMateri(penkumLuhkum.getMateri());
 		response.setJumlahPeserta(penkumLuhkum.getJumlahPeserta());
 		response.setKeterangan(penkumLuhkum.getKeterangan());

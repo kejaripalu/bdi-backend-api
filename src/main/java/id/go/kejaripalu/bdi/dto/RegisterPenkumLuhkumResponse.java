@@ -18,11 +18,16 @@ public class RegisterPenkumLuhkumResponse implements Serializable {
 
 	private String nomorSuratPerintah;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	private Date tanggalSuratPerintah;
+	
 	private String sasaranKegiatan;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalKegiatan;
 		
+	private String tempat;
+	
 	private String materi;
 	
 	private Integer jumlahPeserta;

@@ -18,9 +18,11 @@ public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPe
 			+ "ORDER BY r.id DESC")
 	Page<RegisterPenkumLuhkum> findAllPenkumLuhkum(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
 	
-	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisKegiatan=:jenisKegiatan "
+	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false "
+			+ "AND r.jenisKegiatan=:jenisKegiatan "
 			+ "AND (LOWER(r.nomorSuratPerintah) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.sasaranKegiatan) LIKE LOWER(CONCAT('%', :value, '%')) "
+			+ "OR LOWER(r.tempat) LIKE LOWER(CONCAT('%', :value, '%')) "
 			+ "OR LOWER(r.materi) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalKegiatan DESC")

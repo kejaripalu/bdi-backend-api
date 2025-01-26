@@ -47,13 +47,21 @@ public class RegisterPenkumLuhkum extends BaseEntity implements Serializable {
 	@Column(name = "nomor_surat_perintah", nullable = false, unique = true)
 	private String nomorSuratPerintah;
 	
+	@Column(name = "tanggal_surat_perintah", nullable = false)
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	private Date tanggalSuratPerintah;
+
 	@Column(name = "sasaran_kegiatan", nullable = false)
 	private String sasaranKegiatan;
-	
+		
 	@Column(name = "tanggal", nullable = false)
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date tanggalKegiatan;
+	
+	@Column(name = "tempat", nullable = false)
+	private String tempat;
 	
 	@Column(name = "materi", nullable = false)
 	private String materi;
