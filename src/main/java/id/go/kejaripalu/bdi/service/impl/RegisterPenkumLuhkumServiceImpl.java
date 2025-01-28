@@ -3,6 +3,7 @@ package id.go.kejaripalu.bdi.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -191,6 +192,21 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 			return null;
 		}
 		return jenisKegiatan;
+	}
+
+	@Override
+	public List<Integer[]> countProgramPenkumLuhkum(String start, String end) {
+		Date startDate = null;
+		Date endDate = null;
+		
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+		} catch (ParseException e) {
+			log.error(e.getMessage());
+		}
+		
+		return repository.countProgramPenkumLuhkum(startDate, endDate);
 	}
 
 }

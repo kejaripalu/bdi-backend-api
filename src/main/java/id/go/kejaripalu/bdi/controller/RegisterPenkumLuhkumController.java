@@ -1,6 +1,9 @@
 package id.go.kejaripalu.bdi.controller;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +76,18 @@ public class RegisterPenkumLuhkumController {
 	public ResponseEntity<Void> delete(@PathVariable String ids) {
 		penkumLuhkumService.delete(ids);
 		return ResponseEntity.accepted().build();
+	}
+	
+	@GetMapping("/penkumluhkum/count")
+	public ResponseEntity<Map<String, Integer>> countPenkumLuhkum(
+			@RequestParam(required = true) String startDate,
+            @RequestParam(required = true) String endDate) {
+		List<Integer[]> dataCountProgram = penkumLuhkumService.countProgramPenkumLuhkum(startDate, endDate);
+		Map<String, Integer> map = new HashMap<>();
+		map.put("countBinmatkum", dataCountProgram.getFirst()[0]);
+		map.put("countJms", dataCountProgram.getFirst()[1]);
+		map.put("countJaksaMenyapa", dataCountProgram.getFirst()[2]);
+		return ResponseEntity.ok().body(map);
 	}
 
 }

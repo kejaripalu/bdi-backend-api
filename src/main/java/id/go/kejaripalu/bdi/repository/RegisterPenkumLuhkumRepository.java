@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -34,5 +35,14 @@ public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPe
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id  DESC, r.tanggalKegiatan DESC")
 	Page<RegisterPenkumLuhkum> findAllPenkumLuhkumToPrint(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
+	
+	@Query("SELECT "
+			+ "(SELECT COUNT(r.program) r FROM RegisterPenkumLuhkum r WHERE r.program = 'BINMATKUM' "
+			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate), "
+			+ "(SELECT COUNT(r.program) r FROM RegisterPenkumLuhkum r WHERE r.program = 'JMS' "
+			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate), "
+			+ "(SELECT COUNT(r.program) r FROM RegisterPenkumLuhkum r WHERE r.program = 'JAKSA_MENYAPA' "
+			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate)")
+	List<Integer[]> countProgramPenkumLuhkum(Date startDate, Date endDate);
 	
 }

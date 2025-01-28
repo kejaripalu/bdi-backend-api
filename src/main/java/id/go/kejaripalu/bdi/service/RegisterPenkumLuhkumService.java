@@ -1,5 +1,7 @@
 package id.go.kejaripalu.bdi.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import id.go.kejaripalu.bdi.domain.RegisterPenkumLuhkum;
@@ -19,5 +21,7 @@ public interface RegisterPenkumLuhkumService {
 	RegisterPenkumLuhkumResponse findByIds(String ids);
 
 	void delete(String ids);
+	
+	List<Integer[]> countProgramPenkumLuhkum(String startDate, String endDate);
 
 }
