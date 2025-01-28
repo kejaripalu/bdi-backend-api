@@ -71,7 +71,7 @@ public class RegisterSuratMasukController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@DeleteMapping("/surat-masuk/{id}")
+	@DeleteMapping("/surat-masuk/{ids}")
 	public ResponseEntity<Void> deleteSuratMasuk(@PathVariable String ids) {
 		suratMasukService.deleteSuratMasuk(ids);
 		return ResponseEntity.accepted().build();
