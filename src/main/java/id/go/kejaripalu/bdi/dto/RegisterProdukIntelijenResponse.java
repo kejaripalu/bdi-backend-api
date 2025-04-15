@@ -2,8 +2,8 @@ package id.go.kejaripalu.bdi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.JenisProdukIntelijen;
-import id.go.kejaripalu.bdi.domain.util.Sektor;
+import id.go.kejaripalu.bdi.util.JenisProdukIntelijen;
+import id.go.kejaripalu.bdi.util.Sektor;
 import lombok.Data;
 
 import java.io.Serializable;

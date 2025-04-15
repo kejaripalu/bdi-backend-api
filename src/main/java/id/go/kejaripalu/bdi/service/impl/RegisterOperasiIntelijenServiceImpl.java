@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterOperasiIntelijen;
-import id.go.kejaripalu.bdi.domain.util.BidangDirektorat;
+import id.go.kejaripalu.bdi.util.BidangDirektorat;
 import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;

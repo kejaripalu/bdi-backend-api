@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterPenkumLuhkum;
-import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
+import id.go.kejaripalu.bdi.util.JenisKegiatanPenkumLuhkum;
 
 public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPenkumLuhkum, Long> {
 

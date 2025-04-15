@@ -1,19 +1,16 @@
-package id.go.kejaripalu.bdi.controller;
+package id.go.kejaripalu.bdi.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import id.go.kejaripalu.bdi.exception.BDIErrorResponse;
-import id.go.kejaripalu.bdi.exception.NotFoundException;
-
-@ControllerAdvice
+@RestControllerAdvice
 public class RestExceptionHandler {
 
 	// Handling DataIntegrityViolationException
-	@ExceptionHandler
+	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<BDIErrorResponse> handleException(DataIntegrityViolationException exception) {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.BAD_REQUEST.value(), 
@@ -23,7 +20,7 @@ public class RestExceptionHandler {
 	}
 	
 	// Handling NotFoundException
-	@ExceptionHandler
+	@ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<BDIErrorResponse> handleException(NotFoundException exception) {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.NOT_FOUND.value(), 
@@ -33,7 +30,7 @@ public class RestExceptionHandler {
 	}
 	
 	// Handling Generic Exception
-	@ExceptionHandler
+	@ExceptionHandler({Exception.class})
 	public ResponseEntity<BDIErrorResponse> handleException(Exception exception) {
 		BDIErrorResponse response = new BDIErrorResponse(
 				HttpStatus.BAD_REQUEST.value(), 
@@ -41,5 +38,4 @@ public class RestExceptionHandler {
 				System.currentTimeMillis() / 1000);
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
-	
 }

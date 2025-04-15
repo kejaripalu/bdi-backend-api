@@ -1,4 +1,4 @@
-package id.go.kejaripalu.bdi.domain.util;
+package id.go.kejaripalu.bdi.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

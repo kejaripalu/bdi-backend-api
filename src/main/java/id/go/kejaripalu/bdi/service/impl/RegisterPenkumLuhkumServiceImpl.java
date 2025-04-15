@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterPenkumLuhkum;
-import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
+import id.go.kejaripalu.bdi.util.JenisKegiatanPenkumLuhkum;
 import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumRequest;
 import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;

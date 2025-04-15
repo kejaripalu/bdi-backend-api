@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
-import id.go.kejaripalu.bdi.domain.util.JenisSurat;
+import id.go.kejaripalu.bdi.util.JenisSurat;
 
 public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSuratMasuk, Long> {
 

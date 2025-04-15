@@ -1,4 +1,4 @@
-package id.go.kejaripalu.bdi.domain.util;
+package id.go.kejaripalu.bdi.util;
 
 public enum JenisProdukIntelijen {
 

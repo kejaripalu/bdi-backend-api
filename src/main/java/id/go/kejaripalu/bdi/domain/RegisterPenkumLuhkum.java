@@ -3,14 +3,13 @@ package id.go.kejaripalu.bdi.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import id.go.kejaripalu.bdi.domain.util.ProgramPenkumLuhkum;
+import id.go.kejaripalu.bdi.util.ProgramPenkumLuhkum;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import id.go.kejaripalu.bdi.domain.util.BaseEntity;
-import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
+import id.go.kejaripalu.bdi.util.JenisKegiatanPenkumLuhkum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

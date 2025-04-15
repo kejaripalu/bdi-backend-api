@@ -21,9 +21,8 @@ import jakarta.validation.constraints.DecimalMin;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import id.go.kejaripalu.bdi.domain.util.BaseEntity;
-import id.go.kejaripalu.bdi.domain.util.HasilPamstra;
-import id.go.kejaripalu.bdi.domain.util.Sektor;
+import id.go.kejaripalu.bdi.util.HasilPamstra;
+import id.go.kejaripalu.bdi.util.Sektor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

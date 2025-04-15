@@ -8,9 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import id.go.kejaripalu.bdi.domain.util.BaseEntity;
-import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
-import id.go.kejaripalu.bdi.domain.util.JenisPelayanan;
+import id.go.kejaripalu.bdi.util.JenisKelamin;
+import id.go.kejaripalu.bdi.util.JenisPelayanan;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

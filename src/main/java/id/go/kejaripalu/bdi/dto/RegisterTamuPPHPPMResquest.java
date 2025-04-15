@@ -5,8 +5,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.JenisKelamin;
-import id.go.kejaripalu.bdi.domain.util.JenisPelayanan;
+import id.go.kejaripalu.bdi.util.JenisKelamin;
+import id.go.kejaripalu.bdi.util.JenisPelayanan;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
-import id.go.kejaripalu.bdi.domain.util.JenisSurat;
+import id.go.kejaripalu.bdi.util.JenisSurat;
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukCreateRequest;
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukResponse;
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukUpdateRequest;

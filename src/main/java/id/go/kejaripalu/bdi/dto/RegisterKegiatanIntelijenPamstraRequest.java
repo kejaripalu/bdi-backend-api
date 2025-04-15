@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.HasilPamstra;
-import id.go.kejaripalu.bdi.domain.util.Sektor;
+import id.go.kejaripalu.bdi.util.HasilPamstra;
+import id.go.kejaripalu.bdi.util.Sektor;
 import lombok.Data;
 
 @Data

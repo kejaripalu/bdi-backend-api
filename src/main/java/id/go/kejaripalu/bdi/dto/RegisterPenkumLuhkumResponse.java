@@ -5,8 +5,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import id.go.kejaripalu.bdi.domain.util.JenisKegiatanPenkumLuhkum;
-import id.go.kejaripalu.bdi.domain.util.ProgramPenkumLuhkum;
+import id.go.kejaripalu.bdi.util.JenisKegiatanPenkumLuhkum;
+import id.go.kejaripalu.bdi.util.ProgramPenkumLuhkum;
 import lombok.Data;
 
 @Data
