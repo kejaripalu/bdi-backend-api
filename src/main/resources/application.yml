@@ -56,7 +56,7 @@ app:
   time-zone: GMT+8
   zone-id: Asia/Makassar
 # Token Expired dalam menit 
-  token-expired: 60
+  token-expired: 720
   issuer: ${ISSUER}
   random-code: ${RANDOM_CODE}
 logging:

@@ -1,12 +1,13 @@
 package id.go.kejaripalu.bdi.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class RestExceptionHandler {
 
 	// Handling DataIntegrityViolationException
@@ -28,6 +29,16 @@ public class RestExceptionHandler {
 				System.currentTimeMillis() / 1000);
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
+
+//	// Handling Expired JWT Exception
+//	@ExceptionHandler(ExpiredJwtException.class)
+//	public ResponseEntity<BDIErrorResponse> handleException(ExpiredJwtException exception) {
+//		BDIErrorResponse response = new BDIErrorResponse(
+//				HttpStatus.FORBIDDEN.value(),
+//				exception.getMessage(),
+//				System.currentTimeMillis() / 1000);
+//		return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+//	}
 	
 	// Handling Generic Exception
 	@ExceptionHandler({Exception.class})
