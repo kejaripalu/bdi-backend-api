@@ -8,6 +8,11 @@ Ini adalah Repository Bank Data Intelijen untuk mengelola data Intelijen Kejaksa
 * PostgreSQL 17++
 * Maven 3.9++
 
+### Baca Juga
+
+- [API Spesification](API-SPECS.md)
+- [Sample Data SQL untuk data user](sample-data-user.sql)
+
 ---
 
 ### Environment
