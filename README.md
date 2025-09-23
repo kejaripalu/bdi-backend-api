@@ -11,7 +11,7 @@ Ini adalah Repository Bank Data Intelijen untuk mengelola data Intelijen Kejaksa
 ### Baca Juga
 
 - [API Spesification](API-SPECS.md)
-- [Sample Data SQL untuk data user](sample-data-user.sql)
+- [Sample Data SQL untuk data user](sample-data-user.md)
 
 ---
 
@@ -89,3 +89,24 @@ Login CLI Postgres dan buat databasenya (sekali saja karena datanya akan tersimp
 ```
 docker exec -it -u postgres bdi-postgres psql
 ```
+#### 4. Docker Compose
+
+Jika ingin menggunakan docker compose, maka berikut konfigurasinya:
+
+```yaml
+services:
+  bdi-postgres:
+    container_name: bdi-postgres
+    image: postgres:17.4
+    environment:
+      - POSTGRES_PASSWORD=cLVc086Ey4
+    ports:
+      - 5432:5432
+    volumes:
+      - bdi-volume:/var/lib/postgresql/data
+volumes:
+  bdi-volume:
+    driver: local
+```
+
+> Baca Selengkapnya [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)
