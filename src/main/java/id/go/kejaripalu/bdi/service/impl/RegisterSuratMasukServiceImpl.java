@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
+import id.go.kejaripalu.bdi.mapper.RegisterSuratMasukMapper;
+import id.go.kejaripalu.bdi.service.CrudGenericService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,128 +15,88 @@ import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
 import id.go.kejaripalu.bdi.util.JenisSurat;
-import id.go.kejaripalu.bdi.dto.RegisterSuratMasukCreateRequest;
-import id.go.kejaripalu.bdi.dto.RegisterSuratMasukResponse;
-import id.go.kejaripalu.bdi.dto.RegisterSuratMasukUpdateRequest;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterSuratMasukRepository;
-import id.go.kejaripalu.bdi.service.RegisterSuratMasukService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService {
+public class RegisterSuratMasukServiceImpl implements CrudGenericService<RegisterSuratMasukDTO> {
 
 	private final RegisterSuratMasukRepository suratMasukRepository;
 	
 	@Override
 	@Transactional
-	public void createSuratMasuk(RegisterSuratMasukCreateRequest request) {
-		RegisterSuratMasuk suratMasuk = new RegisterSuratMasuk();
-		suratMasuk.setTanggalPenerimaanSurat(request.getTanggalPenerimaanSurat());
-		suratMasuk.setJamPenerimaanSurat(request.getJamPenerimaanSurat());
-		suratMasuk.setAsal(request.getAsal());
-		suratMasuk.setPerihal(request.getPerihal());
-		suratMasuk.setTanggalSurat(request.getTanggalSurat());
-		suratMasuk.setNomorSurat(request.getNomorSurat());
-		suratMasuk.setJenisSurat(request.getJenisSurat());
-		suratMasuk.setIsiDisposisi(request.getIsiDisposisi());
-		suratMasuk.setTindakLanjutDisposisi(request.getTindakLanjutDisposisi());
-		suratMasuk.setKeterangan(request.getKeterangan());
-		suratMasuk.setUrlFile(request.getUrlFile());
-		
-		suratMasukRepository.save(suratMasuk);
+	public RegisterSuratMasukDTO create(RegisterSuratMasukDTO suratMasukDTO) {
+		RegisterSuratMasukDTO suratMasuk =
+                RegisterSuratMasukMapper.INSTANCE.toDTO(suratMasukRepository.save(RegisterSuratMasukMapper.INSTANCE.toEntity(suratMasukDTO)));
+
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Surat Masuk!!!");
+        return suratMasuk;
 	}
 
 	@Override
 	@Transactional
-	public void updateSuratMasuk(String ids, RegisterSuratMasukUpdateRequest request) {
+	public RegisterSuratMasukDTO update(String ids, RegisterSuratMasukDTO suratMasukDTO) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		suratMasuk.setTanggalPenerimaanSurat(
-				request.getTanggalPenerimaanSurat() == null ? 
-						suratMasuk.getTanggalPenerimaanSurat() : request.getTanggalPenerimaanSurat());
-		suratMasuk.setJamPenerimaanSurat(
-				request.getJamPenerimaanSurat() == null ? 
-						suratMasuk.getJamPenerimaanSurat() : request.getJamPenerimaanSurat());
-		suratMasuk.setAsal(
-				request.getAsal() == null || request.getAsal().isBlank() ?
-						suratMasuk.getAsal() : request.getAsal());
-		suratMasuk.setPerihal(
-				request.getPerihal() == null || request.getPerihal().isBlank() ?
-						suratMasuk.getPerihal() : request.getPerihal());
-		suratMasuk.setTanggalSurat(
-				request.getTanggalSurat() == null ? 
-						suratMasuk.getTanggalSurat() : request.getTanggalSurat());
-		suratMasuk.setNomorSurat(
-				request.getNomorSurat() == null || request.getNomorSurat().isBlank() ?
-						suratMasuk.getNomorSurat() : request.getNomorSurat());
-		suratMasuk.setJenisSurat(
-				request.getJenisSurat() == null ?
-						suratMasuk.getJenisSurat() : request.getJenisSurat());
-		suratMasuk.setIsiDisposisi(request.getIsiDisposisi());
-		suratMasuk.setTindakLanjutDisposisi(request.getTindakLanjutDisposisi());
-		suratMasuk.setKeterangan(request.getKeterangan());
-		suratMasuk.setUrlFile(request.getUrlFile());
+		suratMasuk.setTanggalPenerimaanSurat(suratMasukDTO.tanggalPenerimaanSurat());
+		suratMasuk.setJamPenerimaanSurat(suratMasukDTO.jamPenerimaanSurat());
+		suratMasuk.setAsal(suratMasukDTO.asal());
+		suratMasuk.setPerihal(suratMasukDTO.perihal());
+		suratMasuk.setTanggalSurat(suratMasukDTO.tanggalSurat());
+		suratMasuk.setNomorSurat(suratMasukDTO.nomorSurat());
+		suratMasuk.setJenisSurat(suratMasukDTO.jenisSurat());
+		suratMasuk.setIsiDisposisi(suratMasukDTO.isiDisposisi());
+		suratMasuk.setTindakLanjutDisposisi(suratMasukDTO.tindakLanjutDisposisi());
+		suratMasuk.setKeterangan(suratMasukDTO.keterangan());
+		suratMasuk.setUrlFile(suratMasukDTO.urlFile());
 		
-		suratMasukRepository.save(suratMasuk);
-		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
+		RegisterSuratMasukDTO registerSuratMasukDTO =
+                RegisterSuratMasukMapper.INSTANCE.toDTO(suratMasukRepository.save(suratMasuk));
+
+        log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
+        return registerSuratMasukDTO;
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratMasuk> findSuratMasuk(String start, String end, String stringJenisSurat, 
+	public Page<RegisterSuratMasukDTO> findSuratMasuk(String start, String end, String stringJenisSurat,
 			Integer pages, Integer sizes) {
-		JenisSurat jenisSurat = JenisSurat.BIASA;
-		if (stringJenisSurat.equals("RAHASIA")) {
-			jenisSurat = JenisSurat.RAHASIA;
-		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error(e.getMessage());
-		}
-		
-		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterSuratMasuk> pagesSuratMasuk = suratMasukRepository.findSuratMasukAll(
-				startDate, endDate, jenisSurat, pageRequest);
-		
-		return pagesSuratMasuk;
-	}
-	
+        JenisSurat jenisSurat = JenisSurat.BIASA;
+        if (stringJenisSurat.equals("RAHASIA")) {
+            jenisSurat = JenisSurat.RAHASIA;
+        }
+
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+        } catch (ParseException e) {
+            log.error(e.getMessage());
+        }
+
+        Pageable pageRequest = PageRequest.of(pages, sizes);
+
+        return suratMasukRepository.findSuratMasukAll(
+                startDate, endDate, jenisSurat, pageRequest);
+    }
+
 	@Override
 	@Transactional
-	public RegisterSuratMasukResponse findSuratMasukByIds(String ids) {
+	public RegisterSuratMasukDTO findSuratMasukByIds(String ids) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		
-		RegisterSuratMasukResponse response = new RegisterSuratMasukResponse();
-		response.setIds(suratMasuk.getIds());
-		response.setTanggalPenerimaanSurat(suratMasuk.getTanggalPenerimaanSurat());
-		response.setJamPenerimaanSurat(suratMasuk.getJamPenerimaanSurat());
-		response.setAsal(suratMasuk.getAsal());
-		response.setNomorSurat(suratMasuk.getNomorSurat());
-		response.setPerihal(suratMasuk.getPerihal());
-		response.setTanggalSurat(suratMasuk.getTanggalSurat());
-		response.setJenisSurat(suratMasuk.getJenisSurat());
-		response.setIsiDisposisi(suratMasuk.getIsiDisposisi());
-		response.setTindakLanjutDisposisi(suratMasuk.getTindakLanjutDisposisi());
-		response.setKeterangan(suratMasuk.getKeterangan());
-		response.setUrlFile(suratMasuk.getUrlFile());
-		
-		return response;
+
+        return RegisterSuratMasukMapper.INSTANCE.toDTO(suratMasuk);
 	}
 
 	@Override
 	@Transactional
-	public void deleteSuratMasuk(String ids) {
+	public void delete(String ids) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratMasuk.setDeleted(true);
@@ -144,14 +107,14 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratMasuk> findSuratMasukBySearching(
+	public Page<RegisterSuratMasukDTO> findSuratMasukBySearching(
 			String start, String end, String value, String stringJenisSurat, Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		log.info("🔎 Value for searching: " + value);
-		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
+		if (value.isBlank()) {
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
@@ -162,13 +125,12 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratMasukService 
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
+            log.error("\uD83D\uDC80 {}", e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterSuratMasuk> pagesSuratMasuk = suratMasukRepository.findSuratMasukBySearching(
-				startDate, endDate, value, jenisSurat, pageRequest);
-		return pagesSuratMasuk;
+        return suratMasukRepository.findSuratMasukBySearching(
+                startDate, endDate, value, jenisSurat, pageRequest);
 	}
 	
 }

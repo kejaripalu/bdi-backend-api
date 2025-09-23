@@ -1,8 +1,9 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
+import id.go.kejaripalu.bdi.service.CrudGenericService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,11 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterSuratMasuk;
-import id.go.kejaripalu.bdi.dto.RegisterSuratMasukCreateRequest;
-import id.go.kejaripalu.bdi.dto.RegisterSuratMasukResponse;
-import id.go.kejaripalu.bdi.dto.RegisterSuratMasukUpdateRequest;
-import id.go.kejaripalu.bdi.service.RegisterSuratMasukService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -29,51 +25,49 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterSuratMasukController {
 
-	private final RegisterSuratMasukService suratMasukService;
+	private final CrudGenericService<RegisterSuratMasukDTO> suratMasukService;
 	
 	@GetMapping("/surat-masuk")
-	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasuk(
+	public ResponseEntity<Page<RegisterSuratMasukDTO>> findSuratMasuk(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
 				@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(suratMasukService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));		
+		return ResponseEntity.ok(suratMasukService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));
 	}
 	
 	@GetMapping("/surat-masuk/{ids}/detail")
-	public ResponseEntity<RegisterSuratMasukResponse> findSuratMasukByIds(@PathVariable String ids) {
-		return ResponseEntity.ok().body(suratMasukService.findSuratMasukByIds(ids));
+	public ResponseEntity<RegisterSuratMasukDTO> findSuratMasukByIds(@PathVariable String ids) {
+		return ResponseEntity.ok(suratMasukService.findSuratMasukByIds(ids));
 	}
 	
 	@GetMapping("/surat-masuk/search")
-	public ResponseEntity<Page<RegisterSuratMasuk>> findSuratMasukBySearch(
+	public ResponseEntity<Page<RegisterSuratMasukDTO>> findSuratMasukBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(suratMasukService.findSuratMasukBySearching(
+		return ResponseEntity.ok(suratMasukService.findSuratMasukBySearching(
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 	
 	@PostMapping("/surat-masuk")
-	public ResponseEntity<Void> createNewSuratMasuk(@Valid @RequestBody RegisterSuratMasukCreateRequest request) {
-		suratMasukService.createSuratMasuk(request);
-		return ResponseEntity.created(URI.create("/api/v1/surat-masuk")).build();
+	public ResponseEntity<RegisterSuratMasukDTO> createNewSuratMasuk(@Valid @RequestBody RegisterSuratMasukDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(suratMasukService.create(request));
 	}
 	
 	@PutMapping("/surat-masuk/{ids}")
-	public ResponseEntity<Void> updateSuratMasuk(@PathVariable String ids,
-			@RequestBody @Valid RegisterSuratMasukUpdateRequest request) {
-		suratMasukService.updateSuratMasuk(ids, request);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<RegisterSuratMasukDTO> updateSuratMasuk(@PathVariable String ids,
+			@RequestBody @Valid RegisterSuratMasukDTO request) {
+		return ResponseEntity.ok(suratMasukService.update(ids, request));
 	}
 	
 	@DeleteMapping("/surat-masuk/{ids}")
 	public ResponseEntity<Void> deleteSuratMasuk(@PathVariable String ids) {
-		suratMasukService.deleteSuratMasuk(ids);
+		suratMasukService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

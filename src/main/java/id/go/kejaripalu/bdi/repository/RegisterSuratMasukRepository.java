@@ -3,6 +3,7 @@ package id.go.kejaripalu.bdi.repository;
 import java.util.Date;
 import java.util.Optional;
 
+import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +17,7 @@ public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSura
 	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
 			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC")
-	Page<RegisterSuratMasuk> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
+	Page<RegisterSuratMasukDTO> findSuratMasukAll(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 
 	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
 			+ "AND (LOWER(r.asal) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -24,14 +25,14 @@ public interface RegisterSuratMasukRepository extends JpaRepository<RegisterSura
 			+ "OR LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalPenerimaanSurat DESC, r.jamPenerimaanSurat DESC")
-	Page<RegisterSuratMasuk> findSuratMasukBySearching(Date startDate, Date endDate, String value, JenisSurat jenisSurat, Pageable pageable);
+	Page<RegisterSuratMasukDTO> findSuratMasukBySearching(Date startDate, Date endDate, String value, JenisSurat jenisSurat, Pageable pageable);
 	
 	Optional<RegisterSuratMasuk> findByIdsAndDeletedFalse(String ids);
 	
 	@Query("SELECT r FROM RegisterSuratMasuk r WHERE r.deleted=false AND r.jenisSurat=:jenisSurat "
 			+ "AND r.tanggalPenerimaanSurat BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC, r.tanggalPenerimaanSurat DESC, r.jamPenerimaanSurat DESC")
-	Page<RegisterSuratMasuk> findSuratMasukAllToPrint(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
+	Page<RegisterSuratMasukDTO> findSuratMasukAllToPrint(Date startDate, Date endDate, JenisSurat jenisSurat, Pageable pageable);
 
 	
 }

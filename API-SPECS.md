@@ -35,7 +35,265 @@ Response:
 
 ## Register Surat Masuk
 
-### Get All Surat Masuk
+### Create Register Surat Masuk
 
+Request:
 
+- Method : POST
+- Endpoint : `/api/v1/surat-masuk`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
 
+```json
+{
+    "tanggalPenerimaanSurat": "date (2025-01-12)",
+    "jamPenerimaanSurat": "time (11:49)",
+    "asal": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (2025-01-10)",
+    "perihal": "string",
+    "jenisSurat": "enum",
+    "isiDisposisi": "string",
+    "tindakLanjutDisposisi": "string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
+Response: 
+
+```json
+{
+    "ids": "string",
+    "tanggalPenerimaanSurat": "date (2025-01-12)",
+    "jamPenerimaanSurat": "time (11:49)",
+    "asal": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (2025-01-10)",
+    "perihal": "string",
+    "jenisSurat": "enum",
+    "isiDisposisi": "string",
+    "tindakLanjutDisposisi": "string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
+### Update Register Surat Masuk
+
+Request:
+
+- Method : PUT
+- Endpoint : `/api/v1/surat-masuk/{ids}`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "tanggalPenerimaanSurat": "date (2025-01-12)",
+  "jamPenerimaanSurat": "time (11:49)",
+  "asal": "string",
+  "nomorSurat": "string",
+  "tanggalSurat": "date (2025-01-10)",
+  "perihal": "string",
+  "jenisSurat": "enum",
+  "isiDisposisi": "string",
+  "tindakLanjutDisposisi": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+    "ids": "string",
+    "tanggalPenerimaanSurat": "date (2025-01-12)",
+    "jamPenerimaanSurat": "time (11:49)",
+    "asal": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (2025-01-10)",
+    "perihal": "string",
+    "jenisSurat": "enum",
+    "isiDisposisi": "string",
+    "tindakLanjutDisposisi": "string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
+### Delete Register Surat Masuk
+
+Request:
+
+- Method : DELETE
+- Endpoint : `/api/v1/surat-masuk/{ids}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+### Search Register Surat Masuk
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/surat-masuk/search?pages={pages}&sizes={sizes}&startDate={startDate}&endDate={endDate}&value={value}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+    "content": [
+        {
+              "ids": "string",
+              "tanggalPenerimaanSurat": "date (2025-01-12)",
+              "jamPenerimaanSurat": "time (11:49)",
+              "asal": "string",
+              "nomorSurat": "string",
+              "tanggalSurat": "date (2025-01-10)",
+              "perihal": "string",
+              "jenisSurat": "enum",
+              "isiDisposisi": "string",
+              "tindakLanjutDisposisi": "string",
+              "keterangan": "string",
+              "urlFile": "string"
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+            "sorted": false,
+            "unsorted": true,
+            "empty": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "totalPages": 1,
+    "totalElements": 1,
+    "last": true,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "sorted": false,
+        "unsorted": true,
+        "empty": true
+    },
+    "numberOfElements": 1,
+    "first": true,
+    "empty": false
+}
+```
+
+### Get One Register Surat Masuk
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/surat-masuk/{ids}/detail`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+    "ids": "string",
+    "tanggalPenerimaanSurat": "date (2025-01-12)",
+    "jamPenerimaanSurat": "time (11:49)",
+    "asal": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (2025-01-10)",
+    "perihal": "string",
+    "jenisSurat": "enum",
+    "isiDisposisi": "string",
+    "tindakLanjutDisposisi": "string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
+### Get All Register Surat Masuk
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/surat-masuk?pages={pages}&sizes={sizes}&jenisSurat={jenisSurat}&startDate={startDate}&endDate={endDate}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "content": [
+    {
+      "ids": "string",
+      "tanggalPenerimaanSurat": "date (2025-01-12)",
+      "jamPenerimaanSurat": "time (11:49)",
+      "asal": "string",
+      "nomorSurat": "string",
+      "tanggalSurat": "date (2025-01-10)",
+      "perihal": "string",
+      "jenisSurat": "enum",
+      "isiDisposisi": "string",
+      "tindakLanjutDisposisi": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+    },
+    {
+      "ids": "string",
+      "tanggalPenerimaanSurat": "date (2025-01-12)",
+      "jamPenerimaanSurat": "time (11:49)",
+      "asal": "string",
+      "nomorSurat": "string",
+      "tanggalSurat": "date (2025-01-10)",
+      "perihal": "string",
+      "jenisSurat": "enum",
+      "isiDisposisi": "string",
+      "tindakLanjutDisposisi": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalPages": 1,
+  "totalElements": 2,
+  "last": true,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}
+```
