@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import id.go.kejaripalu.bdi.dto.*;
+import id.go.kejaripalu.bdi.mapper.RegisterSuratKeluarMapper;
+import id.go.kejaripalu.bdi.service.CrudGenericService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,26 +15,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
 import id.go.kejaripalu.bdi.util.JenisSurat;
-import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
-import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
-import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarUpdateRequest;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterSuratKeluarRepository;
-import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarService {
+public class RegisterSuratKeluarServiceImpl implements CrudGenericService<RegisterSuratKeluarDTO> {
 	
 	private final RegisterSuratKeluarRepository suratKeluarRepository;
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratKeluar> findSuratMasuk(String startDate, String endDate, String stringJenisSurat,
-			Integer pages, Integer sizes) {
+	public Page<RegisterSuratKeluarDTO> findAll(String startDate, String endDate, String stringJenisSurat,
+											   Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
@@ -46,78 +45,53 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 			log.error(e.getMessage());
 		}
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterSuratKeluar> pageSuratKeluar = suratKeluarRepository.findSuratKeluar(start, end, jenisSurat, pageRequest);
-		return pageSuratKeluar;
+        return suratKeluarRepository.findSuratKeluar(start, end, jenisSurat, pageRequest);
 	}
 
 	@Override
 	@Transactional
-	public void createSuratMasuk(RegisterSuratKeluarCreateRequest request) {
-		RegisterSuratKeluar suratKeluar = new RegisterSuratKeluar();
-		suratKeluar.setTanggalSurat(request.getTanggalSurat());
-		suratKeluar.setNomorSurat(request.getNomorSurat());
-		suratKeluar.setKepada(request.getKepada());
-		suratKeluar.setPerihal(request.getPerihal());
-		suratKeluar.setLampiran(request.getLampiran());
-		suratKeluar.setKeterangan(request.getKeterangan());
-		suratKeluar.setJenisSurat(request.getJenisSurat());
-		suratKeluar.setUrlFile(request.getUrlFile());
-		
-		suratKeluarRepository.save(suratKeluar);
+	public RegisterSuratKeluarDTO create(RegisterSuratKeluarDTO request) {
+		RegisterSuratKeluarDTO suratKeluar =
+				RegisterSuratKeluarMapper.INSTANCE.toDTO(
+						suratKeluarRepository.save(RegisterSuratKeluarMapper.INSTANCE.toEntity(request)));
+
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
+		return suratKeluar;
 	}
 
 	@Override
 	@Transactional
-	public RegisterSuratKeluarResponse findSuratMasukByIds(String ids) {
+	public RegisterSuratKeluarDTO findByIds(String ids) {
 		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		
-		RegisterSuratKeluarResponse response = new RegisterSuratKeluarResponse();
-		response.setIds(suratKeluar.getIds());
-		response.setTanggalSurat(suratKeluar.getTanggalSurat());
-		response.setNomorSurat(suratKeluar.getNomorSurat());
-		response.setKepada(suratKeluar.getKepada());
-		response.setPerihal(suratKeluar.getPerihal());
-		response.setLampiran(suratKeluar.getLampiran());
-		response.setKeterangan(suratKeluar.getKeterangan());
-		response.setJenisSurat(suratKeluar.getJenisSurat());
-		response.setUrlFile(suratKeluar.getUrlFile());
-		
-		return response;
+		return RegisterSuratKeluarMapper.INSTANCE.toDTO(suratKeluar);
 	}
 
 	@Override
 	@Transactional
-	public void updateSuratMasuk(String ids, RegisterSuratKeluarUpdateRequest request) {
+	public RegisterSuratKeluarDTO update(String ids, RegisterSuratKeluarDTO request) {
 		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		suratKeluar.setTanggalSurat(
-				request.getTanggalSurat() == null ?
-						suratKeluar.getTanggalSurat() : request.getTanggalSurat());
-		suratKeluar.setNomorSurat(
-				request.getNomorSurat() == null || request.getNomorSurat().isBlank() ?
-						suratKeluar.getNomorSurat() : request.getNomorSurat());
-		suratKeluar.setKepada(
-				request.getKepada() == null || request.getKepada().isBlank() ?
-						suratKeluar.getKepada() : request.getKepada());
-		suratKeluar.setPerihal(
-				request.getPerihal() == null || request.getPerihal().isBlank() ?
-						suratKeluar.getPerihal() : request.getPerihal());
-		suratKeluar.setJenisSurat(
-				request.getJenisSurat() == null ?
-						suratKeluar.getJenisSurat() : request.getJenisSurat());
-		suratKeluar.setLampiran(request.getLampiran());
-		suratKeluar.setKeterangan(request.getKeterangan());		
-		suratKeluar.setUrlFile(request.getUrlFile());
-		
-		suratKeluarRepository.save(suratKeluar);
+		suratKeluar.setTanggalSurat(request.tanggalSurat());
+		suratKeluar.setNomorSurat(request.nomorSurat());
+		suratKeluar.setKepada(request.kepada());
+		suratKeluar.setPerihal(request.perihal());
+		suratKeluar.setJenisSurat(request.jenisSurat());
+		suratKeluar.setLampiran(request.lampiran());
+		suratKeluar.setKeterangan(request.keterangan());
+		suratKeluar.setUrlFile(request.urlFile());
+
+		RegisterSuratKeluarDTO registerSuratKeluarDTO =
+				RegisterSuratKeluarMapper.INSTANCE.toDTO(suratKeluarRepository.save(suratKeluar));
+
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
+		return registerSuratKeluarDTO;
 	}
 
 	@Override
 	@Transactional
-	public void deleteSuratKeluar(String ids) {
+	public void delete(String ids) {
 		RegisterSuratKeluar suratKeluar = suratKeluarRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		suratKeluar.setDeleted(true);
@@ -128,14 +102,14 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratKeluar> findSuratKeluarBySearching(String start, String end, String value,
+	public Page<RegisterSuratKeluarDTO> findBySearching(String start, String end, String value,
 			String stringJenisSurat, Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		log.info("🔎 Value for searching: " + value);
-		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
+		if (value.isBlank()) {
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
@@ -146,13 +120,11 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratKeluarServic
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
+            log.error("\uD83D\uDC80 {}", e.getMessage());
 		}
 
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterSuratKeluar> pagesSuratKeluar = suratKeluarRepository.findSuratKeluarBySearch(
-				startDate, endDate, value, jenisSurat, pageRequest);
-		return pagesSuratKeluar;
+        return suratKeluarRepository.findSuratKeluarBySearch(
+                startDate, endDate, value, jenisSurat, pageRequest);
 	}
-
 }

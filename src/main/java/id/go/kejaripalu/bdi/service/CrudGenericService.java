@@ -8,11 +8,11 @@ public interface CrudGenericService<T> {
 
     T update(String ids, T request);
 
-    Page<T> findSuratMasuk(String startDate, String endDate, String stringJenisSurat, Integer pages, Integer sizes);
+    Page<T> findAll(String startDate, String endDate, String stringJenisSurat, Integer pages, Integer sizes);
 
-    Page<T> findSuratMasukBySearching(String start, String end, String value, String jenisSurat, Integer pages, Integer sizes);
+    Page<T> findBySearching(String start, String end, String value, String jenisSurat, Integer pages, Integer sizes);
 
-    T findSuratMasukByIds(String ids);
+    T findByIds(String ids);
 
     void delete(String ids);
 }

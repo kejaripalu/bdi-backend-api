@@ -10,7 +10,7 @@ public interface RegisterSuratMasukMapper {
 
     RegisterSuratMasukMapper INSTANCE = Mappers.getMapper(RegisterSuratMasukMapper.class);
 
-    RegisterSuratMasukDTO toDTO(RegisterSuratMasuk suratMasuk);
+    RegisterSuratMasukDTO toDTO(RegisterSuratMasuk entity);
 
-    RegisterSuratMasuk toEntity(RegisterSuratMasukDTO suratMasukDTO);
+    RegisterSuratMasuk toEntity(RegisterSuratMasukDTO dto);
 }

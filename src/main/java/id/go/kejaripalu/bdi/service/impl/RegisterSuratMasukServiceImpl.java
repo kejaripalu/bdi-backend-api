@@ -26,12 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RegisterSuratMasukServiceImpl implements CrudGenericService<RegisterSuratMasukDTO> {
 
 	private final RegisterSuratMasukRepository suratMasukRepository;
-	
+
 	@Override
 	@Transactional
 	public RegisterSuratMasukDTO create(RegisterSuratMasukDTO suratMasukDTO) {
 		RegisterSuratMasukDTO suratMasuk =
-                RegisterSuratMasukMapper.INSTANCE.toDTO(suratMasukRepository.save(RegisterSuratMasukMapper.INSTANCE.toEntity(suratMasukDTO)));
+                RegisterSuratMasukMapper.INSTANCE.toDTO(
+						suratMasukRepository.save(RegisterSuratMasukMapper.INSTANCE.toEntity(suratMasukDTO)));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Surat Masuk!!!");
         return suratMasuk;
@@ -55,7 +56,8 @@ public class RegisterSuratMasukServiceImpl implements CrudGenericService<Registe
 		suratMasuk.setUrlFile(suratMasukDTO.urlFile());
 		
 		RegisterSuratMasukDTO registerSuratMasukDTO =
-                RegisterSuratMasukMapper.INSTANCE.toDTO(suratMasukRepository.save(suratMasuk));
+                RegisterSuratMasukMapper.INSTANCE.toDTO(
+						suratMasukRepository.save(suratMasuk));
 
         log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
         return registerSuratMasukDTO;
@@ -63,8 +65,8 @@ public class RegisterSuratMasukServiceImpl implements CrudGenericService<Registe
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratMasukDTO> findSuratMasuk(String start, String end, String stringJenisSurat,
-			Integer pages, Integer sizes) {
+	public Page<RegisterSuratMasukDTO> findAll(String start, String end, String stringJenisSurat,
+											   Integer pages, Integer sizes) {
         JenisSurat jenisSurat = JenisSurat.BIASA;
         if (stringJenisSurat.equals("RAHASIA")) {
             jenisSurat = JenisSurat.RAHASIA;
@@ -87,7 +89,7 @@ public class RegisterSuratMasukServiceImpl implements CrudGenericService<Registe
 
 	@Override
 	@Transactional
-	public RegisterSuratMasukDTO findSuratMasukByIds(String ids) {
+	public RegisterSuratMasukDTO findByIds(String ids) {
 		RegisterSuratMasuk suratMasuk = suratMasukRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 
@@ -107,7 +109,7 @@ public class RegisterSuratMasukServiceImpl implements CrudGenericService<Registe
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratMasukDTO> findSuratMasukBySearching(
+	public Page<RegisterSuratMasukDTO> findBySearching(
 			String start, String end, String value, String stringJenisSurat, Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {

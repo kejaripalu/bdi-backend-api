@@ -49,11 +49,11 @@ Request:
 
 ```json
 {
-    "tanggalPenerimaanSurat": "date (2025-01-12)",
-    "jamPenerimaanSurat": "time (11:49)",
+    "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+    "jamPenerimaanSurat": "time (ex. 11:49)",
     "asal": "string",
     "nomorSurat": "string",
-    "tanggalSurat": "date (2025-01-10)",
+    "tanggalSurat": "date (ex. 2025-01-10)",
     "perihal": "string",
     "jenisSurat": "enum",
     "isiDisposisi": "string",
@@ -68,11 +68,11 @@ Response:
 ```json
 {
     "ids": "string",
-    "tanggalPenerimaanSurat": "date (2025-01-12)",
-    "jamPenerimaanSurat": "time (11:49)",
+    "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+    "jamPenerimaanSurat": "time (ex. 11:49)",
     "asal": "string",
     "nomorSurat": "string",
-    "tanggalSurat": "date (2025-01-10)",
+    "tanggalSurat": "date (ex. 2025-01-10)",
     "perihal": "string",
     "jenisSurat": "enum",
     "isiDisposisi": "string",
@@ -96,11 +96,11 @@ Request:
 
 ```json
 {
-  "tanggalPenerimaanSurat": "date (2025-01-12)",
-  "jamPenerimaanSurat": "time (11:49)",
+  "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+  "jamPenerimaanSurat": "time (ex. 11:49)",
   "asal": "string",
   "nomorSurat": "string",
-  "tanggalSurat": "date (2025-01-10)",
+  "tanggalSurat": "date (ex. 2025-01-10)",
   "perihal": "string",
   "jenisSurat": "enum",
   "isiDisposisi": "string",
@@ -115,11 +115,11 @@ Response:
 ```json
 {
     "ids": "string",
-    "tanggalPenerimaanSurat": "date (2025-01-12)",
-    "jamPenerimaanSurat": "time (11:49)",
+    "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+    "jamPenerimaanSurat": "time (ex. 11:49)",
     "asal": "string",
     "nomorSurat": "string",
-    "tanggalSurat": "date (2025-01-10)",
+    "tanggalSurat": "date (ex. 2025-01-10)",
     "perihal": "string",
     "jenisSurat": "enum",
     "isiDisposisi": "string",
@@ -156,11 +156,11 @@ Response:
     "content": [
         {
               "ids": "string",
-              "tanggalPenerimaanSurat": "date (2025-01-12)",
-              "jamPenerimaanSurat": "time (11:49)",
+              "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+              "jamPenerimaanSurat": "time (ex. 11:49)",
               "asal": "string",
               "nomorSurat": "string",
-              "tanggalSurat": "date (2025-01-10)",
+              "tanggalSurat": "date (ex. 2025-01-10)",
               "perihal": "string",
               "jenisSurat": "enum",
               "isiDisposisi": "string",
@@ -197,7 +197,7 @@ Response:
 }
 ```
 
-### Get One Register Surat Masuk
+### Get By Id Register Surat Masuk
 
 Request:
 
@@ -212,11 +212,11 @@ Response:
 ```json
 {
     "ids": "string",
-    "tanggalPenerimaanSurat": "date (2025-01-12)",
-    "jamPenerimaanSurat": "time (11:49)",
+    "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+    "jamPenerimaanSurat": "time (ex. 11:49)",
     "asal": "string",
     "nomorSurat": "string",
-    "tanggalSurat": "date (2025-01-10)",
+    "tanggalSurat": "date (ex. 2025-01-10)",
     "perihal": "string",
     "jenisSurat": "enum",
     "isiDisposisi": "string",
@@ -243,11 +243,11 @@ Response:
   "content": [
     {
       "ids": "string",
-      "tanggalPenerimaanSurat": "date (2025-01-12)",
-      "jamPenerimaanSurat": "time (11:49)",
+      "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+      "jamPenerimaanSurat": "time (ex. 11:49)",
       "asal": "string",
       "nomorSurat": "string",
-      "tanggalSurat": "date (2025-01-10)",
+      "tanggalSurat": "date (ex. 2025-01-10)",
       "perihal": "string",
       "jenisSurat": "enum",
       "isiDisposisi": "string",
@@ -257,8 +257,8 @@ Response:
     },
     {
       "ids": "string",
-      "tanggalPenerimaanSurat": "date (2025-01-12)",
-      "jamPenerimaanSurat": "time (11:49)",
+      "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+      "jamPenerimaanSurat": "time (ex. 11:49)",
       "asal": "string",
       "nomorSurat": "string",
       "tanggalSurat": "date (2025-01-10)",
@@ -295,5 +295,228 @@ Response:
   "numberOfElements": 2,
   "first": true,
   "empty": false
+}
+```
+
+## Register Surat Keluar
+
+### Create Register Surat Keluar
+
+Request:
+
+- Method : POST
+- Endpoint : `/api/v1/surat-keluar`
+- Header :
+  - Content-Type : application/json
+  - Accept : application/json
+  - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "nomorSurat": "string",
+  "kepada": "string",
+  "perihal": "string",
+  "lampiran": "string",
+  "keterangan": "string",
+  "jenisSurat": "enum"
+}
+```
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "nomorSurat": "string",
+  "kepada": "string",
+  "perihal": "string",
+  "lampiran": "string",
+  "keterangan": "string",
+  "jenisSurat": "enum"
+}
+```
+
+### Update Register Surat Keluar
+
+Request:
+
+- Method : PUT
+- Endpoint : `/api/v1/surat-keluar/{id}`
+- Header :
+  - Content-Type : application/json
+  - Accept : application/json
+  - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "nomorSurat": "string",
+  "kepada": "string",
+  "perihal": "string",
+  "lampiran": "string",
+  "keterangan": "string",
+  "jenisSurat": "enum"
+}
+```
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "nomorSurat": "string",
+  "kepada": "string",
+  "perihal": "string",
+  "lampiran": "string",
+  "keterangan": "string",
+  "jenisSurat": "enum"
+}
+```
+
+### Delete Register Surat Keluar
+
+Request:
+
+- Method : DELETE
+- Endpoint : `/api/v1/surat-keluar/{ids}`
+- Header :
+  - Accept : application/json
+  - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+### Search Register Surat Keluar
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/surat-keluar/search?pages={pages}&sizes={sizes}&jenisSurat={jenisSurat}&startDate={startDate}&endDate={endDate}&value={value}`
+- Header :
+  - Accept : application/json
+  - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+    "content": [
+      {
+        "ids": "string",
+        "tanggalSurat": "date (ex. 2022-10-12)",
+        "nomorSurat": "string",
+        "kepada": "string",
+        "perihal": "string",
+        "jenisSurat": "enum",
+        "lampiran": "string",
+        "keterangan": "string"
+      }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+            "sorted": false,
+            "unsorted": true,
+            "empty": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "totalPages": 1,
+    "totalElements": 1,
+    "last": true,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "sorted": false,
+        "unsorted": true,
+        "empty": true
+    },
+    "numberOfElements": 1,
+    "first": true,
+    "empty": false
+}
+```
+
+### Get By Id Register Surat Keluar
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/surat-keluar/{id}/detail`
+- Header :
+  - Accept : application/json
+  - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "nomorSurat": "string",
+  "kepada": "string",
+  "perihal": "string",
+  "jenisSurat": "enum",
+  "lampiran": "string",
+  "keterangan": "string"
+}
+```
+
+### Get All Register Surat Keluar
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/surat-keluar?pages={pages}&sizes={sizes}&jenisSurat={jenisSurat}&startDate={startDate}&endDate={endDate}`
+- Header :
+  - Accept : application/json
+  - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+    "content": [
+        {
+          "ids": "string",
+          "tanggalSurat": "date (ex. 2022-10-12)",
+          "nomorSurat": "string",
+          "kepada": "string",
+          "perihal": "string",
+          "jenisSurat": "enum",
+          "lampiran": "string",
+          "keterangan": "string"
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "totalElements": 1,
+    "totalPages": 1,
+    "last": true,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "numberOfElements": 1,
+    "first": true,
+    "empty": false
 }
 ```

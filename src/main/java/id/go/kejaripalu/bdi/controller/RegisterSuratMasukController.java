@@ -34,12 +34,12 @@ public class RegisterSuratMasukController {
 				@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok(suratMasukService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));
+		return ResponseEntity.ok(suratMasukService.findAll(startDate, endDate, jenisSurat, pages, sizes));
 	}
 	
 	@GetMapping("/surat-masuk/{ids}/detail")
 	public ResponseEntity<RegisterSuratMasukDTO> findSuratMasukByIds(@PathVariable String ids) {
-		return ResponseEntity.ok(suratMasukService.findSuratMasukByIds(ids));
+		return ResponseEntity.ok(suratMasukService.findByIds(ids));
 	}
 	
 	@GetMapping("/surat-masuk/search")
@@ -50,7 +50,7 @@ public class RegisterSuratMasukController {
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok(suratMasukService.findSuratMasukBySearching(
+		return ResponseEntity.ok(suratMasukService.findBySearching(
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 	

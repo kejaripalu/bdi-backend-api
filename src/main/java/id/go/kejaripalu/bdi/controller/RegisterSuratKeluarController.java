@@ -1,8 +1,9 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarDTO;
+import id.go.kejaripalu.bdi.service.CrudGenericService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,11 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterSuratKeluar;
-import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarCreateRequest;
-import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarResponse;
-import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarUpdateRequest;
-import id.go.kejaripalu.bdi.service.RegisterSuratKeluarService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -29,52 +25,49 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterSuratKeluarController {
 	
-	private final RegisterSuratKeluarService suratKeluarService;
+	private final CrudGenericService<RegisterSuratKeluarDTO> suratKeluarService;
 	
 	@GetMapping("/surat-keluar")
-	public ResponseEntity<Page<RegisterSuratKeluar>> findSuratKeluar(
+	public ResponseEntity<Page<RegisterSuratKeluarDTO>> findSuratKeluar(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(suratKeluarService.findSuratMasuk(startDate, endDate, jenisSurat, pages, sizes));
+		return ResponseEntity.ok(suratKeluarService.findAll(startDate, endDate, jenisSurat, pages, sizes));
 	}
 	
 	@PostMapping("/surat-keluar")
-	public ResponseEntity<Void> createNewSuratKeluar(@Valid @RequestBody RegisterSuratKeluarCreateRequest request) {
-		suratKeluarService.createSuratMasuk(request);
-		return ResponseEntity.created(URI.create("/api/v1/surat-keluar")).build();
+	public ResponseEntity<RegisterSuratKeluarDTO> createNewSuratKeluar(@Valid @RequestBody RegisterSuratKeluarDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(suratKeluarService.create(request));
 	}
 	
 	@GetMapping("/surat-keluar/{ids}/detail")
-	public ResponseEntity<RegisterSuratKeluarResponse> findSuratKeluarByIds(@PathVariable String ids) {
-		return ResponseEntity.ok().body(suratKeluarService.findSuratMasukByIds(ids));
+	public ResponseEntity<RegisterSuratKeluarDTO> findSuratKeluarByIds(@PathVariable String ids) {
+		return ResponseEntity.ok(suratKeluarService.findByIds(ids));
 	}
 	
 	@PutMapping("/surat-keluar/{ids}")
-	public ResponseEntity<Void> updateSuratKeluar(@PathVariable String ids,
-			@RequestBody @Valid RegisterSuratKeluarUpdateRequest request) {
-		suratKeluarService.updateSuratMasuk(ids, request);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<RegisterSuratKeluarDTO> updateSuratKeluar(@PathVariable String ids,
+			@RequestBody @Valid RegisterSuratKeluarDTO request) {
+		return ResponseEntity.ok(suratKeluarService.update(ids, request));
 	}
 	
 	@DeleteMapping("/surat-keluar/{ids}")
 	public ResponseEntity<Void> deleteSuratKeluar(@PathVariable String ids) {
-		suratKeluarService.deleteSuratKeluar(ids);
+		suratKeluarService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	
 	@GetMapping("/surat-keluar/search")
-	public ResponseEntity<Page<RegisterSuratKeluar>> findSuratKeluarBySearch(
+	public ResponseEntity<Page<RegisterSuratKeluarDTO>> findSuratKeluarBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(suratKeluarService.findSuratKeluarBySearching(
+		return ResponseEntity.ok().body(suratKeluarService.findBySearching(
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
-	
 }
