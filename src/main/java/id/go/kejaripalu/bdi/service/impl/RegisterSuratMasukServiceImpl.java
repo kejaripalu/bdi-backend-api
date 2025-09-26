@@ -6,7 +6,7 @@ import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterSuratMasukMapper;
-import id.go.kejaripalu.bdi.service.CrudGenericService;
+import id.go.kejaripalu.bdi.service.RegisterSuratService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RegisterSuratMasukServiceImpl implements CrudGenericService<RegisterSuratMasukDTO> {
+public class RegisterSuratMasukServiceImpl implements RegisterSuratService<RegisterSuratMasukDTO> {
 
 	private final RegisterSuratMasukRepository suratMasukRepository;
 

@@ -1,7 +1,7 @@
 package id.go.kejaripalu.bdi.controller;
 
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
-import id.go.kejaripalu.bdi.service.CrudGenericService;
+import id.go.kejaripalu.bdi.service.RegisterSuratService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterSuratMasukController {
 
-	private final CrudGenericService<RegisterSuratMasukDTO> suratMasukService;
+	private final RegisterSuratService<RegisterSuratMasukDTO> suratMasukService;
 	
 	@GetMapping("/surat-masuk")
 	public ResponseEntity<Page<RegisterSuratMasukDTO>> findSuratMasuk(

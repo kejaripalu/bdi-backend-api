@@ -1,8 +1,8 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterArsipDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterArsip;
-import id.go.kejaripalu.bdi.dto.RegisterArsipRequest;
-import id.go.kejaripalu.bdi.dto.RegisterArsipResponse;
 import id.go.kejaripalu.bdi.service.RegisterArsipService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,43 +25,41 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterArsipController {
 	
-	private final RegisterArsipService arsipService;
+	private final RegisterArsipService<RegisterArsipDTO> arsipService;
 	
 	@GetMapping("/arsip")
-	public ResponseEntity<Page<RegisterArsip>> findAll(
+	public ResponseEntity<Page<RegisterArsipDTO>> findAll(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(arsipService.findAll(startDate, endDate, pages, sizes));
+		return ResponseEntity.ok(arsipService.findAll(startDate, endDate, pages, sizes));
 	}
 	
 	@GetMapping("/arsip/{ids}/detail")
-	public ResponseEntity<RegisterArsipResponse> findById(@PathVariable String ids) {
-		return ResponseEntity.ok().body(arsipService.findByIds(ids));
+	public ResponseEntity<RegisterArsipDTO> findById(@PathVariable String ids) {
+		return ResponseEntity.ok(arsipService.findByIds(ids));
 	}
 	
 	@GetMapping("/arsip/search")
-	public ResponseEntity<Page<RegisterArsip>> findBySearch(
+	public ResponseEntity<Page<RegisterArsipDTO>> findBySearch(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
 				@RequestParam(required = true) String value,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(arsipService.findBySearching(startDate, endDate, value, pages, sizes));
+		return ResponseEntity.ok(arsipService.findBySearching(startDate, endDate, value, pages, sizes));
 	}
 
 	@PostMapping("/arsip")
-	public ResponseEntity<Void> create(@Valid @RequestBody RegisterArsipRequest request) {
-		arsipService.create(request);
-		return ResponseEntity.created(URI.create("/api/v1/arsip")).build();
+	public ResponseEntity<RegisterArsipDTO> create(@Valid @RequestBody RegisterArsipDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(arsipService.create(request));
 	}
 	
 	@PutMapping("/arsip/{ids}")
-	public ResponseEntity<Void> update(@PathVariable String ids,
-			@RequestBody @Valid RegisterArsipRequest request) {
-		arsipService.update(ids, request);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<RegisterArsipDTO> update(@PathVariable String ids,
+			@RequestBody @Valid RegisterArsipDTO request) {
+		return ResponseEntity.ok(arsipService.update(ids, request));
 	}
 	
 	@DeleteMapping("/arsip/{ids}")

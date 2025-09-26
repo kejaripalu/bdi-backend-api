@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,6 +34,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class RegisterSuratKeluar extends BaseEntity implements Serializable {
 	
+	@Serial
 	private static final long serialVersionUID = -3392350147752277694L;
 	
 	@Id

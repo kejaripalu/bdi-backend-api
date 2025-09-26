@@ -1,7 +1,7 @@
 package id.go.kejaripalu.bdi.controller;
 
 import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarDTO;
-import id.go.kejaripalu.bdi.service.CrudGenericService;
+import id.go.kejaripalu.bdi.service.RegisterSuratService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterSuratKeluarController {
 	
-	private final CrudGenericService<RegisterSuratKeluarDTO> suratKeluarService;
+	private final RegisterSuratService<RegisterSuratKeluarDTO> suratKeluarService;
 	
 	@GetMapping("/surat-keluar")
 	public ResponseEntity<Page<RegisterSuratKeluarDTO>> findSuratKeluar(
@@ -67,7 +67,7 @@ public class RegisterSuratKeluarController {
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(suratKeluarService.findBySearching(
+		return ResponseEntity.ok(suratKeluarService.findBySearching(
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 }
