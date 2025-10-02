@@ -47,8 +47,7 @@ public class RegisterArsipServiceImpl implements RegisterArsipService<RegisterAr
 		arsip.setDiterimaDari(request.diterimaDari());
 		arsip.setNomorSurat(request.nomorSurat());
 		arsip.setTanggalSurat(request.tanggalSurat());
-		arsip.setPerihal(
-				request.perihal());
+		arsip.setPerihal(request.perihal());
 		arsip.setLampiran(request.lampiran());
 		arsip.setKodePenyimpanan(request.kodePenyimpanan());
 		arsip.setKeterangan(request.keterangan());

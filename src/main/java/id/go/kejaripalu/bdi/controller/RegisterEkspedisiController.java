@@ -1,8 +1,8 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterEkspedisiDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterEkspedisi;
-import id.go.kejaripalu.bdi.dto.RegisterEkspedisiRequest;
-import id.go.kejaripalu.bdi.dto.RegisterEkspedisiResponse;
 import id.go.kejaripalu.bdi.service.RegisterEkspedisiService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,52 +25,51 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterEkspedisiController {
 
-	private final RegisterEkspedisiService ekspedisiService;
+	private final RegisterEkspedisiService<RegisterEkspedisiDTO> ekspedisiService;
 	
 	@GetMapping("/ekspedisi")
-	public ResponseEntity<Page<RegisterEkspedisi>> findAll(
+	public ResponseEntity<Page<RegisterEkspedisiDTO>> findAll(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
 				@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(ekspedisiService.findEkspedisi(startDate, endDate, jenisSurat, pages, sizes));		
+		return ResponseEntity.ok(ekspedisiService.findAll(startDate, endDate, jenisSurat, pages, sizes));
 	}
 	
 	@GetMapping("/ekspedisi/{ids}/detail")
-	public ResponseEntity<RegisterEkspedisiResponse> findById(@PathVariable String ids) {
-		return ResponseEntity.ok().body(ekspedisiService.findEkspedisiByIds(ids));
+	public ResponseEntity<RegisterEkspedisiDTO> findById(@PathVariable String ids) {
+		return ResponseEntity.ok(ekspedisiService.findByIds(ids));
 	}
 	
 	@GetMapping("/ekspedisi/search")
-	public ResponseEntity<Page<RegisterEkspedisi>> findBySearch(
+	public ResponseEntity<Page<RegisterEkspedisiDTO>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true, defaultValue = "BIASA") String jenisSurat,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(ekspedisiService.findEkspedisiBySearching(
+		return ResponseEntity.ok(ekspedisiService.findBySearching(
 				startDate, endDate, value, jenisSurat, pages, sizes));
 	}
 	
 	@PostMapping("/ekspedisi")
-	public ResponseEntity<Void> create(@Valid @RequestBody RegisterEkspedisiRequest request) {
-		ekspedisiService.createEkspedisi(request);
-		return ResponseEntity.created(URI.create("/api/v1/ekspedisi")).build();
+	public ResponseEntity<RegisterEkspedisiDTO> create(@Valid @RequestBody RegisterEkspedisiDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(ekspedisiService.create(request));
 	}
 	
 	@PutMapping("/ekspedisi/{ids}")
-	public ResponseEntity<Void> update(@PathVariable String ids,
-			@RequestBody @Valid RegisterEkspedisiRequest request) {
-		ekspedisiService.updateEkspedisi(ids, request);
+	public ResponseEntity<RegisterEkspedisiDTO> update(@PathVariable String ids,
+			@RequestBody @Valid RegisterEkspedisiDTO request) {
+		ekspedisiService.update(ids, request);
 		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/ekspedisi/{ids}")
 	public ResponseEntity<Void> delete(@PathVariable String ids) {
-		ekspedisiService.deleteEkspedisi(ids);
+		ekspedisiService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
-	
+
 }

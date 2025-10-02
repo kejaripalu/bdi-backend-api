@@ -821,3 +821,288 @@ Response:
     "empty": false
 }
 ```
+
+--
+
+## Register Ekspedisi
+
+### Create Register Ekspedisi
+
+Request:
+
+- Method : POST
+- Endpoint : `/api/v1/ekspedisi`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+    "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+    "jamPenerimaanArsip": "time (ex. 11:49)",
+    "diterimaDari": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (ex. 2025-10-10)",
+    "perihal": "string",
+    "lampiran": "string",
+    "kodePenyimpanan": "enum, string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+    "ids": "string",
+    "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+    "jamPenerimaanArsip": "time (ex. 11:49)",
+    "diterimaDari": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (ex. 2025-10-10)",
+    "perihal": "string",
+    "lampiran": "string",
+    "kodePenyimpanan": "enum, string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
+### Update Register Ekspedisi
+
+Request:
+
+- Method : PUT
+- Endpoint : `/api/v1/arsip/{id}`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+  "jamPenerimaanArsip": "time (ex. 11:49)",
+  "diterimaDari": "string",
+  "nomorSurat": "string",
+  "tanggalSurat": "date (ex. 2025-10-10)",
+  "perihal": "string",
+  "lampiran": "string",
+  "kodePenyimpanan": "enum, string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+  "jamPenerimaanArsip": "time (ex. 11:49)",
+  "diterimaDari": "string",
+  "nomorSurat": "string",
+  "tanggalSurat": "date (ex. 2025-10-10)",
+  "perihal": "string",
+  "lampiran": "string",
+  "kodePenyimpanan": "enum, string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Delete Register Ekspedisi
+
+Request:
+
+- Method : DELETE
+- Endpoint : `/api/v1/arsip/{ids}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+### Get By Search Register Ekspedisi
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/arsip/search?pages={pages}&sizes={sizes}&startDate={starDate}&endDate={endDate}&value={value}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+    "content": [
+        {
+            "ids": "string",
+            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+            "jamPenerimaanArsip": "time (ex. 11:49)",
+            "diterimaDari": "string",
+            "nomorSurat": "string",
+            "tanggalSurat": "date (ex. 2025-10-10)",
+            "perihal": "string",
+            "lampiran": "string",
+            "kodePenyimpanan": "enum, string",
+            "keterangan": "string",
+            "urlFile": "string"
+        }
+    ],
+      "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+          "empty": true,
+          "sorted": false,
+          "unsorted": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+      },
+      "last": true,
+      "totalPages": 1,
+      "totalElements": 1,
+      "size": 10,
+      "number": 0,
+      "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+      },
+      "first": true,
+      "numberOfElements": 1,
+      "empty": false
+}
+```
+
+### Get By Id Register Ekspedisi
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/arsip/{id}/detail`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+  "jamPenerimaanArsip": "time (ex. 11:49)",
+  "diterimaDari": "string",
+  "nomorSurat": "string",
+  "tanggalSurat": "date (ex. 2025-10-10)",
+  "perihal": "string",
+  "lampiran": "string",
+  "kodePenyimpanan": "enum, string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Get All Register Ekspedisi
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/arsip?pages={pages}&sizes={sizes}&startDate={startDate}&endDate={endDate}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+    "content": [
+        {
+            "ids": "string",
+            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+            "jamPenerimaanArsip": "time (ex. 11:49)",
+            "diterimaDari": "string",
+            "nomorSurat": "string",
+            "tanggalSurat": "date (ex. 2025-10-10)",
+            "perihal": "string",
+            "lampiran": "string",
+            "kodePenyimpanan": "enum, string",
+            "keterangan": "string",
+            "urlFile": "string"
+        },
+        {
+            "ids": "string",
+            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+            "jamPenerimaanArsip": "time (ex. 11:49)",
+            "diterimaDari": "string",
+            "nomorSurat": "string",
+            "tanggalSurat": "date (ex. 2025-10-10)",
+            "perihal": "string",
+            "lampiran": "string",
+            "kodePenyimpanan": "enum, string",
+            "keterangan": "string",
+            "urlFile": "string"
+        },
+        {
+            "ids": "string",
+            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+            "jamPenerimaanArsip": "time (ex. 11:49)",
+            "diterimaDari": "string",
+            "nomorSurat": "string",
+            "tanggalSurat": "date (ex. 2025-10-10)",
+            "perihal": "string",
+            "lampiran": "string",
+            "kodePenyimpanan": "enum, string",
+            "keterangan": "string",
+            "urlFile": "string"
+        },
+        {
+            "ids": "string",
+            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+            "jamPenerimaanArsip": "time (ex. 11:49)",
+            "diterimaDari": "string",
+            "nomorSurat": "string",
+            "tanggalSurat": "date (ex. 2025-10-10)",
+            "perihal": "string",
+            "lampiran": "string",
+            "kodePenyimpanan": "enum, string",
+            "keterangan": "string",
+            "urlFile": "string"
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": true,
+    "totalPages": 1,
+    "totalElements": 4,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "first": true,
+    "numberOfElements": 4,
+    "empty": false
+}
+```
