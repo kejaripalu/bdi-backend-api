@@ -128,25 +128,6 @@ Request:
 }
 ```
 
-Response:
-
-```json
-{
-    "ids": "string",
-    "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
-    "jamPenerimaanSurat": "time (ex. 11:49)",
-    "asal": "string",
-    "nomorSurat": "string",
-    "tanggalSurat": "date (ex. 2025-01-10)",
-    "perihal": "string",
-    "jenisSurat": "enum",
-    "isiDisposisi": "string",
-    "tindakLanjutDisposisi": "string",
-    "keterangan": "string",
-    "urlFile": "string"
-}
-```
-
 ### Delete Register Surat Masuk
 
 Request:
@@ -381,21 +362,6 @@ Request:
 }
 ```
 
-Response:
-
-```json
-{
-  "ids": "string",
-  "tanggalSurat": "date (ex. 2022-10-12)",
-  "nomorSurat": "string",
-  "kepada": "string",
-  "perihal": "string",
-  "lampiran": "string",
-  "keterangan": "string",
-  "jenisSurat": "enum"
-}
-```
-
 ### Delete Register Surat Keluar
 
 Request:
@@ -600,24 +566,6 @@ Request:
 
 ```json
 {
-  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-  "jamPenerimaanArsip": "time (ex. 11:49)",
-  "diterimaDari": "string",
-  "nomorSurat": "string",
-  "tanggalSurat": "date (ex. 2025-10-10)",
-  "perihal": "string",
-  "lampiran": "string",
-  "kodePenyimpanan": "enum, string",
-  "keterangan": "string",
-  "urlFile": "string"
-}
-```
-
-Response:
-
-```json
-{
-  "ids": "string",
   "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
   "jamPenerimaanArsip": "time (ex. 11:49)",
   "diterimaDari": "string",
@@ -840,16 +788,16 @@ Request:
 
 ```json
 {
-    "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-    "jamPenerimaanArsip": "time (ex. 11:49)",
-    "diterimaDari": "string",
-    "nomorSurat": "string",
-    "tanggalSurat": "date (ex. 2025-10-10)",
-    "perihal": "string",
-    "lampiran": "string",
-    "kodePenyimpanan": "enum, string",
-    "keterangan": "string",
-    "urlFile": "string"
+      "nomorSurat": "string",
+      "tanggalSurat": "date (ex. 2022-10-12)",
+      "kepada": "string",
+      "perihal": "string",
+      "lampiran": "string",
+      "tanggalTandaTerima": "date (ex. 2022-10-10)",
+      "jamTandaTerima": "time (ex. 11:49)",
+      "jenisSurat": "enum, string",
+      "keterangan": "string",
+      "urlFile": "string"
 }
 ```
 
@@ -857,17 +805,17 @@ Response:
 
 ```json
 {
-    "ids": "string",
-    "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-    "jamPenerimaanArsip": "time (ex. 11:49)",
-    "diterimaDari": "string",
-    "nomorSurat": "string",
-    "tanggalSurat": "date (ex. 2025-10-10)",
-    "perihal": "string",
-    "lampiran": "string",
-    "kodePenyimpanan": "enum, string",
-    "keterangan": "string",
-    "urlFile": "string"
+      "ids": "string",
+      "nomorSurat": "string",
+      "tanggalSurat": "date (ex. 2022-10-12)",
+      "kepada": "string",
+      "perihal": "string",
+      "lampiran": "string",
+      "tanggalTandaTerima": "date (ex. 2022-10-10)",
+      "jamTandaTerima": "time (ex. 11:49)",
+      "jenisSurat": "enum, string",
+      "keterangan": "string",
+      "urlFile": "string"
 }
 ```
 
@@ -876,7 +824,7 @@ Response:
 Request:
 
 - Method : PUT
-- Endpoint : `/api/v1/arsip/{id}`
+- Endpoint : `/api/v1/ekspedisi/{id}`
 - Header :
     - Content-Type : application/json
     - Accept : application/json
@@ -885,32 +833,14 @@ Request:
 
 ```json
 {
-  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-  "jamPenerimaanArsip": "time (ex. 11:49)",
-  "diterimaDari": "string",
   "nomorSurat": "string",
-  "tanggalSurat": "date (ex. 2025-10-10)",
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "kepada": "string",
   "perihal": "string",
   "lampiran": "string",
-  "kodePenyimpanan": "enum, string",
-  "keterangan": "string",
-  "urlFile": "string"
-}
-```
-
-Response:
-
-```json
-{
-  "ids": "string",
-  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-  "jamPenerimaanArsip": "time (ex. 11:49)",
-  "diterimaDari": "string",
-  "nomorSurat": "string",
-  "tanggalSurat": "date (ex. 2025-10-10)",
-  "perihal": "string",
-  "lampiran": "string",
-  "kodePenyimpanan": "enum, string",
+  "tanggalTandaTerima": "date (ex. 2022-10-10)",
+  "jamTandaTerima": "time (ex. 11:49)",
+  "jenisSurat": "enum, string",
   "keterangan": "string",
   "urlFile": "string"
 }
@@ -921,7 +851,7 @@ Response:
 Request:
 
 - Method : DELETE
-- Endpoint : `/api/v1/arsip/{ids}`
+- Endpoint : `/api/v1/ekspedisi/{ids}`
 - Header :
     - Accept : application/json
     - Authorization: Bearer `YOUR_ACCESS_TOKEN`
@@ -931,7 +861,7 @@ Request:
 Request:
 
 - Method : GET
-- Endpoint : `/api/v1/arsip/search?pages={pages}&sizes={sizes}&startDate={starDate}&endDate={endDate}&value={value}`
+- Endpoint : `/api/v1/ekspedisi/search?pages={pages}&sizes={sizes}&jenisSurat={jenisSurat}&startDate={startDate}&endDate={endDate}&value={value}`
 - Header :
     - Accept : application/json
     - Authorization: Bearer `YOUR_ACCESS_TOKEN`
@@ -941,19 +871,19 @@ Response:
 ```json
 {
     "content": [
-        {
-            "ids": "string",
-            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-            "jamPenerimaanArsip": "time (ex. 11:49)",
-            "diterimaDari": "string",
-            "nomorSurat": "string",
-            "tanggalSurat": "date (ex. 2025-10-10)",
-            "perihal": "string",
-            "lampiran": "string",
-            "kodePenyimpanan": "enum, string",
-            "keterangan": "string",
-            "urlFile": "string"
-        }
+      {
+        "ids": "string",
+        "nomorSurat": "string",
+        "tanggalSurat": "date (ex. 2022-10-12)",
+        "kepada": "string",
+        "perihal": "string",
+        "lampiran": "string",
+        "tanggalTandaTerima": "date (ex. 2022-10-10)",
+        "jamTandaTerima": "time (ex. 11:49)",
+        "jenisSurat": "enum, string",
+        "keterangan": "string",
+        "urlFile": "string"
+      }
     ],
       "pageable": {
         "pageNumber": 0,
@@ -988,7 +918,7 @@ Response:
 Request:
 
 - Method : GET
-- Endpoint : `/api/v1/arsip/{id}/detail`
+- Endpoint : `/api/v1/ekspedisi/{id}/detail`
 - Header :
     - Accept : application/json
     - Authorization: Bearer `YOUR_ACCESS_TOKEN`
@@ -998,14 +928,14 @@ Response:
 ```json
 {
   "ids": "string",
-  "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-  "jamPenerimaanArsip": "time (ex. 11:49)",
-  "diterimaDari": "string",
   "nomorSurat": "string",
-  "tanggalSurat": "date (ex. 2025-10-10)",
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "kepada": "string",
   "perihal": "string",
   "lampiran": "string",
-  "kodePenyimpanan": "enum, string",
+  "tanggalTandaTerima": "date (ex. 2022-10-10)",
+  "jamTandaTerima": "time (ex. 11:49)",
+  "jenisSurat": "enum, string",
   "keterangan": "string",
   "urlFile": "string"
 }
@@ -1016,7 +946,7 @@ Response:
 Request:
 
 - Method : GET
-- Endpoint : `/api/v1/arsip?pages={pages}&sizes={sizes}&startDate={startDate}&endDate={endDate}`
+- Endpoint : `/api/v1/ekspedisi?pages={pages}&sizes={sizes}&jenisSurat={jenisSurat}&startDate={startDate}&endDate={endDate}`
 - Header :
     - Accept : application/json
     - Authorization: Bearer `YOUR_ACCESS_TOKEN`
@@ -1025,84 +955,45 @@ Response:
 
 ```json
 {
-    "content": [
-        {
-            "ids": "string",
-            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-            "jamPenerimaanArsip": "time (ex. 11:49)",
-            "diterimaDari": "string",
-            "nomorSurat": "string",
-            "tanggalSurat": "date (ex. 2025-10-10)",
-            "perihal": "string",
-            "lampiran": "string",
-            "kodePenyimpanan": "enum, string",
-            "keterangan": "string",
-            "urlFile": "string"
-        },
-        {
-            "ids": "string",
-            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-            "jamPenerimaanArsip": "time (ex. 11:49)",
-            "diterimaDari": "string",
-            "nomorSurat": "string",
-            "tanggalSurat": "date (ex. 2025-10-10)",
-            "perihal": "string",
-            "lampiran": "string",
-            "kodePenyimpanan": "enum, string",
-            "keterangan": "string",
-            "urlFile": "string"
-        },
-        {
-            "ids": "string",
-            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-            "jamPenerimaanArsip": "time (ex. 11:49)",
-            "diterimaDari": "string",
-            "nomorSurat": "string",
-            "tanggalSurat": "date (ex. 2025-10-10)",
-            "perihal": "string",
-            "lampiran": "string",
-            "kodePenyimpanan": "enum, string",
-            "keterangan": "string",
-            "urlFile": "string"
-        },
-        {
-            "ids": "string",
-            "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
-            "jamPenerimaanArsip": "time (ex. 11:49)",
-            "diterimaDari": "string",
-            "nomorSurat": "string",
-            "tanggalSurat": "date (ex. 2025-10-10)",
-            "perihal": "string",
-            "lampiran": "string",
-            "kodePenyimpanan": "enum, string",
-            "keterangan": "string",
-            "urlFile": "string"
-        }
-    ],
-    "pageable": {
-        "pageNumber": 0,
-        "pageSize": 10,
-        "sort": {
-            "empty": true,
-            "sorted": false,
-            "unsorted": true
-        },
-        "offset": 0,
-        "paged": true,
-        "unpaged": false
-    },
-    "last": true,
-    "totalPages": 1,
-    "totalElements": 4,
-    "size": 10,
-    "number": 0,
+  "content": [
+    {
+      "ids": "string",
+      "nomorSurat": "string",
+      "tanggalSurat": "date (ex. 2022-10-12)",
+      "kepada": "string",
+      "perihal": "string",
+      "lampiran": "string",
+      "tanggalTandaTerima": "date (ex. 2022-10-10)",
+      "jamTandaTerima": "time (ex. 11:49)",
+      "jenisSurat": "enum, string",
+      "keterangan": "string",
+      "urlFile": "string"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
     "sort": {
-        "empty": true,
-        "sorted": false,
-        "unsorted": true
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
     },
-    "first": true,
-    "numberOfElements": 4,
-    "empty": false
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalElements": 1,
+  "totalPages": 1,
+  "first": true,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "numberOfElements": 1,
+  "empty": false
 }
 ```
