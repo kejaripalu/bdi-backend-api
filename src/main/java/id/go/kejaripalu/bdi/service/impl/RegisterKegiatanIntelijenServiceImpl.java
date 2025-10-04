@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenDTO;
+import id.go.kejaripalu.bdi.mapper.RegisterKegiatanIntelijenMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijen;
 import id.go.kejaripalu.bdi.util.BidangDirektorat;
-import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterKegiatanIntelijenRepository;
 import id.go.kejaripalu.bdi.service.RegisterKegiatanIntelijenService;
@@ -23,63 +23,45 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanIntelijenService {
+public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanIntelijenService<RegisterKegiatanIntelijenDTO> {
 	
 	private final RegisterKegiatanIntelijenRepository repository;
 
 	@Override
 	@Transactional
-	public void create(RegisterKegiatanIntelijenRequest request) {
-		RegisterKegiatanIntelijen kegiatanIntelijen = new RegisterKegiatanIntelijen();
-		kegiatanIntelijen.setBidangDirektorat(request.getBidangDirektorat());
-		kegiatanIntelijen.setSektor(request.getSektor());
-		kegiatanIntelijen.setTanggal(request.getTanggal());
-		kegiatanIntelijen.setNomor(request.getNomor());
-		kegiatanIntelijen.setPerihal(request.getPerihal());
-		kegiatanIntelijen.setNamaPetugasPelaksana(request.getNamaPetugasPelaksana());
-		kegiatanIntelijen.setHasilPelaksanaanKegiatan(request.getHasilPelaksanaanKegiatan());
-		kegiatanIntelijen.setKeterangan(request.getKeterangan());
-		kegiatanIntelijen.setUrlFile(request.getUrlFile());
+	public RegisterKegiatanIntelijenDTO create(RegisterKegiatanIntelijenDTO request) {
+		RegisterKegiatanIntelijenDTO rki =
+                RegisterKegiatanIntelijenMapper.INSTANCE.toDTO(
+                        repository.save(RegisterKegiatanIntelijenMapper.INSTANCE.toEntity(request)));
 		
-		repository.save(kegiatanIntelijen);
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen!!!");
-
+        return rki;
 	}
 
 	@Override
 	@Transactional
-	public void update(String ids, RegisterKegiatanIntelijenRequest request) {
+	public RegisterKegiatanIntelijenDTO update(String ids, RegisterKegiatanIntelijenDTO request) {
 		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		kegiatanIntelijen.setBidangDirektorat(
-				request.getBidangDirektorat() == null ? 
-						kegiatanIntelijen.getBidangDirektorat() : request.getBidangDirektorat());
-		kegiatanIntelijen.setSektor(
-				request.getSektor() == null ? 
-						kegiatanIntelijen.getSektor() : request.getSektor());
-		kegiatanIntelijen.setTanggal(
-				request.getTanggal() == null ? 
-						kegiatanIntelijen.getTanggal() : request.getTanggal());
-		kegiatanIntelijen.setNomor(
-				request.getNomor() == null || request.getNomor().isBlank() ? 
-						kegiatanIntelijen.getNomor() : request.getNomor());
-		kegiatanIntelijen.setPerihal(
-				request.getPerihal() == null || request.getPerihal().isBlank() ? 
-						kegiatanIntelijen.getPerihal() : request.getPerihal());
-		kegiatanIntelijen.setNamaPetugasPelaksana(
-				request.getNamaPetugasPelaksana() == null || request.getNamaPetugasPelaksana().isBlank() ? 
-						kegiatanIntelijen.getNamaPetugasPelaksana() : request.getNamaPetugasPelaksana());
-		kegiatanIntelijen.setHasilPelaksanaanKegiatan(request.getHasilPelaksanaanKegiatan());
-		kegiatanIntelijen.setKeterangan(request.getKeterangan());
-		kegiatanIntelijen.setUrlFile(request.getUrlFile());
+		kegiatanIntelijen.setBidangDirektorat(request.bidangDirektorat());
+		kegiatanIntelijen.setSektor(request.sektor());
+		kegiatanIntelijen.setTanggal(request.tanggal());
+		kegiatanIntelijen.setNomor(request.nomor());
+		kegiatanIntelijen.setPerihal(request.perihal());
+		kegiatanIntelijen.setNamaPetugasPelaksana(request.namaPetugasPelaksana());
+		kegiatanIntelijen.setHasilPelaksanaanKegiatan(request.hasilPelaksanaanKegiatan());
+		kegiatanIntelijen.setKeterangan(request.keterangan());
+		kegiatanIntelijen.setUrlFile(request.urlFile());
 		
-		repository.save(kegiatanIntelijen);
-		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen!!!");
+		RegisterKegiatanIntelijenDTO rki = 
+                RegisterKegiatanIntelijenMapper.INSTANCE.toDTO(repository.save(kegiatanIntelijen));
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen!!!");        
+        return rki;
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterKegiatanIntelijen> findAll(String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
+	public Page<RegisterKegiatanIntelijenDTO> findAll(String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
 		BidangDirektorat bidangDirektorat = null;
 		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
 			bidangDirektorat = BidangDirektorat.IPOLHANKAM;
@@ -99,19 +81,17 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error(e.getMessage());
+			log.error("\uD83D\uDC80 {}", e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterKegiatanIntelijen> pagesKegiatanIntelijen = repository.findAllKegiatan(
-				startDate, endDate, bidangDirektorat, pageRequest);
-		
-		return pagesKegiatanIntelijen;
+        return repository.findAllKegiatan(
+                startDate, endDate, bidangDirektorat, pageRequest);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterKegiatanIntelijen> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages,
+	public Page<RegisterKegiatanIntelijenDTO> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages,
 			Integer sizes) {
 		BidangDirektorat bidangDirektorat = null;
 		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
@@ -125,9 +105,9 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		} else if (stringBidangDirektorat.equals("TIPRODIN")) {
 			bidangDirektorat = BidangDirektorat.TIPRODIN;
 		}
-		
-		log.info("🔎 Value for searching: " + value);
-		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
+		if (value.isBlank()) {
 			log.error("💀 Isi text pencarian kosong...");
 		}
 		
@@ -137,35 +117,21 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
+            log.error("\uD83D\uDC80 {}", e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterKegiatanIntelijen> pageKegiatan = repository.findBySearching(
-				startDate, endDate, bidangDirektorat, value, pageRequest);
-		
-		return pageKegiatan;
+        return repository.findBySearching(
+                startDate, endDate, bidangDirektorat, value, pageRequest);
 	}
 
 	@Override
 	@Transactional
-	public RegisterKegiatanIntelijenResponse findByIds(String ids) {
+	public RegisterKegiatanIntelijenDTO findByIds(String ids) {
 		RegisterKegiatanIntelijen kegiatanIntelijen = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		
-		RegisterKegiatanIntelijenResponse response = new RegisterKegiatanIntelijenResponse();
-		response.setIds(kegiatanIntelijen.getIds());
-		response.setBidangDirektorat(kegiatanIntelijen.getBidangDirektorat());
-		response.setSektor(kegiatanIntelijen.getSektor());
-		response.setNomor(kegiatanIntelijen.getNomor());
-		response.setTanggal(kegiatanIntelijen.getTanggal());
-		response.setPerihal(kegiatanIntelijen.getPerihal());
-		response.setNamaPetugasPelaksana(kegiatanIntelijen.getNamaPetugasPelaksana());
-		response.setHasilPelaksanaanKegiatan(kegiatanIntelijen.getHasilPelaksanaanKegiatan());
-		response.setKeterangan(kegiatanIntelijen.getKeterangan());
-		response.setUrlFile(kegiatanIntelijen.getUrlFile());
-		
-		return response;
+
+		return RegisterKegiatanIntelijenMapper.INSTANCE.toDTO(kegiatanIntelijen);
 	}
 
 	@Override

@@ -62,8 +62,7 @@ public class RegisterEkspedisiController {
 	@PutMapping("/ekspedisi/{ids}")
 	public ResponseEntity<RegisterEkspedisiDTO> update(@PathVariable String ids,
 			@RequestBody @Valid RegisterEkspedisiDTO request) {
-		ekspedisiService.update(ids, request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(ekspedisiService.update(ids, request));
 	}
 	
 	@DeleteMapping("/ekspedisi/{ids}")

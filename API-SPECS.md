@@ -128,6 +128,25 @@ Request:
 }
 ```
 
+Response:
+
+```json
+{
+    "ids": "string",
+    "tanggalPenerimaanSurat": "date (ex. 2025-01-12)",
+    "jamPenerimaanSurat": "time (ex. 11:49)",
+    "asal": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (ex. 2025-01-10)",
+    "perihal": "string",
+    "jenisSurat": "enum",
+    "isiDisposisi": "string",
+    "tindakLanjutDisposisi": "string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
 ### Delete Register Surat Masuk
 
 Request:
@@ -362,6 +381,21 @@ Request:
 }
 ```
 
+Response:
+
+```json
+{
+  "ids": "string",
+  "tanggalSurat": "date (ex. 2022-10-12)",
+  "nomorSurat": "string",
+  "kepada": "string",
+  "perihal": "string",
+  "lampiran": "string",
+  "keterangan": "string",
+  "jenisSurat": "enum"
+}
+```
+
 ### Delete Register Surat Keluar
 
 Request:
@@ -578,6 +612,25 @@ Request:
   "urlFile": "string"
 }
 ```
+
+Response:
+
+```json
+{
+    "ids": "string",
+    "tanggalPenerimaanArsip": "date (ex. 2025-10-12)",
+    "jamPenerimaanArsip": "time (ex. 11:49)",
+    "diterimaDari": "string",
+    "nomorSurat": "string",
+    "tanggalSurat": "date (ex. 2025-10-10)",
+    "perihal": "string",
+    "lampiran": "string",
+    "kodePenyimpanan": "enum, string",
+    "keterangan": "string",
+    "urlFile": "string"
+}
+```
+
 
 ### Delete Register Arsip
 
@@ -843,6 +896,24 @@ Request:
   "jenisSurat": "enum, string",
   "keterangan": "string",
   "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+      "ids": "string",
+      "nomorSurat": "string",
+      "tanggalSurat": "date (ex. 2022-10-12)",
+      "kepada": "string",
+      "perihal": "string",
+      "lampiran": "string",
+      "tanggalTandaTerima": "date (ex. 2022-10-10)",
+      "jamTandaTerima": "time (ex. 11:49)",
+      "jenisSurat": "enum, string",
+      "keterangan": "string",
+      "urlFile": "string"
 }
 ```
 

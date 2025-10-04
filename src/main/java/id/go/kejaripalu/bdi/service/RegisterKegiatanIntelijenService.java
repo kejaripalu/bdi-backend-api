@@ -6,18 +6,10 @@ import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijen;
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenRequest;
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenResponse;
 
-public interface RegisterKegiatanIntelijenService {
+public interface RegisterKegiatanIntelijenService<T> extends CrudGenericService<T> {
 
-	void create(RegisterKegiatanIntelijenRequest request);
+	Page<T> findAll(String startDate, String endDate, String stringBidangDirektorat, Integer pages, Integer sizes);
 	
-	void update(String ids, RegisterKegiatanIntelijenRequest request);
-	
-	Page<RegisterKegiatanIntelijen> findAll(String startDate, String endDate, String stringBidangDirektorat, Integer pages, Integer sizes);
-	
-	Page<RegisterKegiatanIntelijen> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages, Integer sizes);
-	
-	RegisterKegiatanIntelijenResponse findByIds(String ids); 
-	
-	void delete(String ids);
-	
+	Page<T> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages, Integer sizes);
+
 }

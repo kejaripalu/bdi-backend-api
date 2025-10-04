@@ -1,8 +1,8 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijen;
-import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterKegiatanIntelijenService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,47 +25,45 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterKegiatanIntelijenController {
 
-	private final RegisterKegiatanIntelijenService kegiatanIntelijenService;
+	private final RegisterKegiatanIntelijenService<RegisterKegiatanIntelijenDTO> kegiatanIntelijenService;
 	
 	@PostMapping("/kegiatan")
-	public ResponseEntity<Void> create(
-			@Valid @RequestBody RegisterKegiatanIntelijenRequest request) {
-		kegiatanIntelijenService.create(request);
-		return ResponseEntity.created(URI.create("/api/v1/kegiatan")).build();
+	public ResponseEntity<RegisterKegiatanIntelijenDTO> create(
+			@Valid @RequestBody RegisterKegiatanIntelijenDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(kegiatanIntelijenService.create(request));
 	}
 	
 	@PutMapping("/kegiatan/{ids}")
-	public ResponseEntity<Void> update(
+	public ResponseEntity<RegisterKegiatanIntelijenDTO> update(
 			@PathVariable String ids,
-			@Valid @RequestBody RegisterKegiatanIntelijenRequest request) {
-		kegiatanIntelijenService.update(ids, request);
-		return ResponseEntity.ok().build();
+			@Valid @RequestBody RegisterKegiatanIntelijenDTO request) {
+		return ResponseEntity.ok(kegiatanIntelijenService.update(ids, request));
 	}
 	
 	@GetMapping("/kegiatan/{ids}/detail")
-	public ResponseEntity<RegisterKegiatanIntelijenResponse> findById(@PathVariable String ids) {
-		return ResponseEntity.ok().body(kegiatanIntelijenService.findByIds(ids));
+	public ResponseEntity<RegisterKegiatanIntelijenDTO> findById(@PathVariable String ids) {
+		return ResponseEntity.ok(kegiatanIntelijenService.findByIds(ids));
 	}
 
 	@GetMapping("/kegiatan")
-	public ResponseEntity<Page<RegisterKegiatanIntelijen>> findAll(
+	public ResponseEntity<Page<RegisterKegiatanIntelijenDTO>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String bidangDirektorat,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(kegiatanIntelijenService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
+		return ResponseEntity.ok(kegiatanIntelijenService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
 	@GetMapping("/kegiatan/search")
-	public ResponseEntity<Page<RegisterKegiatanIntelijen>> findBySearch(
+	public ResponseEntity<Page<RegisterKegiatanIntelijenDTO>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String bidangDirektorat,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(kegiatanIntelijenService.findBySearching(
+		return ResponseEntity.ok(kegiatanIntelijenService.findBySearching(
 				startDate, endDate, bidangDirektorat, value, pages, sizes));
 	}
 	
