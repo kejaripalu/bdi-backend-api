@@ -1,8 +1,8 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterKerjaIntelijen;
-import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterKerjaIntelijenService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,51 +28,48 @@ public class RegisterKerjaIntelijenController {
 	private final RegisterKerjaIntelijenService rkiService;
 	
 	@PostMapping("/rki")
-	public ResponseEntity<Void> createNewRKI(
-			@Valid @RequestBody RegisterKerjaIntelijenRequest request) {
-		rkiService.createRKI(request);
-		return ResponseEntity.created(URI.create("/api/v1/rki")).build();
+	public ResponseEntity<RegisterKerjaIntelijenDTO> create(
+            @Valid @RequestBody RegisterKerjaIntelijenDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(rkiService.create(request));
 	}
 	
 	@PutMapping("/rki/{ids}")
-	public ResponseEntity<Void> updateRKI(
+	public ResponseEntity<RegisterKerjaIntelijenDTO> update(
 			@PathVariable String ids,
-			@Valid @RequestBody RegisterKerjaIntelijenRequest request) {
-		rkiService.updateRKI(ids, request);
-		return ResponseEntity.ok().build();
+			@Valid @RequestBody RegisterKerjaIntelijenDTO request) {
+		return ResponseEntity.ok(rkiService.update(ids, request));
 	}
 	
 	@GetMapping("/rki/{ids}/detail")
-	public ResponseEntity<RegisterKerjaIntelijenResponse> findRKIById(@PathVariable String ids) {
-		return ResponseEntity.ok().body(rkiService.findRKIbyIds(ids));
+	public ResponseEntity<RegisterKerjaIntelijenDTO> findById(@PathVariable String ids) {
+		return ResponseEntity.ok(rkiService.findByIds(ids));
 	}
 	
 	@GetMapping("/rki")
-	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKI(
+	public ResponseEntity<Page<RegisterKerjaIntelijenDTO>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String bidangDirektorat,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(rkiService.findRKI(startDate, endDate, bidangDirektorat, pages, sizes));
+		return ResponseEntity.ok(rkiService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
 	@GetMapping("/rki/search")
-	public ResponseEntity<Page<RegisterKerjaIntelijen>> findRKIBySearch(
+	public ResponseEntity<Page<RegisterKerjaIntelijenDTO>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String bidangDirektorat,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(rkiService.findRKIBySearching(
+		return ResponseEntity.ok(rkiService.findBySearching(
 				startDate, endDate, value, bidangDirektorat, pages, sizes));
 	}
 
 	@DeleteMapping("/rki/{ids}")
-	public ResponseEntity<Void> deleteRKI(@PathVariable String ids) {
-		rkiService.deleteRKI(ids);
+	public ResponseEntity<Void> delete(@PathVariable String ids) {
+		rkiService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
-	
 }

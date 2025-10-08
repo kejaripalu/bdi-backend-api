@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenDTO;
+import id.go.kejaripalu.bdi.mapper.RegisterKerjaIntelijenMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterKerjaIntelijen;
 import id.go.kejaripalu.bdi.util.BidangDirektorat;
-import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterKerjaIntelijenRepository;
 import id.go.kejaripalu.bdi.service.RegisterKerjaIntelijenService;
@@ -29,147 +29,102 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	
 	@Override
 	@Transactional
-	public void createRKI(RegisterKerjaIntelijenRequest request) {
-		RegisterKerjaIntelijen rki = new RegisterKerjaIntelijen();
-		rki.setTanggalWaktuDiterima(request.getTanggalWaktuDiterima());;
-		rki.setJamWaktuDiterima(request.getJamWaktuDiterima());
-		rki.setSumberBapul(request.getSumberBapul());
-		rki.setNilaiDataInformasi(request.getNilaiDataInformasi());
-		rki.setUraianPeristiwaMasalah(request.getUraianPeristiwaMasalah());
-		rki.setCatatan(request.getCatatan());
-		rki.setDisposisiTindakan(request.getDisposisiTindakan());
-		rki.setTindakLanjut(request.getTindakLanjut());
-		rki.setKeterangan(request.getKeterangan());
-		rki.setUrlFile(request.getUrlFile());
-		rki.setBidangDirektorat(request.getBidangDirektorat());
-		rki.setSektor(request.getSektor());
-		
-		rkiRepository.save(rki);
+	public RegisterKerjaIntelijenDTO create(RegisterKerjaIntelijenDTO request) {
+        RegisterKerjaIntelijenDTO rki =
+                RegisterKerjaIntelijenMapper.INSTANCE.toDTO(
+                        rkiRepository.save(RegisterKerjaIntelijenMapper.INSTANCE.toEntity(request)));
+
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");
+        return rki;
 	}
 
 	@Override
 	@Transactional
-	public void updateRKI(String ids, RegisterKerjaIntelijenRequest request) {
+	public RegisterKerjaIntelijenDTO update(String ids, RegisterKerjaIntelijenDTO request) {
 		RegisterKerjaIntelijen rki = rkiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		rki.setTanggalWaktuDiterima(
-				request.getTanggalWaktuDiterima() == null ?
-						rki.getTanggalWaktuDiterima() : request.getTanggalWaktuDiterima());
-		rki.setJamWaktuDiterima(
-				request.getJamWaktuDiterima() == null ?
-						rki.getJamWaktuDiterima() : request.getJamWaktuDiterima());
-		rki.setSumberBapul(
-				request.getSumberBapul() == null || request.getSumberBapul().isBlank() ?
-						rki.getSumberBapul() : request.getSumberBapul());
-		rki.setNilaiDataInformasi(
-				request.getNilaiDataInformasi() == null || request.getNilaiDataInformasi().isBlank() ?
-						rki.getNilaiDataInformasi() : request.getNilaiDataInformasi());
-		rki.setUraianPeristiwaMasalah(
-				request.getUraianPeristiwaMasalah() == null || request.getUraianPeristiwaMasalah().isBlank() ?
-						rki.getUraianPeristiwaMasalah() : request.getUraianPeristiwaMasalah());
-		rki.setBidangDirektorat(
-				request.getBidangDirektorat() == null ?
-						rki.getBidangDirektorat() : request.getBidangDirektorat());
-		rki.setSektor(
-				request.getSektor() == null ?
-						rki.getSektor() : request.getSektor());
-		rki.setCatatan(request.getCatatan());
-		rki.setDisposisiTindakan(request.getDisposisiTindakan());
-		rki.setTindakLanjut(request.getTindakLanjut());
-		rki.setUrlFile(request.getUrlFile());
-		rki.setKeterangan(request.getKeterangan());
-		
-		rkiRepository.save(rki);
-		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");		
+		rki.setTanggalWaktuDiterima(request.tanggalWaktuDiterima());
+		rki.setJamWaktuDiterima(request.jamWaktuDiterima());
+		rki.setSumberBapul(request.sumberBapul());
+		rki.setNilaiDataInformasi(request.nilaiDataInformasi());
+		rki.setUraianPeristiwaMasalah(request.uraianPeristiwaMasalah());
+		rki.setBidangDirektorat(request.bidangDirektorat());
+		rki.setSektor(request.sektor());
+		rki.setCatatan(request.catatan());
+		rki.setDisposisiTindakan(request.disposisiTindakan());
+		rki.setTindakLanjut(request.tindakLanjut());
+		rki.setUrlFile(request.urlFile());
+		rki.setKeterangan(request.keterangan());
+
+        RegisterKerjaIntelijenDTO registerKerjaIntelijen = RegisterKerjaIntelijenMapper.INSTANCE.toDTO(rkiRepository.save(rki));
+		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");
+        return registerKerjaIntelijen;
 	}
 
 	@Override
 	@Transactional
-	public RegisterKerjaIntelijenResponse findRKIbyIds(String ids) {
+	public RegisterKerjaIntelijenDTO findByIds(String ids) {
 		RegisterKerjaIntelijen rki = rkiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		
-		RegisterKerjaIntelijenResponse response = new RegisterKerjaIntelijenResponse();
-		response.setIds(rki.getIds());
-		response.setTanggalWaktuDiterima(rki.getTanggalWaktuDiterima());
-		response.setJamWaktuDiterima(rki.getJamWaktuDiterima());
-		response.setSumberBapul(rki.getSumberBapul());
-		response.setNilaiDataInformasi(rki.getNilaiDataInformasi());
-		response.setUraianPeristiwaMasalah(rki.getUraianPeristiwaMasalah());
-		response.setBidangDirektorat(rki.getBidangDirektorat());
-		response.setDisposisiTindakan(rki.getDisposisiTindakan());
-		response.setSektor(rki.getSektor());
-		response.setCatatan(rki.getCatatan());
-		response.setTindakLanjut(rki.getTindakLanjut());
-		response.setKeterangan(rki.getKeterangan());
-		response.setUrlFile(rki.getUrlFile());
-		
-		return response;
+
+		return RegisterKerjaIntelijenMapper.INSTANCE.toDTO(rki);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterKerjaIntelijen> findRKI(String start, String end, String stringBidangDirektorat,
-			Integer pages, Integer sizes) {
-		BidangDirektorat bidangDirektorat = null;
-		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
-			bidangDirektorat = BidangDirektorat.IPOLHANKAM;
-		} else if (stringBidangDirektorat.equals("SOSBUDMAS")) {
-			bidangDirektorat = BidangDirektorat.SOSBUDMAS;
-		} else if (stringBidangDirektorat.equals("EKOKEU")) {
-			bidangDirektorat = BidangDirektorat.EKOKEU;
-		} else if (stringBidangDirektorat.equals("PAMSTRA")) {
-			bidangDirektorat = BidangDirektorat.PAMSTRA;
-		} else if (stringBidangDirektorat.equals("TIPRODIN")) {
-			bidangDirektorat = BidangDirektorat.TIPRODIN;
-		}
-		
-		Date startDate = null;
+	public Page<RegisterKerjaIntelijenDTO> findAll(
+            String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
+
+		BidangDirektorat bidangDirektorat = switch (stringBidangDirektorat) {
+            case "IPOLHANKAM" -> BidangDirektorat.IPOLHANKAM;
+            case "SOSBUDMAS" -> BidangDirektorat.SOSBUDMAS;
+            case "EKOKEU" -> BidangDirektorat.EKOKEU;
+            case "PAMSTRA" -> BidangDirektorat.PAMSTRA;
+            case "TIPRODIN" -> BidangDirektorat.TIPRODIN;
+            default -> null;
+        };
+
+        Date startDate = null;
 		Date endDate = null;
 		try {
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
+            log.error("\uD83D\uDC80 {}", e.getMessage());
 		}
 
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterKerjaIntelijen> pagesRKI = rkiRepository.findRKIAll(startDate, endDate, bidangDirektorat, pageRequest);
-		
-		return pagesRKI;
+
+        return rkiRepository.findRKIAll(startDate, endDate, bidangDirektorat, pageRequest);
 	}
 
 	@Override
 	@Transactional
-	public void deleteRKI(String ids) {
+	public void delete(String ids) {
 		RegisterKerjaIntelijen rki = rkiRepository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 		rki.setDeleted(true);
 		rki.setUraianPeristiwaMasalah(rki.getIds() + " | " + rki.getUraianPeristiwaMasalah());
 		rkiRepository.save(rki);
-		log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ): " + rki);	
+        log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ): {}", rki);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterKerjaIntelijen> findRKIBySearching(String start, String end, String value, String stringBidangDirektorat,
-			Integer pages, Integer sizes) {
-		BidangDirektorat bidangDirektorat = null;
-		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
-			bidangDirektorat = BidangDirektorat.IPOLHANKAM;
-		} else if (stringBidangDirektorat.equals("SOSBUDMAS")) {
-			bidangDirektorat = BidangDirektorat.SOSBUDMAS;
-		} else if (stringBidangDirektorat.equals("EKOKEU")) {
-			bidangDirektorat = BidangDirektorat.EKOKEU;
-		} else if (stringBidangDirektorat.equals("PAMSTRA")) {
-			bidangDirektorat = BidangDirektorat.PAMSTRA;
-		} else if (stringBidangDirektorat.equals("TIPRODIN")) {
-			bidangDirektorat = BidangDirektorat.TIPRODIN;
-		}
+	public Page<RegisterKerjaIntelijenDTO> findBySearching(String start, String end, String value, String stringBidangDirektorat,
+                                                           Integer pages, Integer sizes) {
 
-		log.info("🔎 Value for searching: " + value);
-		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+		BidangDirektorat bidangDirektorat = switch (stringBidangDirektorat) {
+            case "IPOLHANKAM" -> BidangDirektorat.IPOLHANKAM;
+            case "SOSBUDMAS" -> BidangDirektorat.SOSBUDMAS;
+            case "EKOKEU" -> BidangDirektorat.EKOKEU;
+            case "PAMSTRA" -> BidangDirektorat.PAMSTRA;
+            case "TIPRODIN" -> BidangDirektorat.TIPRODIN;
+            default -> null;
+        };
+
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
+		if (value.isBlank()) {
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
@@ -180,13 +135,12 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
 			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
 		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
+            log.error("\uD83D\uDC80 {}", e.getMessage());
 		}
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterKerjaIntelijen> pagesRKI = rkiRepository.findRKIBySearching(
-				startDate, endDate, value, bidangDirektorat, pageRequest);
-		return pagesRKI;
+        return rkiRepository.findRKIBySearching(
+                startDate, endDate, value, bidangDirektorat, pageRequest);
 	}
 
 }
