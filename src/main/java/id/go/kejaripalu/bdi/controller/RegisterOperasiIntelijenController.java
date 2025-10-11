@@ -1,8 +1,8 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
-
+import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterOperasiIntelijen;
-import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterOperasiIntelijenService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,44 +28,42 @@ public class RegisterOperasiIntelijenController {
 	private final RegisterOperasiIntelijenService opsinService;
 
 	@PostMapping("/opsin")
-	public ResponseEntity<Void> create(
-			@Valid @RequestBody RegisterOperasiIntelijenRequest request) {
-		opsinService.create(request);
-		return ResponseEntity.created(URI.create("/api/v1/opsin")).build();
+	public ResponseEntity<RegisterOperasiIntelijenDTO> create(
+			@Valid @RequestBody RegisterOperasiIntelijenDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(opsinService.create(request));
 	}
 	
 	@PutMapping("/opsin/{ids}")
-	public ResponseEntity<Void> update(
+	public ResponseEntity<RegisterOperasiIntelijenDTO> update(
 			@PathVariable String ids,
-			@Valid @RequestBody RegisterOperasiIntelijenRequest request) {
-		opsinService.update(ids, request);
-		return ResponseEntity.ok().build();
+			@Valid @RequestBody RegisterOperasiIntelijenDTO request) {
+		return ResponseEntity.ok(opsinService.update(ids, request));
 	}
 	
 	@GetMapping("/opsin/{ids}/detail")
-	public ResponseEntity<RegisterOperasiIntelijenResponse> findById(@PathVariable String ids) {
-		return ResponseEntity.ok().body(opsinService.findByIds(ids));
+	public ResponseEntity<RegisterOperasiIntelijenDTO> findById(@PathVariable String ids) {
+		return ResponseEntity.ok(opsinService.findByIds(ids));
 	}
 
 	@GetMapping("/opsin")
-	public ResponseEntity<Page<RegisterOperasiIntelijen>> findAll(
+	public ResponseEntity<Page<RegisterOperasiIntelijenDTO>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String bidangDirektorat,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(opsinService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
+		return ResponseEntity.ok(opsinService.findAll(startDate, endDate, bidangDirektorat, pages, sizes));
 	}
 	
 	@GetMapping("/opsin/search")
-	public ResponseEntity<Page<RegisterOperasiIntelijen>> findBySearch(
+	public ResponseEntity<Page<RegisterOperasiIntelijenDTO>> findBySearch(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String bidangDirektorat,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(opsinService.findBySearching(
+		return ResponseEntity.ok(opsinService.findBySearching(
 				startDate, endDate, bidangDirektorat, value, pages, sizes));
 	}
 	
@@ -77,5 +72,4 @@ public class RegisterOperasiIntelijenController {
 		opsinService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
-
 }

@@ -6,6 +6,8 @@ import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterKegiatanIntelijenMapper;
+import id.go.kejaripalu.bdi.util.GetBidangDirektorat;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,29 +64,12 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 	@Override
 	@Transactional
 	public Page<RegisterKegiatanIntelijenDTO> findAll(String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
-		BidangDirektorat bidangDirektorat = null;
-		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
-			bidangDirektorat = BidangDirektorat.IPOLHANKAM;
-		} else if (stringBidangDirektorat.equals("SOSBUDMAS")) {
-			bidangDirektorat = BidangDirektorat.SOSBUDMAS;
-		} else if (stringBidangDirektorat.equals("EKOKEU")) {
-			bidangDirektorat = BidangDirektorat.EKOKEU;
-		} else if (stringBidangDirektorat.equals("PAMSTRA")) {
-			bidangDirektorat = BidangDirektorat.PAMSTRA;
-		} else if (stringBidangDirektorat.equals("TIPRODIN")) {
-			bidangDirektorat = BidangDirektorat.TIPRODIN;
-		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
-		
-		Pageable pageRequest = PageRequest.of(pages, sizes);
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
+        Pageable pageRequest = PageRequest.of(pages, sizes);
+
         return repository.findAllKegiatan(
                 startDate, endDate, bidangDirektorat, pageRequest);
 	}
@@ -93,34 +78,17 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 	@Transactional
 	public Page<RegisterKegiatanIntelijenDTO> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages,
 			Integer sizes) {
-		BidangDirektorat bidangDirektorat = null;
-		if (stringBidangDirektorat.equals("IPOLHANKAM")) {
-			bidangDirektorat = BidangDirektorat.IPOLHANKAM;
-		} else if (stringBidangDirektorat.equals("SOSBUDMAS")) {
-			bidangDirektorat = BidangDirektorat.SOSBUDMAS;
-		} else if (stringBidangDirektorat.equals("EKOKEU")) {
-			bidangDirektorat = BidangDirektorat.EKOKEU;
-		} else if (stringBidangDirektorat.equals("PAMSTRA")) {
-			bidangDirektorat = BidangDirektorat.PAMSTRA;
-		} else if (stringBidangDirektorat.equals("TIPRODIN")) {
-			bidangDirektorat = BidangDirektorat.TIPRODIN;
-		}
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
 
         log.info("\uD83D\uDD0E Value for searching: {}", value);
 		if (value.isBlank()) {
 			log.error("💀 Isi text pencarian kosong...");
 		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
-		
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
+
         return repository.findBySearching(
                 startDate, endDate, bidangDirektorat, value, pageRequest);
 	}

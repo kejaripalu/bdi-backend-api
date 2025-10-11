@@ -2,8 +2,6 @@ package id.go.kejaripalu.bdi.service;
 
 import org.springframework.data.domain.Page;
 
-import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijenPamstra;
-
 public interface RegisterKegiatanIntelijenPamstraService<T> extends CrudGenericService<T> {
 
 	Page<T> findAll(String startDate, String endDate, Integer pages, Integer sizes);

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterEkspedisiDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterEkspedisiMapper;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -71,15 +72,9 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService<Re
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
         return ekspedisiRepository.findEkspedisiAll(
@@ -119,15 +114,9 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService<Re
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
         return ekspedisiRepository.findEkspedisiBySearching(

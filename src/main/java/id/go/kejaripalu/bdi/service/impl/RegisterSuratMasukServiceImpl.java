@@ -7,6 +7,7 @@ import java.util.Date;
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterSuratMasukMapper;
 import id.go.kejaripalu.bdi.service.RegisterSuratService;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -72,15 +73,8 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratService<Regis
             jenisSurat = JenisSurat.RAHASIA;
         }
 
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-        } catch (ParseException e) {
-            log.error(e.getMessage());
-        }
-
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
         Pageable pageRequest = PageRequest.of(pages, sizes);
 
         return suratMasukRepository.findSuratMasukAll(
@@ -120,19 +114,12 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratService<Regis
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
-		
-		Pageable pageRequest = PageRequest.of(pages, sizes);
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
+        Pageable pageRequest = PageRequest.of(pages, sizes);
+
         return suratMasukRepository.findSuratMasukBySearching(
                 startDate, endDate, value, jenisSurat, pageRequest);
 	}
-	
 }

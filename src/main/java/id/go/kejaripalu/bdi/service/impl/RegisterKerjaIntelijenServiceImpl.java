@@ -6,6 +6,8 @@ import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterKerjaIntelijenMapper;
+import id.go.kejaripalu.bdi.util.GetBidangDirektorat;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -75,25 +77,10 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	public Page<RegisterKerjaIntelijenDTO> findAll(
             String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
 
-		BidangDirektorat bidangDirektorat = switch (stringBidangDirektorat) {
-            case "IPOLHANKAM" -> BidangDirektorat.IPOLHANKAM;
-            case "SOSBUDMAS" -> BidangDirektorat.SOSBUDMAS;
-            case "EKOKEU" -> BidangDirektorat.EKOKEU;
-            case "PAMSTRA" -> BidangDirektorat.PAMSTRA;
-            case "TIPRODIN" -> BidangDirektorat.TIPRODIN;
-            default -> null;
-        };
-
-        Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
-
-		Pageable pageRequest = PageRequest.of(pages, sizes);
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
+        Pageable pageRequest = PageRequest.of(pages, sizes);
 
         return rkiRepository.findRKIAll(startDate, endDate, bidangDirektorat, pageRequest);
 	}
@@ -114,31 +101,11 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	public Page<RegisterKerjaIntelijenDTO> findBySearching(String start, String end, String value, String stringBidangDirektorat,
                                                            Integer pages, Integer sizes) {
 
-		BidangDirektorat bidangDirektorat = switch (stringBidangDirektorat) {
-            case "IPOLHANKAM" -> BidangDirektorat.IPOLHANKAM;
-            case "SOSBUDMAS" -> BidangDirektorat.SOSBUDMAS;
-            case "EKOKEU" -> BidangDirektorat.EKOKEU;
-            case "PAMSTRA" -> BidangDirektorat.PAMSTRA;
-            case "TIPRODIN" -> BidangDirektorat.TIPRODIN;
-            default -> null;
-        };
-
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
-		if (value.isBlank()) {
-			log.warn("💀 Isi text pencarian kosong...");
-			return null;
-		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
-		
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
+
         return rkiRepository.findRKIBySearching(
                 startDate, endDate, value, bidangDirektorat, pageRequest);
 	}

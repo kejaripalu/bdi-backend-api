@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.service;
 
-import org.springframework.data.domain.Page;
-
 public interface CrudGenericService<T> {
 
     T create(T request);

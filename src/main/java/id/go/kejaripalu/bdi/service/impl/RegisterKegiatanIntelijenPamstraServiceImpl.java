@@ -6,6 +6,7 @@ import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenPamstraDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterKegiatanIntelijenPamstraMapper;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -76,19 +77,12 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 	@Override
 	@Transactional
 	public Page<RegisterKegiatanIntelijenPamstraDTO> findAll(String start, String end, Integer pages, Integer sizes) {
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
-		
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findAllKegiatan(
-                startDate, endDate, pageRequest);
+        return repository.findAllKegiatan(startDate, endDate, pageRequest);
 	}
 
 	@Override
@@ -101,19 +95,12 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error(e.getMessage());
-		}
-		
+
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-        return repository.findBySearching(
-                startDate, endDate, value, pageRequest);
+
+        return repository.findBySearching(startDate, endDate, value, pageRequest);
 	}
 
 	@Override

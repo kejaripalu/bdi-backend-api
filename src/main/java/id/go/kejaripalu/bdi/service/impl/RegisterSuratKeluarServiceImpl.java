@@ -7,6 +7,7 @@ import java.util.Date;
 import id.go.kejaripalu.bdi.dto.*;
 import id.go.kejaripalu.bdi.mapper.RegisterSuratKeluarMapper;
 import id.go.kejaripalu.bdi.service.RegisterSuratService;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,20 +32,16 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 	@Transactional
 	public Page<RegisterSuratKeluarDTO> findAll(String startDate, String endDate, String stringJenisSurat,
 											   Integer pages, Integer sizes) {
-		JenisSurat jenisSurat = JenisSurat.BIASA;
+
+        JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-		
-		Date start = null;
-		Date end = null;
-		try {
-			start = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
-			end = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
-		} catch (ParseException e) {
-			log.error(e.getMessage());
-		}
-		Pageable pageRequest = PageRequest.of(pages, sizes);
+
+        Date start = ParserDateUtil.start(startDate);
+        Date end = ParserDateUtil.end(endDate);
+        Pageable pageRequest = PageRequest.of(pages, sizes);
+
         return suratKeluarRepository.findSuratKeluar(start, end, jenisSurat, pageRequest);
 	}
 
@@ -104,6 +101,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 	@Transactional
 	public Page<RegisterSuratKeluarDTO> findBySearching(String start, String end, String value,
 			String stringJenisSurat, Integer pages, Integer sizes) {
+
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
@@ -113,17 +111,11 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 			log.warn("💀 Isi text pencarian kosong...");
 			return null;
 		}
-		
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-            log.error("\uD83D\uDC80 {}", e.getMessage());
-		}
 
-		Pageable pageRequest = PageRequest.of(pages, sizes);
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
+        Pageable pageRequest = PageRequest.of(pages, sizes);
+
         return suratKeluarRepository.findSuratKeluarBySearch(
                 startDate, endDate, value, jenisSurat, pageRequest);
 	}
