@@ -1,10 +1,11 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumDTO;
+import id.go.kejaripalu.bdi.mapper.RegisterPenkumLuhkumMapper;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterPenkumLuhkum;
 import id.go.kejaripalu.bdi.util.JenisKegiatanPenkumLuhkum;
-import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumRequest;
-import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterPenkumLuhkumRepository;
 import id.go.kejaripalu.bdi.service.RegisterPenkumLuhkumService;
@@ -30,144 +29,84 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 
 	@Override
 	@Transactional
-	public void create(RegisterPenkumLuhkumRequest request) {
-		RegisterPenkumLuhkum penkumLuhkum = new RegisterPenkumLuhkum();
-		penkumLuhkum.setJenisKegiatan(request.getJenisKegiatan());
-		penkumLuhkum.setProgram(request.getProgram());
-		penkumLuhkum.setNomorSuratPerintah(request.getNomorSuratPerintah());
-		penkumLuhkum.setTanggalSuratPerintah(request.getTanggalSuratPerintah());
-		penkumLuhkum.setSasaranKegiatan(request.getSasaranKegiatan());
-		penkumLuhkum.setTanggalKegiatan(request.getTanggalKegiatan());
-		penkumLuhkum.setTempat(request.getTempat());
-		penkumLuhkum.setMateri(request.getMateri());
-		penkumLuhkum.setJumlahPeserta(request.getJumlahPeserta());
-		penkumLuhkum.setKeterangan(request.getKeterangan());
-		penkumLuhkum.setUrlFoto1(request.getUrlFoto1());
-		penkumLuhkum.setUrlFoto2(request.getUrlFoto2());
-		penkumLuhkum.setUrlFoto3(request.getUrlFoto3());
-		penkumLuhkum.setUrlFoto4(request.getUrlFoto4());
+	public RegisterPenkumLuhkumDTO create(RegisterPenkumLuhkumDTO request) {
+		RegisterPenkumLuhkumDTO penkumLuhkum =
+				RegisterPenkumLuhkumMapper.INSTANCE.toDTO(
+						repository.save(RegisterPenkumLuhkumMapper.INSTANCE.toEntity(request)));
 		
-		repository.save(penkumLuhkum);
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum!!!");
+		return penkumLuhkum;
 	}
 
 	@Override
 	@Transactional
-	public void update(String ids, RegisterPenkumLuhkumRequest request) {
+	public RegisterPenkumLuhkumDTO update(String ids, RegisterPenkumLuhkumDTO request) {
 		RegisterPenkumLuhkum penkumLuhkum = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		penkumLuhkum.setJenisKegiatan(
-				request.getJenisKegiatan() == null ?
-						penkumLuhkum.getJenisKegiatan() : request.getJenisKegiatan());
-		penkumLuhkum.setProgram(
-				request.getProgram() == null ?
-						penkumLuhkum.getProgram() : request.getProgram());
-		penkumLuhkum.setNomorSuratPerintah(
-				request.getNomorSuratPerintah() == null || request.getNomorSuratPerintah().isBlank() ?
-						penkumLuhkum.getNomorSuratPerintah() : request.getNomorSuratPerintah());	
-		penkumLuhkum.setTanggalSuratPerintah(
-				request.getTanggalSuratPerintah() == null ?
-						penkumLuhkum.getTanggalSuratPerintah() : request.getTanggalSuratPerintah());
-		penkumLuhkum.setSasaranKegiatan(
-				request.getSasaranKegiatan() == null || request.getSasaranKegiatan().isBlank() ?
-						penkumLuhkum.getSasaranKegiatan() : request.getSasaranKegiatan());
-		penkumLuhkum.setTanggalKegiatan(
-				request.getTanggalKegiatan() == null ?
-						penkumLuhkum.getTanggalKegiatan() : request.getTanggalKegiatan());
-		penkumLuhkum.setTempat(
-				request.getTempat() == null || request.getTempat().isBlank() ? 
-						penkumLuhkum.getTempat() : request.getTempat());
-		penkumLuhkum.setMateri(
-				request.getMateri() == null || request.getMateri().isBlank() ? 
-						penkumLuhkum.getMateri() : request.getMateri());
-		penkumLuhkum.setJumlahPeserta(
-				request.getJumlahPeserta() == null ?
-						penkumLuhkum.getJumlahPeserta() : request.getJumlahPeserta());
-		penkumLuhkum.setKeterangan(request.getKeterangan());
-		penkumLuhkum.setUrlFoto1(request.getUrlFoto1());
-		penkumLuhkum.setUrlFoto2(request.getUrlFoto2());
-		penkumLuhkum.setUrlFoto3(request.getUrlFoto3());
-		penkumLuhkum.setUrlFoto4(request.getUrlFoto4());
-		
-		repository.save(penkumLuhkum);
+		penkumLuhkum.setJenisKegiatan(request.jenisKegiatan());
+		penkumLuhkum.setProgram(request.program());
+		penkumLuhkum.setNomorSuratPerintah(request.nomorSuratPerintah());
+		penkumLuhkum.setTanggalSuratPerintah(request.tanggalSuratPerintah());
+		penkumLuhkum.setSasaranKegiatan(request.sasaranKegiatan());
+		penkumLuhkum.setTanggalKegiatan(request.tanggalKegiatan());
+		penkumLuhkum.setTempat(request.tempat());
+		penkumLuhkum.setMateri(request.materi());
+		penkumLuhkum.setJumlahPeserta(request.jumlahPeserta());
+		penkumLuhkum.setKeterangan(request.keterangan());
+		penkumLuhkum.setUrlFoto1(request.urlFoto1());
+		penkumLuhkum.setUrlFoto2(request.urlFoto2());
+		penkumLuhkum.setUrlFoto3(request.urlFoto3());
+		penkumLuhkum.setUrlFoto4(request.urlFoto4());
+
+		RegisterPenkumLuhkumDTO registerPenkumLuhkum =
+				RegisterPenkumLuhkumMapper.INSTANCE.toDTO(
+						repository.save(penkumLuhkum));
+
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum!!!");
+		return registerPenkumLuhkum;
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterPenkumLuhkum> findAll(String start, String end, String stringJenisKegiatan,
+	public Page<RegisterPenkumLuhkumDTO> findAll(String start, String end, String stringJenisKegiatan,
 			Integer pages, Integer sizes) {
 		
 		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
-		Date startDate = null;
-		Date endDate = null;
-		
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
-		}
-		
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterPenkumLuhkum> pagesPenkumLuhkum = repository.findAllPenkumLuhkum(
-				startDate, endDate, jenisKegiatan, pageRequest);
-		
-		return pagesPenkumLuhkum;
+
+        return repository.findAllPenkumLuhkum(
+                startDate, endDate, jenisKegiatan, pageRequest);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterPenkumLuhkum> findBySearching(String start, String end, 
+	public Page<RegisterPenkumLuhkumDTO> findBySearching(String start, String end,
 			String stringJenisKegiatan, String value, Integer pages, Integer sizes) {
-		
-		log.info("🔎 Value for searching: " + value);
-		if (value.isBlank() || value.isEmpty() || value.equals("")) {
+
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
+		if (value.isBlank()) {
 			log.error("💀 Isi text pencarian kosong...");
+			return null;
 		}
 
 		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
-		Date startDate = null;
-		Date endDate = null;
-		
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error("💀 " + e.getMessage());
-		}
-		
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-		Page<RegisterPenkumLuhkum> pagesPenkumLuhkum = repository.findBySearching(
-				startDate, endDate, jenisKegiatan, value, pageRequest);
-		
-		return pagesPenkumLuhkum;
+
+        return repository.findBySearching(
+                startDate, endDate, jenisKegiatan, value, pageRequest);
 	}
 
 	@Override
 	@Transactional
-	public RegisterPenkumLuhkumResponse findByIds(String ids) {
+	public RegisterPenkumLuhkumDTO findByIds(String ids) {
 		RegisterPenkumLuhkum penkumLuhkum = repository.findByIdsAndDeletedFalse(ids)
 				.orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-		
-		RegisterPenkumLuhkumResponse response = new RegisterPenkumLuhkumResponse();
-		response.setIds(penkumLuhkum.getIds());
-		response.setJenisKegiatan(penkumLuhkum.getJenisKegiatan());
-		response.setProgram(penkumLuhkum.getProgram());
-		response.setNomorSuratPerintah(penkumLuhkum.getNomorSuratPerintah());
-		response.setTanggalSuratPerintah(penkumLuhkum.getTanggalSuratPerintah());
-		response.setSasaranKegiatan(penkumLuhkum.getSasaranKegiatan());
-		response.setTanggalKegiatan(penkumLuhkum.getTanggalKegiatan());
-		response.setTempat(penkumLuhkum.getTempat());
-		response.setMateri(penkumLuhkum.getMateri());
-		response.setJumlahPeserta(penkumLuhkum.getJumlahPeserta());
-		response.setKeterangan(penkumLuhkum.getKeterangan());
-		response.setUrlFoto1(penkumLuhkum.getUrlFoto1());
-		response.setUrlFoto2(penkumLuhkum.getUrlFoto2());
-		response.setUrlFoto3(penkumLuhkum.getUrlFoto3());
-		response.setUrlFoto4(penkumLuhkum.getUrlFoto4());
-		
-		return response;
+
+        return RegisterPenkumLuhkumMapper.INSTANCE.toDTO(penkumLuhkum);
 	}
 
 	@Override
@@ -183,29 +122,17 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	}
 	
 	private JenisKegiatanPenkumLuhkum getJenisKegiatan(String stringJenisKegiatan) {
-		JenisKegiatanPenkumLuhkum jenisKegiatan = null;
-		if (stringJenisKegiatan.equals("PENERANGAN_HUKUM")) {
-			jenisKegiatan = JenisKegiatanPenkumLuhkum.PENERANGAN_HUKUM;
-		} else if (stringJenisKegiatan.equals("PENYULUHAN_HUKUM")) {
-			jenisKegiatan = JenisKegiatanPenkumLuhkum.PENYULUHAN_HUKUM;
-		} else {
-			return null;
-		}
-		return jenisKegiatan;
+       return switch (stringJenisKegiatan) {
+			case "PENERANGAN_HUKUM" -> JenisKegiatanPenkumLuhkum.PENERANGAN_HUKUM;
+			case "PENYULUHAN_HUKUM" -> JenisKegiatanPenkumLuhkum.PENYULUHAN_HUKUM;
+			default -> null;
+		};
 	}
 
 	@Override
 	public List<Integer[]> countProgramPenkumLuhkum(String start, String end) {
-		Date startDate = null;
-		Date endDate = null;
-		
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error(e.getMessage());
-		}
-		
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		return repository.countProgramPenkumLuhkum(startDate, endDate);
 	}
 

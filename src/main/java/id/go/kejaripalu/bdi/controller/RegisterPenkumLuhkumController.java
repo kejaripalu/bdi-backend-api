@@ -1,11 +1,12 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterPenkumLuhkum;
-import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumRequest;
-import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumResponse;
 import id.go.kejaripalu.bdi.service.RegisterPenkumLuhkumService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,46 +32,44 @@ public class RegisterPenkumLuhkumController {
 	private final RegisterPenkumLuhkumService penkumLuhkumService;
 	
 	@GetMapping("/penkumluhkum")
-	public ResponseEntity<Page<RegisterPenkumLuhkum>> findAll(
+	public ResponseEntity<Page<RegisterPenkumLuhkumDTO>> findAll(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
 				@RequestParam(required = true) String jenisKegiatan,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(penkumLuhkumService.findAll(startDate, endDate, jenisKegiatan, pages, sizes));
+		return ResponseEntity.ok(penkumLuhkumService.findAll(startDate, endDate, jenisKegiatan, pages, sizes));
 	}
 
 	@GetMapping("/penkumluhkum/{ids}/detail")
-	public ResponseEntity<RegisterPenkumLuhkumResponse> findById(@PathVariable String ids) {
-		return ResponseEntity.ok().body(penkumLuhkumService.findByIds(ids));
+	public ResponseEntity<RegisterPenkumLuhkumDTO> findByIds(@PathVariable String ids) {
+		return ResponseEntity.ok(penkumLuhkumService.findByIds(ids));
 	}
 	
 	@GetMapping("/penkumluhkum/search")
-	public ResponseEntity<Page<RegisterPenkumLuhkum>> findBySearch(
+	public ResponseEntity<Page<RegisterPenkumLuhkumDTO>> findBySearching(
 				@RequestParam(required = true, defaultValue = "0") Integer pages,
 				@RequestParam(required = true, defaultValue = "20") Integer sizes,
 				@RequestParam(required = true) String jenisKegiatan,
 				@RequestParam(required = true) String value,
 				@RequestParam(required = true) String startDate,
 				@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(penkumLuhkumService.findBySearching(startDate, endDate, jenisKegiatan, value, pages, sizes));
+		return ResponseEntity.ok(penkumLuhkumService.findBySearching(startDate, endDate, jenisKegiatan, value, pages, sizes));
 	}
 
 	@PostMapping("/penkumluhkum")
-	public ResponseEntity<Void> create(@Valid @RequestBody RegisterPenkumLuhkumRequest request) {
-		penkumLuhkumService.create(request);
-		return ResponseEntity.created(URI.create("/api/v1/penkumluhkum")).build();
+	public ResponseEntity<RegisterPenkumLuhkumDTO> create(@Valid @RequestBody RegisterPenkumLuhkumDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(penkumLuhkumService.create(request));
 	}
 	
 	@PutMapping("/penkumluhkum/{ids}")
-	public ResponseEntity<Void> update(@PathVariable String ids,
-			@RequestBody @Valid RegisterPenkumLuhkumRequest request) {
-		penkumLuhkumService.update(ids, request);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<RegisterPenkumLuhkumDTO> update(@PathVariable String ids,
+			@RequestBody @Valid RegisterPenkumLuhkumDTO request) {
+		return ResponseEntity.ok(penkumLuhkumService.update(ids, request));
 	}
 	
 	@DeleteMapping("/penkumluhkum/{ids}")
-	public ResponseEntity<Void> delete(@PathVariable String ids) {
+	public ResponseEntity<RegisterPenkumLuhkumDTO> delete(@PathVariable String ids) {
 		penkumLuhkumService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}

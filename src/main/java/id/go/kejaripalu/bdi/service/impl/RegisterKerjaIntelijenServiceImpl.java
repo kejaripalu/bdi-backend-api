@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenDTO;
@@ -100,6 +98,12 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	@Transactional
 	public Page<RegisterKerjaIntelijenDTO> findBySearching(String start, String end, String value, String stringBidangDirektorat,
                                                            Integer pages, Integer sizes) {
+
+		log.info("\uD83D\uDD0E Value for searching: {}", value);
+		if (value.isBlank()) {
+			log.error("💀 Isi text pencarian kosong...");
+			return null;
+		}
 
 		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
         Date startDate = ParserDateUtil.start(start);

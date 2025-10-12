@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenDTO;
@@ -83,6 +81,7 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
         log.info("\uD83D\uDD0E Value for searching: {}", value);
 		if (value.isBlank()) {
 			log.error("💀 Isi text pencarian kosong...");
+			return null;
 		}
 
         Date startDate = ParserDateUtil.start(start);
