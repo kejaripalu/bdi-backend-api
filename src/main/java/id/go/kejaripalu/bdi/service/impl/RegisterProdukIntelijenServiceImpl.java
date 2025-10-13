@@ -1,10 +1,11 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenDTO;
+import id.go.kejaripalu.bdi.mapper.RegisterProdukIntelijenMapper;
+import id.go.kejaripalu.bdi.util.ParserDateUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.go.kejaripalu.bdi.domain.RegisterProdukIntelijen;
-import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenResponse;
 import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.repository.RegisterProdukIntelijenRepository;
 import id.go.kejaripalu.bdi.service.RegisterProdukIntelijenService;
@@ -29,116 +28,77 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
 
     @Override
     @Transactional
-    public void createProdukIntelijen(RegisterProdukIntelijenRequest request) {
-        RegisterProdukIntelijen produkIntelijen = new RegisterProdukIntelijen();
-        produkIntelijen.setJenisProdukIntelijen(request.getJenisProdukIntelijen());
-        produkIntelijen.setNomorProduk(request.getNomorProduk());
-        produkIntelijen.setTanggalProduk(request.getTanggalProduk());
-        produkIntelijen.setSektor(request.getSektor());
-        produkIntelijen.setPerihal(request.getPerihal());
-        produkIntelijen.setDisposisiPimpinan(request.getDisposisiPimpinan());
-        produkIntelijen.setKeterangan(request.getKeterangan());
-        produkIntelijen.setUrlFile(request.getUrlFile());
+    public RegisterProdukIntelijenDTO create(RegisterProdukIntelijenDTO request) {
+        RegisterProdukIntelijenDTO produkIntelijen = RegisterProdukIntelijenMapper.INSTANCE.toDTO(
+                produkIntelijenRepository.save(RegisterProdukIntelijenMapper.INSTANCE.toEntity(request)));
 
-        produkIntelijenRepository.save(produkIntelijen);
         log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
+        return produkIntelijen;
     }
 
     @Override
     @Transactional
-    public void updateProdukIntelijen(String ids, RegisterProdukIntelijenRequest request) {
+    public RegisterProdukIntelijenDTO update(String ids, RegisterProdukIntelijenDTO request) {
         RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdsAndDeletedFalse(ids)
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
-        produkIntelijen.setJenisProdukIntelijen(
-                request.getJenisProdukIntelijen() == null ?
-                        produkIntelijen.getJenisProdukIntelijen() : request.getJenisProdukIntelijen());
-        produkIntelijen.setNomorProduk(
-                request.getNomorProduk() == null || request.getNomorProduk().isBlank() ?
-                        produkIntelijen.getNomorProduk() : request.getNomorProduk());
-        produkIntelijen.setTanggalProduk(
-                request.getTanggalProduk() == null ?
-                        produkIntelijen.getTanggalProduk() : request.getTanggalProduk());
-        produkIntelijen.setSektor(
-                request.getSektor() == null ?
-                        produkIntelijen.getSektor() : request.getSektor());
-        produkIntelijen.setPerihal(
-                request.getPerihal() == null || request.getPerihal().isBlank() ?
-                        produkIntelijen.getPerihal() : request.getPerihal());
-        produkIntelijen.setDisposisiPimpinan(request.getDisposisiPimpinan());
-        produkIntelijen.setKeterangan(request.getKeterangan());
-        produkIntelijen.setUrlFile(request.getUrlFile());
+        produkIntelijen.setJenisProdukIntelijen(request.jenisProdukIntelijen());
+        produkIntelijen.setNomorProduk(request.nomorProduk());
+        produkIntelijen.setTanggalProduk(request.tanggalProduk());
+        produkIntelijen.setSektor(request.sektor());
+        produkIntelijen.setPerihal(request.perihal());
+        produkIntelijen.setDisposisiPimpinan(request.disposisiPimpinan());
+        produkIntelijen.setKeterangan(request.keterangan());
+        produkIntelijen.setUrlFile(request.urlFile());
 
-        produkIntelijenRepository.save(produkIntelijen);
+        RegisterProdukIntelijenDTO prodin =
+                RegisterProdukIntelijenMapper.INSTANCE.toDTO(produkIntelijenRepository.save(produkIntelijen));
+
         log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
+        return prodin;
     }
 
     @Override
     @Transactional
-    public Page<RegisterProdukIntelijen> findProdukIntelijen(String start, String end, Integer pages, Integer sizes) {
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-        } catch (ParseException e) {
-            log.error(e.getMessage());
-        }
+    public Page<RegisterProdukIntelijenDTO> findAll(String start, String end, Integer pages, Integer sizes) {
 
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
         Pageable pageRequest = PageRequest.of(pages, sizes);
-        Page<RegisterProdukIntelijen> pagesProdukIntelijen = produkIntelijenRepository.findProdukIntelijenAll(
+
+        return produkIntelijenRepository.findProdukIntelijenAll(
                 startDate, endDate, pageRequest);
-        
-        return pagesProdukIntelijen;
     }
 
     @Override
     @Transactional
-    public Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(String start, String end, String value, Integer pages, Integer sizes) {
-        log.info("🔎 Value for searching: " + value);
-        if (value.isBlank() || value.isEmpty() || value.equals("")) {
+    public Page<RegisterProdukIntelijenDTO> findBySearching(String start, String end, String value, Integer pages, Integer sizes) {
+
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
+        if (value.isBlank()) {
         	log.warn("💀 Isi text pencarian kosong...");
 			return null;
         }
 
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-        } catch (ParseException e) {
-            log.error("💀 " + e.getMessage());
-        }
-
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
         Pageable pageRequest = PageRequest.of(pages, sizes);
-        Page<RegisterProdukIntelijen> pagesProdukIntelijen = produkIntelijenRepository.findProdukIntelijenBySearching(
-                startDate, endDate, value, pageRequest);
 
-        return pagesProdukIntelijen;
+        return produkIntelijenRepository.findProdukIntelijenBySearching(
+                startDate, endDate, value, pageRequest);
     }
 
     @Override
     @Transactional
-    public RegisterProdukIntelijenResponse findProdukIntelijenByIds(String ids) {
+    public RegisterProdukIntelijenDTO findByIds(String ids) {
         RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdsAndDeletedFalse(ids)
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
 
-        RegisterProdukIntelijenResponse response = new RegisterProdukIntelijenResponse();
-        response.setIds(produkIntelijen.getIds());
-        response.setJenisProdukIntelijen(produkIntelijen.getJenisProdukIntelijen());
-        response.setNomorProduk(produkIntelijen.getNomorProduk());
-        response.setTanggalProduk(produkIntelijen.getTanggalProduk());
-        response.setSektor(produkIntelijen.getSektor());
-        response.setPerihal(produkIntelijen.getPerihal());
-        response.setDisposisiPimpinan(produkIntelijen.getDisposisiPimpinan());
-        response.setKeterangan(produkIntelijen.getKeterangan());
-        response.setUrlFile(produkIntelijen.getUrlFile());
-
-        return response;
+        return RegisterProdukIntelijenMapper.INSTANCE.toDTO(produkIntelijen);
     }
 
     @Override
     @Transactional
-    public void deleteProdukIntelijen(String ids) {
+    public void delete(String ids) {
         RegisterProdukIntelijen produkIntelijen = produkIntelijenRepository.findByIdsAndDeletedFalse(ids)
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
         produkIntelijen.setDeleted(true);
@@ -149,17 +109,9 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
 
 	@Override
 	public List<Integer[]> countJenisProdukIntelijen(String start, String end) {
-		Date startDate = null;
-		Date endDate = null;
-		try {
-			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start);
-			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-		} catch (ParseException e) {
-			log.error(e.getMessage());
-		}
-		
-		List<Integer[]> countLapin = produkIntelijenRepository.countLaporanIntelijen(startDate, endDate);
-		return countLapin;
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
+        return produkIntelijenRepository.countLaporanIntelijen(startDate, endDate);
 	}
 
 }
