@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenDTO;

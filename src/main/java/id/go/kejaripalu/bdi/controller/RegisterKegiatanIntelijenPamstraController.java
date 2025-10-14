@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterKegiatanIntelijenPamstraController {
 
-	private final RegisterKegiatanIntelijenPamstraService<RegisterKegiatanIntelijenPamstraDTO> kegiatanIntelijenService;
+	private final RegisterKegiatanIntelijenPamstraService kegiatanIntelijenService;
 	
 	@PostMapping("/kegiatan-pamstra")
 	public ResponseEntity<RegisterKegiatanIntelijenPamstraDTO> create(

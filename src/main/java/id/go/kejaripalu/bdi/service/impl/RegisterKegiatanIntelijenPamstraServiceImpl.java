@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenPamstraDTO;
@@ -23,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegiatanIntelijenPamstraService<RegisterKegiatanIntelijenPamstraDTO> {
+public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegiatanIntelijenPamstraService {
 	
 	private final RegisterKegiatanIntelijenPamstraRepository repository;
 

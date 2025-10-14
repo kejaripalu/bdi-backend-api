@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterEkspedisiController {
 
-	private final RegisterEkspedisiService<RegisterEkspedisiDTO> ekspedisiService;
+	private final RegisterEkspedisiService ekspedisiService;
 	
 	@GetMapping("/ekspedisi")
 	public ResponseEntity<Page<RegisterEkspedisiDTO>> findAll(

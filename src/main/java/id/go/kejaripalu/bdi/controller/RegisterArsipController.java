@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @CrossOrigin("${app.origin-url}")
 public class RegisterArsipController {
 	
-	private final RegisterArsipService<RegisterArsipDTO> arsipService;
+	private final RegisterArsipService arsipService;
 	
 	@GetMapping("/arsip")
 	public ResponseEntity<Page<RegisterArsipDTO>> findAll(

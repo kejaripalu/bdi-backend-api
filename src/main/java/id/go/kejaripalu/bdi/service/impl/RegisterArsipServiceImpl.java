@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RegisterArsipServiceImpl implements RegisterArsipService<RegisterArsipDTO> {
+public class RegisterArsipServiceImpl implements RegisterArsipService {
 	
 	private final RegisterArsipRepository arsipRepository;
 
