@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,7 @@ public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPe
 	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisKegiatan=:jenisKegiatan "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC")
-	Page<RegisterPenkumLuhkum> findAllPenkumLuhkum(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
+	Page<RegisterPenkumLuhkumDTO> findAllPenkumLuhkum(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false "
 			+ "AND r.jenisKegiatan=:jenisKegiatan "
@@ -27,14 +28,14 @@ public interface RegisterPenkumLuhkumRepository extends JpaRepository<RegisterPe
 			+ "OR LOWER(r.materi) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalKegiatan DESC")
-	Page<RegisterPenkumLuhkum> findBySearching(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, String value, Pageable pageable);
+	Page<RegisterPenkumLuhkumDTO> findBySearching(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, String value, Pageable pageable);
 	
 	Optional<RegisterPenkumLuhkum> findByIdsAndDeletedFalse(String ids);
 
 	@Query("SELECT r FROM RegisterPenkumLuhkum r WHERE r.deleted=false AND r.jenisKegiatan=:jenisKegiatan "
 			+ "AND r.tanggalKegiatan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id  DESC, r.tanggalKegiatan DESC")
-	Page<RegisterPenkumLuhkum> findAllPenkumLuhkumToPrint(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
+	Page<RegisterPenkumLuhkumDTO> findAllPenkumLuhkumToPrint(Date startDate, Date endDate, JenisKegiatanPenkumLuhkum jenisKegiatan, Pageable pageable);
 	
 	@Query("SELECT "
 			+ "(SELECT COUNT(r.program) r FROM RegisterPenkumLuhkum r WHERE r.program = 'BINMATKUM' "

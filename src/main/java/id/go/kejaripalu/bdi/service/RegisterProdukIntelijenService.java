@@ -2,25 +2,14 @@ package id.go.kejaripalu.bdi.service;
 
 import java.util.List;
 
+import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenDTO;
 import org.springframework.data.domain.Page;
 
-import id.go.kejaripalu.bdi.domain.RegisterProdukIntelijen;
-import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenResponse;
-
-public interface RegisterProdukIntelijenService {
+public interface RegisterProdukIntelijenService extends CrudGenericService<RegisterProdukIntelijenDTO> {
 	
-	void createProdukIntelijen(RegisterProdukIntelijenRequest request);
+	Page<RegisterProdukIntelijenDTO> findAll(String startDate, String endDate, Integer pages, Integer sizes);
 	
-	void updateProdukIntelijen(String ids, RegisterProdukIntelijenRequest request);
-	
-	Page<RegisterProdukIntelijen> findProdukIntelijen(String startDate, String endDate, Integer pages, Integer sizes);
-	
-	Page<RegisterProdukIntelijen> findProdukIntelijenBySearching(String start, String end, String value, Integer pages, Integer sizes);
-	
-	RegisterProdukIntelijenResponse findProdukIntelijenByIds(String ids);
-	
-	void deleteProdukIntelijen(String ids);
+	Page<RegisterProdukIntelijenDTO> findBySearching(String start, String end, String value, Integer pages, Integer sizes);
 	
 	List<Integer[]> countJenisProdukIntelijen(String startDate, String endDate);
 

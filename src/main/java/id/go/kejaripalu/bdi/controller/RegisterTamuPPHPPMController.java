@@ -1,11 +1,12 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterTamuPPHPPM;
-import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMResponse;
-import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMResquest;
 import id.go.kejaripalu.bdi.service.RegisterTamuPPHPPMService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,46 +32,44 @@ public class RegisterTamuPPHPPMController {
 	private final RegisterTamuPPHPPMService pphppmService;
 	
 	@GetMapping("/pphppm")
-	public ResponseEntity<Page<RegisterTamuPPHPPM>> findAll(
+	public ResponseEntity<Page<RegisterTamuPPHPPMDTO>> findAll(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(pphppmService.findRegisterTamu(startDate, endDate, pages, sizes));
+		return ResponseEntity.ok(pphppmService.findAll(startDate, endDate, pages, sizes));
 	}
 	
 	@GetMapping("/pphppm/{ids}/detail")
-	public ResponseEntity<RegisterTamuPPHPPMResponse> findByIds(@PathVariable String ids) {
-		return ResponseEntity.ok().body(pphppmService.findRegisterTamuByIds(ids));
+	public ResponseEntity<RegisterTamuPPHPPMDTO> findByIds(@PathVariable String ids) {
+		return ResponseEntity.ok(pphppmService.findByIds(ids));
 	}
 	
 	@GetMapping("/pphppm/search")
-	public ResponseEntity<Page<RegisterTamuPPHPPM>> findBySearch(
+	public ResponseEntity<Page<RegisterTamuPPHPPMDTO>> findBySearching(
 			@RequestParam(required = true, defaultValue = "0") Integer pages,
 			@RequestParam(required = true, defaultValue = "20") Integer sizes,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = true) String startDate,
 			@RequestParam(required = true) String endDate) {
-		return ResponseEntity.ok().body(pphppmService.findRegisterTamuBySearching(
+		return ResponseEntity.ok(pphppmService.findBySearching(
 				startDate, endDate, value, pages, sizes));
 	}
 	
 	@PostMapping("/pphppm")
-	public ResponseEntity<Void> create(@Valid @RequestBody RegisterTamuPPHPPMResquest request) {
-		pphppmService.createRegisterTamu(request);
-		return ResponseEntity.created(URI.create("/api/v1/pphppm")).build();
+	public ResponseEntity<RegisterTamuPPHPPMDTO> create(@Valid @RequestBody RegisterTamuPPHPPMDTO request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(pphppmService.create(request));
 	}
 	
 	@PutMapping("/pphppm/{ids}")
-	public ResponseEntity<Void> update(@PathVariable String ids,
-			@RequestBody @Valid RegisterTamuPPHPPMResquest request) {
-		pphppmService.updateRegisterTamu(ids, request);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<RegisterTamuPPHPPMDTO> update(@PathVariable String ids,
+			@RequestBody @Valid RegisterTamuPPHPPMDTO request) {
+		return ResponseEntity.ok(pphppmService.update(ids, request));
 	}
 	
 	@DeleteMapping("/pphppm/{ids}")
 	public ResponseEntity<Void> delete(@PathVariable String ids) {
-		pphppmService.deleteRegisterTamu(ids);
+		pphppmService.delete(ids);
 		return ResponseEntity.accepted().build();
 	}
 	

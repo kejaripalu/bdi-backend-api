@@ -1,11 +1,12 @@
 package id.go.kejaripalu.bdi.controller;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.go.kejaripalu.bdi.domain.RegisterProdukIntelijen;
-import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenRequest;
-import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenResponse;
 import id.go.kejaripalu.bdi.service.RegisterProdukIntelijenService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,46 +32,44 @@ public class RegisterProdukIntelijenController {
     private final RegisterProdukIntelijenService produkIntelijenService;
 
     @GetMapping("/prodin")
-    public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijen(
+    public ResponseEntity<Page<RegisterProdukIntelijenDTO>> findAll(
             @RequestParam(required = true, defaultValue = "0") Integer pages,
             @RequestParam(required = true, defaultValue = "20") Integer sizes,
             @RequestParam(required = true) String startDate,
             @RequestParam(required = true) String endDate) {
-        return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijen(startDate, endDate, pages, sizes));
+        return ResponseEntity.ok(produkIntelijenService.findAll(startDate, endDate, pages, sizes));
     }
 
     @GetMapping("/prodin/{ids}/detail")
-    public ResponseEntity<RegisterProdukIntelijenResponse> findProdukIntelijenByIds(@PathVariable String ids) {
-        return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenByIds(ids));
+    public ResponseEntity<RegisterProdukIntelijenDTO> findByIds(@PathVariable String ids) {
+        return ResponseEntity.ok(produkIntelijenService.findByIds(ids));
     }
 
     @GetMapping("/prodin/search")
-    public ResponseEntity<Page<RegisterProdukIntelijen>> findProdukIntelijenBySearch(
+    public ResponseEntity<Page<RegisterProdukIntelijenDTO>> findBySearching(
             @RequestParam(required = true, defaultValue = "0") Integer pages,
             @RequestParam(required = true, defaultValue = "20") Integer sizes,
             @RequestParam(required = true) String value,
             @RequestParam(required = true) String startDate,
             @RequestParam(required = true) String endDate) {
-        return ResponseEntity.ok().body(produkIntelijenService.findProdukIntelijenBySearching(
+        return ResponseEntity.ok(produkIntelijenService.findBySearching(
                 startDate, endDate, value, pages, sizes));
     }
     
     @PostMapping("/prodin")
-    public ResponseEntity<Void> createNewProdukIntelijen(@Valid @RequestBody RegisterProdukIntelijenRequest request) {
-        produkIntelijenService.createProdukIntelijen(request);
-        return ResponseEntity.created(URI.create("/api/v1//produk-intelijen")).build();
+    public ResponseEntity<RegisterProdukIntelijenDTO> create(@Valid @RequestBody RegisterProdukIntelijenDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(produkIntelijenService.create(request));
     }
     
     @PutMapping("/prodin/{ids}")
-    public ResponseEntity<Void> updateProdukIntelijen(@PathVariable String ids,
-                                                      @RequestBody @Valid RegisterProdukIntelijenRequest request) {
-        produkIntelijenService.updateProdukIntelijen(ids, request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<RegisterProdukIntelijenDTO> update(@PathVariable String ids,
+                                                      @RequestBody @Valid RegisterProdukIntelijenDTO request) {
+        return ResponseEntity.ok(produkIntelijenService.update(ids, request));
     }
 
     @DeleteMapping("/prodin/{ids}")
-    public ResponseEntity<Void> deleteProdukIntelijen(@PathVariable String ids) {
-        produkIntelijenService.deleteProdukIntelijen(ids);
+    public ResponseEntity<Void> delete(@PathVariable String ids) {
+        produkIntelijenService.delete(ids);
         return ResponseEntity.accepted().build();
     }
     

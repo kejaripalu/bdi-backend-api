@@ -1,5 +1,6 @@
 package id.go.kejaripalu.bdi.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,8 @@ import lombok.Setter;
 @Setter
 public class BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 2420627709994200519L;
+	@Serial
+    private static final long serialVersionUID = 2420627709994200519L;
 
 	@UuidGenerator
 	@Column(name = "id_secure", nullable = false, updatable = false, unique = true)
