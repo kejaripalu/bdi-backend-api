@@ -315,6 +315,7 @@ Response:
   "empty": false
 }
 ```
+---
 
 ## Register Surat Keluar
 
@@ -539,6 +540,8 @@ Response:
 }
 ```
 
+---
+
 ## Register Arsip
 
 ### Create Register Arsip
@@ -630,7 +633,6 @@ Response:
     "urlFile": "string"
 }
 ```
-
 
 ### Delete Register Arsip
 
@@ -823,7 +825,7 @@ Response:
 }
 ```
 
---
+---
 
 ## Register Ekspedisi
 
@@ -1066,5 +1068,574 @@ Response:
   },
   "numberOfElements": 1,
   "empty": false
+}
+```
+
+---
+
+## Register Kegiatan Intelijen
+
+### Create Register Kegiatan Intelijen
+
+Request:
+
+- Method : POST
+- Endpoint : `/api/v1/kegiatan`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "bidangDirektorat": "string",
+  "sektor": "string",
+  "nomor": "string",
+  "tanggal": "date (yyyy-mm-dd)",
+  "perihal": "string",
+  "namaPetugasPelaksana": "string",
+  "hasilPelaksanaanKegiatan": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+      "ids": "string",
+      "bidangDirektorat": "string",
+      "sektor": "string",
+      "nomor": "string",
+      "tanggal": "date (yyyy-mm-dd)",
+      "perihal": "string",
+      "namaPetugasPelaksana": "string",
+      "hasilPelaksanaanKegiatan": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+}
+```
+
+### Update Register Kegiatan Intelijen
+
+Request:
+
+- Method : PUT
+- Endpoint : `/api/v1/kegiatan/{id}`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "bidangDirektorat": "string",
+  "sektor": "string",
+  "nomor": "string",
+  "tanggal": "date (yyyy-mm-dd)",
+  "perihal": "string",
+  "namaPetugasPelaksana": "string",
+  "hasilPelaksanaanKegiatan": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "bidangDirektorat": "string",
+  "sektor": "string",
+  "nomor": "string",
+  "tanggal": "date (yyyy-mm-dd)",
+  "perihal": "string",
+  "namaPetugasPelaksana": "string",
+  "hasilPelaksanaanKegiatan": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Delete Register Kegiatan Intelijen
+
+Request:
+
+- Method : DELETE
+- Endpoint : `/api/v1/kegiatan/{ids}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+### Get By Search Register Kegiatan Intelijen
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/kegiatan/search?pages={pages}&sizes={sizes}&bidangDirektorat={bidangDirektorat}&startDate={startDate}&endDate={endDate}&value={value}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "content": [
+    {
+      "ids": "string",
+      "bidangDirektorat": "string",
+      "sektor": "string",
+      "nomor": "string",
+      "tanggal": "date (yyyy-mm-dd)",
+      "perihal": "string",
+      "namaPetugasPelaksana": "string",
+      "hasilPelaksanaanKegiatan": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalElements": 1,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "first": true,
+  "numberOfElements": 1,
+  "empty": true
+}
+```
+
+### Get By Id Register Kegiatan Intelijen
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/kegiatan/{id}/detail`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "bidangDirektorat": "string",
+  "sektor": "string",
+  "nomor": "string",
+  "tanggal": "date (yyyy-mm-dd)",
+  "perihal": "string",
+  "namaPetugasPelaksana": "string",
+  "hasilPelaksanaanKegiatan": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Get All Register Kegiatan Intelijen
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/kegiatan?pages={pages}&sizes={sizes}&startDate={starDate}&endDate={endDate}&bidangDirektorat={bidangDirektorat}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "content": [
+    {
+      "ids": "string",
+      "bidangDirektorat": "string",
+      "sektor": "string",
+      "nomor": "string",
+      "tanggal": "date (yyyy-mm-dd)",
+      "perihal": "string",
+      "namaPetugasPelaksana": "string",
+      "hasilPelaksanaanKegiatan": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalElements": 1,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "first": true,
+  "numberOfElements": 1,
+  "empty": true
+}
+```
+
+---
+
+## Register Kegiatan Intelijen Pamstra
+
+### Create Register Kegiatan Intelijen Pamstra
+
+Request:
+
+- Method : POST
+- Endpoint : `/api/v1/kegiatan-pamstra`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "sektor": "string",
+  "namaKegiatan": "string",
+  "sumberDana": "string",
+  "instansi": "string",
+  "paguAnggaran": "number",
+  "nomorSuratPermohonan": "string",
+  "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+  "tempatPemaparan": "string",
+  "tanggalPemaparan": "date (yyyy-mm-dd)",
+  "telaahanIntelijen": "string",
+  "tindakLanjut": "string",
+  "tindakLanjutKeterangan": "string",
+  "nomorSprintWalpam": "string",
+  "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+  "namaPetugasPelaksana": "string",
+  "nilaiKontrak": "number",
+  "hasilPelaksanaan": "string",
+  "hasilPelaksanaanKeterangan": "string",
+  "nomorKertasKerja": "string",
+  "tanggalKertasKerja": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "sektor": "string",
+  "namaKegiatan": "string",
+  "sumberDana": "string",
+  "instansi": "string",
+  "paguAnggaran": "number",
+  "nomorSuratPermohonan": "string",
+  "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+  "tempatPemaparan": "string",
+  "tanggalPemaparan": "date (yyyy-mm-dd)",
+  "telaahanIntelijen": "string",
+  "tindakLanjut": "string",
+  "tindakLanjutKeterangan": "string",
+  "nomorSprintWalpam": "string",
+  "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+  "namaPetugasPelaksana": "string",
+  "nilaiKontrak": "number",
+  "hasilPelaksanaan": "string",
+  "hasilPelaksanaanKeterangan": "string",
+  "nomorKertasKerja": "string",
+  "tanggalKertasKerja": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Update Register Kegiatan Intelijen Pamstra
+
+Request:
+
+- Method : PUT
+- Endpoint : `/api/v1/kegiatan-pamstra/{id}`
+- Header :
+    - Content-Type : application/json
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+- Body :
+
+```json
+{
+  "sektor": "string",
+  "namaKegiatan": "string",
+  "sumberDana": "string",
+  "instansi": "string",
+  "paguAnggaran": "number",
+  "nomorSuratPermohonan": "string",
+  "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+  "tempatPemaparan": "string",
+  "tanggalPemaparan": "date (yyyy-mm-dd)",
+  "telaahanIntelijen": "string",
+  "tindakLanjut": "string",
+  "tindakLanjutKeterangan": "string",
+  "nomorSprintWalpam": "string",
+  "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+  "namaPetugasPelaksana": "string",
+  "nilaiKontrak": "number",
+  "hasilPelaksanaan": "string",
+  "hasilPelaksanaanKeterangan": "string",
+  "nomorKertasKerja": "string",
+  "tanggalKertasKerja": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "sektor": "string",
+  "namaKegiatan": "string",
+  "sumberDana": "string",
+  "instansi": "string",
+  "paguAnggaran": "number",
+  "nomorSuratPermohonan": "string",
+  "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+  "tempatPemaparan": "string",
+  "tanggalPemaparan": "date (yyyy-mm-dd)",
+  "telaahanIntelijen": "string",
+  "tindakLanjut": "string",
+  "tindakLanjutKeterangan": "string",
+  "nomorSprintWalpam": "string",
+  "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+  "namaPetugasPelaksana": "string",
+  "nilaiKontrak": "number",
+  "hasilPelaksanaan": "string",
+  "hasilPelaksanaanKeterangan": "string",
+  "nomorKertasKerja": "string",
+  "tanggalKertasKerja": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Delete Register Kegiatan Intelijen Pamstra
+
+Request:
+
+- Method : DELETE
+- Endpoint : `/api/v1/kegiatan-pamstra/{ids}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+### Get By Search Register Kegiatan Intelijen Pamstra
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/kegiatan-pamstra/search?pages={pages}&sizes={sizes}&startDate={startDate}&endDate={endDate}&value={value}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "content": [
+    {
+      "ids": "string",
+      "sektor": "string",
+      "namaKegiatan": "string",
+      "sumberDana": "string",
+      "instansi": "string",
+      "paguAnggaran": "number",
+      "nomorSuratPermohonan": "string",
+      "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+      "tempatPemaparan": "string",
+      "tanggalPemaparan": "date (yyyy-mm-dd)",
+      "telaahanIntelijen": "string",
+      "tindakLanjut": "string",
+      "tindakLanjutKeterangan": "string",
+      "nomorSprintWalpam": "string",
+      "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+      "namaPetugasPelaksana": "string",
+      "nilaiKontrak": "number",
+      "hasilPelaksanaan": "string",
+      "hasilPelaksanaanKeterangan": "string",
+      "nomorKertasKerja": "string",
+      "tanggalKertasKerja": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalElements": 1,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "first": true,
+  "numberOfElements": 1,
+  "empty": false
+}
+```
+
+### Get By Id Register Kegiatan Intelijen
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/kegiatan-pamstra/{id}/detail`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "ids": "string",
+  "sektor": "string",
+  "namaKegiatan": "string",
+  "sumberDana": "string",
+  "instansi": "string",
+  "paguAnggaran": "number",
+  "nomorSuratPermohonan": "string",
+  "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+  "tempatPemaparan": "string",
+  "tanggalPemaparan": "date (yyyy-mm-dd)",
+  "telaahanIntelijen": "string",
+  "tindakLanjut": "string",
+  "tindakLanjutKeterangan": "string",
+  "nomorSprintWalpam": "string",
+  "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+  "namaPetugasPelaksana": "string",
+  "nilaiKontrak": "number",
+  "hasilPelaksanaan": "string",
+  "hasilPelaksanaanKeterangan": "string",
+  "nomorKertasKerja": "string",
+  "tanggalKertasKerja": "string",
+  "keterangan": "string",
+  "urlFile": "string"
+}
+```
+
+### Get All Register Kegiatan Intelijen Pamstra
+
+Request:
+
+- Method : GET
+- Endpoint : `/api/v1/kegiatan-pamstra?pages={pages}&sizes={sizes}&startDate={startDate}&endDate={endDate}`
+- Header :
+    - Accept : application/json
+    - Authorization: Bearer `YOUR_ACCESS_TOKEN`
+
+Response:
+
+```json
+{
+  "content": [
+    {
+      "ids": "string",
+      "sektor": "string",
+      "namaKegiatan": "string",
+      "sumberDana": "string",
+      "instansi": "string",
+      "paguAnggaran": "number",
+      "nomorSuratPermohonan": "string",
+      "tanggalSuratPermohonan": "date (yyyy-mm-dd)",
+      "tempatPemaparan": "string",
+      "tanggalPemaparan": "date (yyyy-mm-dd)",
+      "telaahanIntelijen": "string",
+      "tindakLanjut": "string",
+      "tindakLanjutKeterangan": "string",
+      "nomorSprintWalpam": "string",
+      "tanggalSprintWalpam": "date (yyyy-mm-dd)",
+      "namaPetugasPelaksana": "string",
+      "nilaiKontrak": "number",
+      "hasilPelaksanaan": "string",
+      "hasilPelaksanaanKeterangan": "string",
+      "nomorKertasKerja": "string",
+      "tanggalKertasKerja": "string",
+      "keterangan": "string",
+      "urlFile": "string"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalElements": 1,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "first": true,
+  "numberOfElements": 1,
+  "empty": true
 }
 ```
