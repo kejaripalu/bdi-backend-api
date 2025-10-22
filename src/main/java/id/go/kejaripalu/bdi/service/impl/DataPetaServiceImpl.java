@@ -69,10 +69,14 @@ public class DataPetaServiceImpl implements DataPetaService {
                 .orElseThrow(() -> new NotFoundException("ID_NOT_FOUND"));
         dataPeta.setBidangDirektorat(request.bidangDirektorat());
         dataPeta.setSektor(request.sektor());
-        dataPeta.setSiabidibam(request.siabidibam());
         dataPeta.setTanggal(request.tanggal());
+        dataPeta.setLokasi(request.lokasi());
         dataPeta.setLatitude(request.latitude());
         dataPeta.setLongitude(request.longitude());
+        dataPeta.setSiapa(request.siapa());
+        dataPeta.setApa(request.apa());
+        dataPeta.setMengapa(request.mengapa());
+        dataPeta.setBagaimana(request.bagaimana());
         dataPeta.setKeterangan(request.keterangan());
 
         DataPetaDTO dataPetaDTO =

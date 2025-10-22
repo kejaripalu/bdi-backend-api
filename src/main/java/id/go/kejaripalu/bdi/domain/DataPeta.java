@@ -36,19 +36,31 @@ public class DataPeta extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private Sektor sektor;
 
-    @Column(name = "siabidibam", columnDefinition="TEXT", nullable = false)
-    private String siabidibam;
-
     @Column(name = "tanggal", nullable = false)
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date tanggal;
+
+    @Column(name = "lokasi", nullable = false)
+    private String lokasi;
 
     @Column(name = "latitude", nullable = false)
     private Double latitude;
 
     @Column(name = "longitude", nullable = false)
     private Double longitude;
+
+    @Column(name = "siapa", nullable = false)
+    private String siapa;
+
+    @Column(name = "apa", nullable = false)
+    private String apa;
+
+    @Column(name = "mengapa", nullable = false)
+    private String mengapa;
+
+    @Column(name = "bagaimana", columnDefinition="TEXT", nullable = false)
+    private String bagaimana;
 
     @Column(name = "keterangan")
     private String keterangan;

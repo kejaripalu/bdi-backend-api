@@ -8,14 +8,10 @@ public enum BidangDirektorat {
 	PAMSTRA("Pengamanan Pembangunan Strategis"),
 	TIPRODIN("Teknologi Informasi, dan Produksi Intelijen");
 	
-	private String description;
+	private final String description;
 	
-	private BidangDirektorat(String description) {
+	BidangDirektorat(String description) {
 		this.description = description;
-	}
-
-	public String getDescription() {
-		return description;
 	}
 
 }

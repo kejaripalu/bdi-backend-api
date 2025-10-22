@@ -12,10 +12,14 @@ public record DataPetaDTO(
         String ids,
         @NotNull BidangDirektorat bidangDirektorat,
         @NotNull Sektor sektor,
-        @NotBlank String siabidibam,
         @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8") Date tanggal,
+        @NotBlank String lokasi,
         @NotNull Double latitude,
         @NotNull Double longitude,
+        @NotBlank String siapa,
+        @NotBlank String apa,
+        @NotBlank String mengapa,
+        @NotBlank String bagaimana,
         String keterangan
 ) {
 }

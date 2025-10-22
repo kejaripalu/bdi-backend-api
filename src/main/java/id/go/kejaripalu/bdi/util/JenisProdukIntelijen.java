@@ -12,14 +12,10 @@ public enum JenisProdukIntelijen {
     KIRKA("Perkiraan Keadaan Intelijen"),
     TROOP_INFO("Troop-Info");
 
-    private String description;
+    private final String description;
 
     JenisProdukIntelijen(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
 }

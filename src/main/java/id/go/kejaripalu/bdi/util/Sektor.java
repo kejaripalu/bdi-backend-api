@@ -87,20 +87,12 @@ public enum Sektor {
     PENGEMBANGAN_TEKNOLOGI("Pengembangan Teknologi", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_PROSEDUR_APLIKASI("Pengembangan Prosedur dan Aplikasi", BidangDirektorat.TIPRODIN);
 	
-	private String description;
-	private BidangDirektorat bidangDirektorat;
+	private final String description;
+	private final BidangDirektorat bidangDirektorat;
 	
-	private Sektor(String description, BidangDirektorat bidangDirektorat) {
+	Sektor(String description, BidangDirektorat bidangDirektorat) {
 		this.description = description;
 		this.bidangDirektorat = bidangDirektorat;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public BidangDirektorat getBidangDirektorat() {
-		return bidangDirektorat;
 	}
 
 }
