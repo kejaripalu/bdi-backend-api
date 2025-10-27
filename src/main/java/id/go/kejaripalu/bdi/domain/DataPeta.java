@@ -3,7 +3,7 @@ package id.go.kejaripalu.bdi.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import id.go.kejaripalu.bdi.util.BidangDirektorat;
-import id.go.kejaripalu.bdi.util.Sektor;
+import id.go.kejaripalu.bdi.util.SektorPeta;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +34,7 @@ public class DataPeta extends BaseEntity implements Serializable {
 
     @Column(name = "sektor", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Sektor sektor;
+    private SektorPeta sektor;
 
     @Column(name = "tanggal", nullable = false)
     @Temporal(TemporalType.DATE)
