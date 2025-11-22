@@ -41,7 +41,7 @@ public class DataPeta extends BaseEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date tanggal;
 
-    @Column(name = "lokasi", nullable = false)
+    @Column(name = "lokasi", columnDefinition="TEXT", nullable = false)
     private String lokasi;
 
     @Column(name = "latitude", nullable = false)
