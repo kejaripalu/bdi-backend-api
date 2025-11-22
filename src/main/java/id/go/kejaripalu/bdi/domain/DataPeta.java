@@ -53,10 +53,10 @@ public class DataPeta extends BaseEntity implements Serializable {
     @Column(name = "siapa", nullable = false)
     private String siapa;
 
-    @Column(name = "apa", nullable = false)
+    @Column(name = "apa", columnDefinition="TEXT", nullable = false)
     private String apa;
 
-    @Column(name = "mengapa", nullable = false)
+    @Column(name = "mengapa", columnDefinition="TEXT", nullable = false)
     private String mengapa;
 
     @Column(name = "bagaimana", columnDefinition="TEXT", nullable = false)
