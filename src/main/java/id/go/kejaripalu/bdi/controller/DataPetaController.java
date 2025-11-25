@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("${app.api-url}")
@@ -60,5 +62,13 @@ public class DataPetaController {
     public ResponseEntity<Void> delete(@PathVariable String ids) {
         service.delete(ids);
         return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/data-peta/peta-simbol")
+    public ResponseEntity<List<DataPetaDTO>> findByBidangDirektoratAndTanggalBetween(
+            @RequestParam String bidangDirektorat,
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+        return ResponseEntity.ok(service.findByBidangDirektoratAndTanggalBetween(bidangDirektorat, startDate, endDate));
     }
 }

@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -100,5 +102,17 @@ public class DataPetaServiceImpl implements DataPetaService {
         dataPeta.setDeleted(true);
         repository.save(dataPeta);
         log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ) Data Peta!!!");
+    }
+
+    @Override
+    public List<DataPetaDTO> findByBidangDirektoratAndTanggalBetween(String stringBidangDirektorat, String startDate, String endDate) {
+        BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
+        Date start = ParserDateUtil.start(startDate);
+        Date end = ParserDateUtil.end(endDate);
+
+        return repository.findByBidangDirektoratAndTanggalBetween(bidangDirektorat, start, end)
+                .stream()
+                .map(DataPetaMapper.INSTANCE::toDTO)
+                .toList();
     }
 }
