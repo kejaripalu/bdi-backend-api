@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface DataPetaRepository extends JpaRepository<DataPeta, Long> {
@@ -33,5 +34,7 @@ public interface DataPetaRepository extends JpaRepository<DataPeta, Long> {
     Page<DataPetaDTO> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
 
     Optional<DataPeta> findByIdsAndDeletedFalse(String ids);
+
+    List<DataPeta> findByBidangDirektoratAndTanggalBetween(BidangDirektorat bidangDirektorat, Date startDate, Date endDate);
 
 }
