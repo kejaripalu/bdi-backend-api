@@ -18,7 +18,7 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class DataPeta extends BaseEntity implements Serializable {
+public class DataPeta extends Siabidibam implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -49,18 +49,6 @@ public class DataPeta extends BaseEntity implements Serializable {
 
     @Column(name = "longitude", nullable = false)
     private Double longitude;
-
-    @Column(name = "siapa", nullable = false)
-    private String siapa;
-
-    @Column(name = "apa", columnDefinition="TEXT", nullable = false)
-    private String apa;
-
-    @Column(name = "mengapa", columnDefinition="TEXT", nullable = false)
-    private String mengapa;
-
-    @Column(name = "bagaimana", columnDefinition="TEXT", nullable = false)
-    private String bagaimana;
 
     @Column(name = "keterangan")
     private String keterangan;
