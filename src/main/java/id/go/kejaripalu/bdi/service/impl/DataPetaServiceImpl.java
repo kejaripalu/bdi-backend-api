@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -58,8 +58,8 @@ public class DataPetaServiceImpl implements DataPetaService {
     @Override
     public DataPetaDTO create(DataPetaDTO request) {
         DataPetaDTO dataPetaDTO =
-                DataPetaMapper.INSTANCE.toDTO(repository.save(
-                        DataPetaMapper.INSTANCE.toEntity(request)));
+                DataPetaMapper.INSTANCE.toDTO(Objects.requireNonNull(repository.save(
+                        Objects.requireNonNull(DataPetaMapper.INSTANCE.toEntity(request)))));
 
         log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Data Peta!!!");
         return dataPetaDTO;
@@ -82,7 +82,7 @@ public class DataPetaServiceImpl implements DataPetaService {
         dataPeta.setKeterangan(request.keterangan());
 
         DataPetaDTO dataPetaDTO =
-                DataPetaMapper.INSTANCE.toDTO(repository.save(dataPeta));
+                DataPetaMapper.INSTANCE.toDTO(Objects.requireNonNull(repository.save(dataPeta)));
         log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Data Peta!!!");
         return dataPetaDTO;
     }

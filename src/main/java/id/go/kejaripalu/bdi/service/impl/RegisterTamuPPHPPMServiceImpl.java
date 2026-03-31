@@ -2,6 +2,7 @@ package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterTamuPPHPPMMapper;
@@ -31,7 +32,8 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 	public RegisterTamuPPHPPMDTO create(RegisterTamuPPHPPMDTO request) {
 		RegisterTamuPPHPPMDTO pphppm =
                 RegisterTamuPPHPPMMapper.INSTANCE.toDTO(
-                        repository.save(RegisterTamuPPHPPMMapper.INSTANCE.toEntity(request)));
+                        Objects.requireNonNull(repository.save(
+                                Objects.requireNonNull(RegisterTamuPPHPPMMapper.INSTANCE.toEntity(request)))));
 
         log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Register Tamu PPH & PPM!!!");
         return pphppm;
@@ -63,7 +65,7 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 		pphppm.setUrlFile(request.urlFile());
 
         RegisterTamuPPHPPMDTO registerTamuPPHPPM =
-                RegisterTamuPPHPPMMapper.INSTANCE.toDTO(repository.save(pphppm));
+                RegisterTamuPPHPPMMapper.INSTANCE.toDTO(Objects.requireNonNull(repository.save(pphppm)));
 		
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Tamu PPH & PPM!!!");
         return registerTamuPPHPPM;

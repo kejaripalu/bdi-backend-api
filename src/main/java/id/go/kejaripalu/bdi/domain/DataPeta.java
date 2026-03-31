@@ -7,8 +7,6 @@ import id.go.kejaripalu.bdi.util.SektorPeta;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -18,10 +16,7 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class DataPeta extends Siabidibam implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class DataPeta extends Siabidibam {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

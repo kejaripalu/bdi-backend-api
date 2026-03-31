@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.domain;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -32,10 +30,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterEkspedisi extends BaseEntity implements Serializable {
-
-	@Serial
-    private static final long serialVersionUID = 3455793502209300165L;
+public class RegisterEkspedisi extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

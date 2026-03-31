@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterEkspedisiDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterEkspedisiMapper;
@@ -32,7 +33,8 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 
 		RegisterEkspedisiDTO ekspedisi =
                 RegisterEkspedisiMapper.INSTANCE.toDTO(
-                        ekspedisiRepository.save(RegisterEkspedisiMapper.INSTANCE.toEntity(request)));
+                        Objects.requireNonNull(ekspedisiRepository.save(
+                                Objects.requireNonNull(RegisterEkspedisiMapper.INSTANCE.toEntity(request)))));
 
         log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
         return ekspedisi;
@@ -56,7 +58,7 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 		ekspedisi.setJenisSurat(request.jenisSurat());
 
         RegisterEkspedisiDTO ekspedisiDTO =
-                RegisterEkspedisiMapper.INSTANCE.toDTO(ekspedisiRepository.save(ekspedisi));
+                RegisterEkspedisiMapper.INSTANCE.toDTO(Objects.requireNonNull(ekspedisiRepository.save(ekspedisi)));
 
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Ekspedisi!!!");
         return ekspedisiDTO;

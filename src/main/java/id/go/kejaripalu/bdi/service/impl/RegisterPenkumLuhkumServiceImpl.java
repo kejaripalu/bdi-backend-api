@@ -2,6 +2,7 @@ package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterPenkumLuhkumDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterPenkumLuhkumMapper;
@@ -32,7 +33,8 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 	public RegisterPenkumLuhkumDTO create(RegisterPenkumLuhkumDTO request) {
 		RegisterPenkumLuhkumDTO penkumLuhkum =
 				RegisterPenkumLuhkumMapper.INSTANCE.toDTO(
-						repository.save(RegisterPenkumLuhkumMapper.INSTANCE.toEntity(request)));
+						Objects.requireNonNull(repository.save(
+								Objects.requireNonNull(RegisterPenkumLuhkumMapper.INSTANCE.toEntity(request)))));
 		
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum!!!");
 		return penkumLuhkum;
@@ -60,7 +62,7 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 
 		RegisterPenkumLuhkumDTO registerPenkumLuhkum =
 				RegisterPenkumLuhkumMapper.INSTANCE.toDTO(
-						repository.save(penkumLuhkum));
+						Objects.requireNonNull(repository.save(penkumLuhkum)));
 
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Penkum/Luhkum!!!");
 		return registerPenkumLuhkum;

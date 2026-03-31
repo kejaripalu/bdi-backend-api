@@ -1,10 +1,9 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
-import id.go.kejaripalu.bdi.dto.*;
+import id.go.kejaripalu.bdi.dto.RegisterSuratKeluarDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterSuratKeluarMapper;
 import id.go.kejaripalu.bdi.service.RegisterSuratService;
 import id.go.kejaripalu.bdi.util.ParserDateUtil;
@@ -50,7 +49,8 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 	public RegisterSuratKeluarDTO create(RegisterSuratKeluarDTO request) {
 		RegisterSuratKeluarDTO suratKeluar =
 				RegisterSuratKeluarMapper.INSTANCE.toDTO(
-						suratKeluarRepository.save(RegisterSuratKeluarMapper.INSTANCE.toEntity(request)));
+						Objects.requireNonNull(suratKeluarRepository.save(
+								Objects.requireNonNull(RegisterSuratKeluarMapper.INSTANCE.toEntity(request)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
 		return suratKeluar;
@@ -80,7 +80,7 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 		suratKeluar.setUrlFile(request.urlFile());
 
 		RegisterSuratKeluarDTO registerSuratKeluarDTO =
-				RegisterSuratKeluarMapper.INSTANCE.toDTO(suratKeluarRepository.save(suratKeluar));
+				RegisterSuratKeluarMapper.INSTANCE.toDTO(Objects.requireNonNull(suratKeluarRepository.save(suratKeluar)));
 
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Keluar!!!");
 		return registerSuratKeluarDTO;

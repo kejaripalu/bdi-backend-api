@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.domain;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -36,10 +34,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
-public class RegisterOperasiIntelijen extends BaseEntity implements Serializable {
-	
-	@Serial
-    private static final long serialVersionUID = 3093082204205839115L;
+public class RegisterOperasiIntelijen extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

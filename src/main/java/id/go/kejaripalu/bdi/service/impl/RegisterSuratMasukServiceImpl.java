@@ -1,8 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterSuratMasukDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterSuratMasukMapper;
@@ -33,7 +32,8 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratService<Regis
 	public RegisterSuratMasukDTO create(RegisterSuratMasukDTO suratMasukDTO) {
 		RegisterSuratMasukDTO suratMasuk =
                 RegisterSuratMasukMapper.INSTANCE.toDTO(
-						suratMasukRepository.save(RegisterSuratMasukMapper.INSTANCE.toEntity(suratMasukDTO)));
+						Objects.requireNonNull(suratMasukRepository.save(
+								Objects.requireNonNull(RegisterSuratMasukMapper.INSTANCE.toEntity(suratMasukDTO)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Surat Masuk!!!");
         return suratMasuk;
@@ -58,7 +58,7 @@ public class RegisterSuratMasukServiceImpl implements RegisterSuratService<Regis
 		
 		RegisterSuratMasukDTO registerSuratMasukDTO =
                 RegisterSuratMasukMapper.INSTANCE.toDTO(
-						suratMasukRepository.save(suratMasuk));
+						Objects.requireNonNull(suratMasukRepository.save(suratMasuk)));
 
         log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Surat Masuk!!!");
         return registerSuratMasukDTO;

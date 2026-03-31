@@ -17,11 +17,11 @@ public class SkipPathRequestMatcher implements RequestMatcher {
 
 	public SkipPathRequestMatcher(List<String> pathToSkip, List<String> processingPath) {
 
-		List<RequestMatcher> skip = pathToSkip.stream().map(path -> new AntPathRequestMatcher(path))
+		List<RequestMatcher> skip = pathToSkip.stream().map(AntPathRequestMatcher::antMatcher)
 				.collect(Collectors.toList());
 		skipMatcher = new OrRequestMatcher(skip);
 
-		List<RequestMatcher> processing = processingPath.stream().map(path -> new AntPathRequestMatcher(path))
+		List<RequestMatcher> processing = processingPath.stream().map(AntPathRequestMatcher::antMatcher)
 				.collect(Collectors.toList());
 		processingMatcher = new OrRequestMatcher(processing);
 	}

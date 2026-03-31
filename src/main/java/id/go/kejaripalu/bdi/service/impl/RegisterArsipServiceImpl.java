@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterArsipDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterArsipMapper;
@@ -30,7 +31,8 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 	public RegisterArsipDTO create(RegisterArsipDTO request) {
 		RegisterArsipDTO registerArsip =
 				RegisterArsipMapper.INSTANCE.toDTO(
-						arsipRepository.save(RegisterArsipMapper.INSTANCE.toEntity(request)));
+						Objects.requireNonNull(arsipRepository.save(
+								Objects.requireNonNull(RegisterArsipMapper.INSTANCE.toEntity(request)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Register Arsip!!!");
 		return registerArsip;
@@ -53,7 +55,7 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 		arsip.setUrlFile(request.urlFile());
 
 		RegisterArsipDTO registerArsip =
-				RegisterArsipMapper.INSTANCE.toDTO(arsipRepository.save(arsip));
+				RegisterArsipMapper.INSTANCE.toDTO(Objects.requireNonNull(arsipRepository.save(arsip)));
 
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Arsip!!!");
 		return registerArsip;
