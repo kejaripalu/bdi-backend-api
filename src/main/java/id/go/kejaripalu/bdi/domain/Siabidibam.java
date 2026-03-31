@@ -5,16 +5,10 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @MappedSuperclass
 @Setter
 @Getter
-public class Siabidibam extends BaseEntity implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Siabidibam extends BaseEntity {
 
     @Column(name = "siapa", nullable = false)
     private String siapa;
