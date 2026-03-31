@@ -1,112 +1,557 @@
-## BDI Backend API Kejari Palu
+# 📖 Penjelasan Detail: BDI Backend API
 
-Ini adalah Repository Bank Data Intelijen untuk mengelola data Intelijen Kejaksaan Negeri Palu.
+## 1. Gambaran Umum
 
-### System Recruitment
+**BDI (Bank Data Intelijen)** adalah sebuah REST API backend yang dibangun menggunakan **Spring Boot 3.5.6** untuk mengelola data intelijen di **Kejaksaan Negeri Palu**. Aplikasi ini berfungsi sebagai backend service yang menyediakan API bagi frontend (Angular, berjalan di port `4200`) untuk melakukan operasi CRUD terhadap berbagai jenis register/dokumen intelijen.
 
-* JDK 21 or newest
-* PostgreSQL 17++
-* Maven 3.9++
-
-### Baca Juga
-
-- [API Spesification](API-SPECS.md)
-- [Sample Data SQL untuk data user](sample-data-user.md)
+> [!IMPORTANT]
+> Project ini menggunakan arsitektur **Stateless REST API** dengan autentikasi **JWT (JSON Web Token)**, yang berarti tidak ada session di server — setiap request harus menyertakan token JWT di header `Authorization`.
 
 ---
 
-### Environment
+## 2. Tech Stack
 
-```
-DB_URL=jdbc:postgresql://localhost:5432/databasename
-DB_USERNAME=username
-DB_PASSWORD=password
-ISSUER=www.timposulabs.com
-ORIGIN_URL=http://localhost:4200
-RANDOM_CODE=XRND8dD8M3KxQcH8vRfrICD3QyNUAwDARaNxDP0Na0jrQzDC7F
-```
-
-Keterangan:
-
-* `DB_URL`: Url database
-* `DB_USERNAME`: username dari database
-* `DB_PASSWORD`: password dari database
-* `ISSUER`: Issuer token JWT
-* `ORIGIN_URL`: URL Client dari Frontend
-* `RANDOM_CODE`: Random code for JWT
-
-Ganti value dari masing-masing environment sesuai kebutuhan.
+| Teknologi | Versi | Fungsi |
+|---|---|---|
+| **Java** | 21 | Bahasa pemrograman |
+| **Spring Boot** | 3.4.4 | Framework utama |
+| **Spring Security** | (bawaan) | Autentikasi & otorisasi |
+| **Spring Data JPA** | (bawaan) | ORM & akses database |
+| **PostgreSQL** | 17+ | Database relasional |
+| **JJWT** | 0.12.6 | Library JWT token |
+| **Lombok** | (bawaan) | Mengurangi boilerplate code |
+| **MapStruct** | 1.6.3 | Mapping Entity ↔ DTO |
+| **Maven** | 3.9+ | Build tool & dependency management |
+| **BCrypt** | (bawaan) | Hashing password |
+| **HikariCP** | (bawaan) | Connection pooling database |
 
 ---
 
-### Build to production
-
-Build Springboot app to production using maven
-
-* Build skip test
+## 3. Struktur Package
 
 ```
-mvn clean install -DskipTests
+id.go.kejaripalu.bdi/
+├── BdiApplication.java              ← Entry point aplikasi
+├── config/
+│   ├── ApplicationConfig.java       ← Bean configuration (JWT key, BCrypt, ObjectMapper)
+│   ├── ApplicationProperties.java   ← Custom properties (app.*)
+│   └── SecurityConfig.java          ← Spring Security filter chain & CORS
+├── controller/                      ← REST Controller (14 controller)
+│   ├── UserController.java
+│   ├── RegisterSuratMasukController.java
+│   ├── RegisterSuratKeluarController.java
+│   ├── RegisterArsipController.java
+│   ├── RegisterEkspedisiController.java
+│   ├── RegisterKegiatanIntelijenController.java
+│   ├── RegisterKegiatanIntelijenPamstraController.java
+│   ├── RegisterKerjaIntelijenController.java
+│   ├── RegisterOperasiIntelijenController.java
+│   ├── RegisterPenkumLuhkumController.java
+│   ├── RegisterProdukIntelijenController.java
+│   ├── RegisterTamuPPHPPMController.java
+│   ├── RegisterTelaahanIntelijenController.java
+│   └── DataPetaController.java
+├── domain/                          ← JPA Entity / Model (14 entity)
+│   ├── BaseEntity.java              ← Superclass (ids, deleted, timestamps)
+│   ├── RegisterSuratMasuk.java
+│   ├── RegisterSuratKeluar.java
+│   ├── RegisterArsip.java
+│   ├── RegisterEkspedisi.java
+│   ├── RegisterKegiatanIntelijen.java
+│   ├── RegisterKegiatanIntelijenPamstra.java
+│   ├── RegisterKerjaIntelijen.java
+│   ├── RegisterOperasiIntelijen.java
+│   ├── RegisterPenkumLuhkum.java
+│   ├── RegisterProdukIntelijen.java
+│   ├── RegisterTamuPPHPPM.java
+│   ├── RegisterTelaahanIntelijen.java
+│   └── DataPeta.java
+├── dto/                             ← Data Transfer Object (13 DTO, Java Record)
+├── mapper/                          ← MapStruct Mapper (13 mapper)
+├── repository/                      ← Spring Data JPA Repository (13 repository)
+├── service/                         ← Service interface
+│   ├── CrudGenericService.java      ← Generic CRUD interface
+│   ├── RegisterSuratService.java    ← Extended untuk register surat
+│   └── impl/                       ← Service implementation
+├── exception/                       ← Exception handling
+│   ├── BDIErrorResponse.java        ← Error response model
+│   ├── BadRequestException.java
+│   ├── NotFoundException.java
+│   └── RestExceptionHandler.java    ← Global @ControllerAdvice
+├── security/                        ← Modul keamanan (JWT + Spring Security)
+│   ├── domain/
+│   │   ├── AppUser.java             ← Entity user (implements UserDetails)
+│   │   ├── Role.java                ← Entity role (implements GrantedAuthority)
+│   │   └── util/BaseEntity.java
+│   ├── dto/
+│   │   ├── LoginRequestDTO.java
+│   │   └── AppUserDetailResponseDTO.java
+│   ├── filter/
+│   │   ├── UsernamePasswordAuthProcessingFilter.java  ← Filter login
+│   │   └── JWTAuthProcessingFilter.java               ← Filter JWT setiap request
+│   ├── handler/
+│   │   ├── UsernamePasswordAuthSuccessHandler.java     ← Buat token saat login sukses
+│   │   └── UsernamePasswordAuthFailureHandler.java     ← Response saat login gagal
+│   ├── model/
+│   │   ├── Token.java
+│   │   ├── AccessJWTToken.java
+│   │   ├── RawAccesJWTToken.java
+│   │   ├── JWTAthenticationToken.java
+│   │   └── AnonymousAuthentication.java
+│   ├── provider/
+│   │   ├── UsernamePasswordAuthProvider.java  ← Verifikasi username + password
+│   │   └── JWTAuthenticationAuthProvider.java ← Verifikasi & parsing JWT token
+│   ├── repository/
+│   │   └── AppUserRepository.java
+│   ├── service/
+│   │   ├── AppUserService.java
+│   │   └── impl/AppUserServiceImpl.java
+│   └── util/
+│       ├── JWTTokenFactory.java           ← Membuat JWT token
+│       ├── JWTTokenExtractor.java
+│       ├── JWTTokenHeaderExtractor.java   ← Extract token dari header
+│       └── SkipPathRequestMatcher.java    ← Menentukan path yg di-skip
+└── util/                            ← Enum & utility
+    ├── JenisSurat.java              ← BIASA, RAHASIA
+    ├── BidangDirektorat.java
+    ├── JenisKelamin.java
+    ├── JenisPelayanan.java
+    ├── JenisProdukIntelijen.java
+    ├── JenisKegiatanPenkumLuhkum.java
+    ├── ProgramPenkumLuhkum.java
+    ├── HasilPamstra.java
+    ├── Sektor.java
+    ├── GetBidangDirektorat.java
+    └── ParserDateUtil.java          ← Parsing string → Date
 ```
 
-or run use profile prod
-
-```
-mvn spring-boot:run -Dspring-boot.run.profiles=prod
-```
-
-* Running jar file in `target` directory
-
-```
-java -jar -Dspring.profiles.active=prod XXX.jar
-```
 ---
 
-### Menggunakan Docker
+## 4. Arsitektur Aplikasi (Layered Architecture)
 
-Untuk menggunakan database Postgres mengunakan Docker berikut petunjuknya: 
+Aplikasi ini menggunakan pola **Layered Architecture** klasik Spring Boot:
 
-#### 1. Membuat Volume
-
-Membuat volume contoh dengan nama `bdi-volume`, agar data yang dibuat dalam database tidak hilang ketika container dihentikan/dihapus:
-
-```
-docker volume create bdi-volume
-```
-
-#### 2. Membuat Container
-
-Membuat Container dengan nama `bdi-postgres` dan password `cLVc086Ey4` sekaligus menjalankan containernya:
-
-```
-docker container run -d --rm --name bdi-postgres -e POSTGRES_PASSWORD=cLVc086Ey4 -p 5432:5432 -v bdi-volume:/var/lib/postgresql/data postgres:17.4
-```
-
-#### 3. Buat database
-
-Login CLI Postgres dan buat databasenya (sekali saja karena datanya akan tersimpan di docker volume):
-
-```
-docker exec -it -u postgres bdi-postgres psql
-```
-#### 4. Docker Compose
-
-Jika ingin menggunakan docker compose, maka berikut konfigurasinya:
-
-```yaml
-services:
-  bdi-postgres:
-    container_name: bdi-postgres
-    image: postgres:17.4
-    environment:
-      - POSTGRES_PASSWORD=cLVc086Ey4
-    ports:
-      - 5432:5432
-    volumes:
-      - bdi-volume:/var/lib/postgresql/data
-volumes:
-  bdi-volume:
-    driver: local
+```mermaid
+graph TB
+    Client["🌐 Client (Angular Frontend)"]
+    
+    subgraph Spring Boot Application
+        SF["🔒 Security Filters<br/>(JWT + UsernamePassword)"]
+        C["🎮 Controller Layer<br/>(@RestController)"]
+        S["⚙️ Service Layer<br/>(@Service)"]
+        M["🔄 Mapper Layer<br/>(MapStruct)"]
+        R["💾 Repository Layer<br/>(JPA Repository)"]
+        EH["⚠️ Exception Handler<br/>(@ControllerAdvice)"]
+    end
+    
+    DB["🗄️ PostgreSQL Database"]
+    
+    Client -->|"HTTP Request + JWT"| SF
+    SF -->|"Authenticated"| C
+    C -->|"Call Service"| S
+    S -->|"Map DTO ↔ Entity"| M
+    S -->|"CRUD Operation"| R
+    R -->|"SQL Query"| DB
+    C -.->|"Error"| EH
+    EH -.->|"Error Response"| Client
+    SF -->|"Unauthorized"| Client
+    C -->|"HTTP Response"| Client
 ```
 
-> Baca Selengkapnya [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres)
+### Penjelasan tiap Layer:
+
+| Layer | Tanggung Jawab |
+|---|---|
+| **Security Filters** | Mengintercept setiap request. Endpoint `/api/v1/login` ditangani oleh `UsernamePasswordAuthProcessingFilter`. Endpoint lainnya ditangani oleh `JWTAuthProcessingFilter` yang memvalidasi JWT token. |
+| **Controller** | Menerima HTTP request, mendelegasikan ke Service layer, dan mengembalikan HTTP response. |
+| **Service** | Business logic — create, update, delete (soft delete), find, search. |
+| **Mapper** | Konversi antara Entity (JPA) dan DTO (response/request) menggunakan MapStruct. |
+| **Repository** | Akses database via Spring Data JPA. Menjalankan query JPQL custom. |
+| **Exception Handler** | Menangkap exception global dan mengembalikan response error yang konsisten. |
+
+---
+
+## 5. Alur Kerja Autentikasi (Login Flow)
+
+Berikut adalah alur lengkap ketika user melakukan login:
+
+```mermaid
+sequenceDiagram
+    participant C as 🌐 Client
+    participant F1 as 🔐 UsernamePasswordAuthFilter
+    participant P1 as 🔑 UsernamePasswordAuthProvider
+    participant SVC as 👤 AppUserService
+    participant DB as 🗄️ Database
+    participant H as ✅ SuccessHandler
+    participant TF as 🎫 JWTTokenFactory
+
+    C->>F1: POST /api/v1/login<br/>{"username":"ucup","password":"test123"}
+    F1->>F1: Parse JSON → LoginRequestDTO
+    F1->>F1: Validasi (username & password tidak blank)
+    F1->>P1: authenticate(UsernamePasswordAuthToken)
+    P1->>SVC: loadUserByUsername("ucup")
+    SVC->>DB: SELECT * FROM app_user WHERE username='ucup'
+    DB-->>SVC: AppUser entity
+    SVC-->>P1: UserDetails (AppUser)
+    P1->>P1: BCrypt.matches(password, hashedPassword)
+    
+    alt Password cocok ✅
+        P1-->>F1: UsernamePasswordAuthToken (authenticated)
+        F1->>H: onAuthenticationSuccess()
+        H->>TF: createAccessJWTToken(username, authorities)
+        TF->>TF: Build JWT dengan claims, issuer, expiration
+        TF-->>H: AccessJWTToken
+        H-->>C: 200 OK {"token": "eyJhbG..."}
+    else Password tidak cocok ❌
+        P1-->>F1: throw BadCredentialsException
+        F1->>F1: onAuthenticationFailure()
+        F1-->>C: 401 Unauthorized {"result": "AUTHENTICATION_FAILED"}
+    end
+```
+
+### Detail Proses:
+
+1. **Client** mengirim `POST /api/v1/login` dengan body `{"username", "password"}`
+2. **UsernamePasswordAuthProcessingFilter** mengintercept request karena URL-nya cocok
+3. Filter mem-parse JSON body menjadi `LoginRequestDTO`
+4. Membuat `UsernamePasswordAuthenticationToken` dan menyerahkan ke `AuthenticationManager`
+5. **UsernamePasswordAuthProvider** menerima token:
+   - Memanggil `AppUserService.loadUserByUsername()` untuk mencari user di database
+   - Membandingkan password menggunakan **BCrypt**
+6. Jika berhasil → **SuccessHandler** membuat JWT token via `JWTTokenFactory`:
+   - Claims berisi: `sub` (username), `scopes` (roles), `iss` (issuer), `iat`, `exp`
+   - Token di-sign dengan HMAC-SHA key dari `RANDOM_CODE`
+   - Token expired setelah **60 menit** (dev) atau **720 menit** (prod)
+7. Response: `{"token": "eyJhbG..."}`
+
+---
+
+## 6. Alur Kerja Akses API (JWT Validation Flow)
+
+Setiap request ke endpoint yang di-protect (`/api/v1/**`) melalui proses berikut:
+
+```mermaid
+sequenceDiagram
+    participant C as 🌐 Client
+    participant F2 as 🛡️ JWTAuthProcessingFilter
+    participant EX as 📤 JWTTokenExtractor
+    participant P2 as 🔍 JWTAuthenticationAuthProvider
+    participant CT as 🎮 Controller
+    participant SVC as ⚙️ Service
+    participant DB as 🗄️ Database
+
+    C->>F2: GET /api/v1/surat-masuk<br/>Header: Authorization: Bearer eyJhbG...
+    F2->>EX: extract("Bearer eyJhbG...")
+    EX-->>F2: "eyJhbG..." (raw token string)
+    F2->>F2: new RawAccesJWTToken(jwt)
+    F2->>P2: authenticate(JWTAuthenticationToken)
+    P2->>P2: parseClaim(secretKey) → Verifikasi signature & expiry
+    P2->>P2: Extract subject (username) & scopes (roles)
+    
+    alt Token valid ✅
+        P2-->>F2: JWTAuthenticationToken (verified)
+        F2->>F2: Set SecurityContext
+        F2->>CT: Forward request ke controller
+        CT->>SVC: Call service method
+        SVC->>DB: Query database
+        DB-->>SVC: Data
+        SVC-->>CT: DTO response
+        CT-->>C: 200 OK + JSON data
+    else Token invalid/expired ❌
+        P2-->>F2: throw AuthenticationException
+        F2->>F2: Clear SecurityContext
+        F2-->>C: 401 Unauthorized
+    end
+```
+
+---
+
+## 7. Alur Kerja CRUD (Contoh: Surat Masuk)
+
+### 7.1 CREATE (POST)
+
+```mermaid
+sequenceDiagram
+    participant C as 🌐 Client
+    participant CT as 🎮 Controller
+    participant SVC as ⚙️ Service
+    participant MAP as 🔄 Mapper
+    participant REPO as 💾 Repository
+    participant DB as 🗄️ Database
+
+    C->>CT: POST /api/v1/surat-masuk + JSON body
+    CT->>CT: @Valid → validasi DTO (NotBlank, NotNull)
+    CT->>SVC: create(RegisterSuratMasukDTO)
+    SVC->>MAP: toEntity(DTO)
+    MAP-->>SVC: RegisterSuratMasuk entity
+    SVC->>REPO: save(entity)
+    REPO->>DB: INSERT INTO register_surat_masuk (...)
+    Note over DB: Auto-generate: id, ids (UUID), create_time
+    DB-->>REPO: Saved entity
+    REPO-->>SVC: RegisterSuratMasuk
+    SVC->>MAP: toDTO(entity)
+    MAP-->>SVC: RegisterSuratMasukDTO
+    SVC-->>CT: DTO
+    CT-->>C: 201 CREATED + JSON response
+```
+
+### 7.2 UPDATE (PUT)
+
+```
+Client → Controller → Service:
+  1. findByIdsAndDeletedFalse(ids) → cari entity berdasarkan UUID
+  2. Jika tidak ditemukan → throw NotFoundException("ID_NOT_FOUND")
+  3. Set semua field dari DTO ke entity yang ditemukan
+  4. repository.save(entity) → UPDATE query
+  5. Map entity → DTO → return 200 OK
+```
+
+### 7.3 DELETE (Soft Delete)
+
+```
+Client → Controller → Service:
+  1. findByIdsAndDeletedFalse(ids) → cari entity
+  2. entity.setDeleted(true)   ← TIDAK benar-benar dihapus dari DB!
+  3. Modify nomorSurat ← prefix dengan UUID agar unique constraint tidak conflict
+  4. repository.save(entity)
+  5. return 202 ACCEPTED
+```
+
+> [!NOTE]
+> **Soft Delete**: Data TIDAK pernah benar-benar dihapus dari database. Field `deleted` di-set `true`, sehingga data masih bisa di-recovery. Semua query read menggunakan kondisi `deleted=false`.
+
+### 7.4 READ (GET)
+
+Terdapat 3 jenis operasi read:
+
+| Operasi | Endpoint | Deskripsi |
+|---|---|---|
+| **Find All** | `GET /surat-masuk?pages=0&sizes=20&jenisSurat=BIASA&startDate=...&endDate=...` | Paginasi + filter jenis surat + rentang tanggal |
+| **Find By ID** | `GET /surat-masuk/{ids}/detail` | Cari berdasarkan UUID (`ids`) |
+| **Search** | `GET /surat-masuk/search?value=...&...` | Pencarian teks pada field `asal`, `nomorSurat`, `perihal` (case-insensitive LIKE) |
+
+---
+
+## 8. Model Data (Entity Relationship)
+
+### 8.1 BaseEntity (Superclass)
+
+Semua entity domain mewarisi `BaseEntity` yang memiliki:
+
+| Field | Tipe | Deskripsi |
+|---|---|---|
+| `ids` | `String` (UUID) | ID publik yang diekspos ke client (bukan primary key) |
+| `deleted` | `boolean` | Flag soft delete (default: `false`) |
+| `createAt` | `LocalDateTime` | Timestamp pembuatan (auto) |
+| `updateAt` | `LocalDateTime` | Timestamp update terakhir (auto) |
+
+> [!TIP]
+> Primary key (`id` tipe `Long`) disembunyikan dari API response menggunakan `@JsonIgnore`. Yang diekspos ke client adalah `ids` (UUID) untuk keamanan — mencegah enumeration attack.
+
+### 8.2 User & Role (Autentikasi)
+
+```mermaid
+erDiagram
+    APP_USER {
+        Long id PK
+        String secure_id UK
+        String username
+        String password "BCrypt hashed"
+        String full_name
+        boolean deleted
+    }
+    
+    ROLE {
+        Long id PK
+        String name "SUPERADMIN, ADMIN, USER, GUEST"
+        boolean deleted
+    }
+    
+    USER_ROLE {
+        Long user_id FK
+        Long role_id FK
+    }
+    
+    APP_USER ||--o{ USER_ROLE : "has"
+    ROLE ||--o{ USER_ROLE : "assigned to"
+```
+
+### 8.3 Otorisasi (Role-Based Access Control)
+
+| Role | GET | POST | PUT | DELETE |
+|---|---|---|---|---|
+| **SUPERADMIN** | ✅ | ✅ | ✅ | ✅ |
+| **ADMIN** | ✅ | ✅ | ✅ | ✅ |
+| **USER** | ✅ | ✅ | ✅ | ✅ |
+| **GUEST** | ✅ | ❌ | ❌ | ❌ |
+
+### 8.4 Domain Entities (Register)
+
+Terdapat **13 domain entity** yang masing-masing merepresentasikan jenis register/dokumen:
+
+| No | Entity | Tabel | Deskripsi |
+|---|---|---|---|
+| 1 | `RegisterSuratMasuk` | `register_surat_masuk` | Register surat masuk (BIASA/RAHASIA) |
+| 2 | `RegisterSuratKeluar` | `register_surat_keluar` | Register surat keluar |
+| 3 | `RegisterArsip` | `register_arsip` | Register arsip dokumen |
+| 4 | `RegisterEkspedisi` | `register_ekspedisi` | Register ekspedisi pengiriman |
+| 5 | `RegisterKegiatanIntelijen` | `register_kegiatan_intelijen` | Register kegiatan intelijen |
+| 6 | `RegisterKegiatanIntelijenPamstra` | `register_kegiatan_intelijen_pamstra` | Register kegiatan intelijen pengamanan strategis |
+| 7 | `RegisterKerjaIntelijen` | `register_kerja_intelijen` | Register kerja intelijen |
+| 8 | `RegisterOperasiIntelijen` | `register_operasi_intelijen` | Register operasi intelijen |
+| 9 | `RegisterPenkumLuhkum` | `register_penkum_luhkum` | Register penerangan & penyuluhan hukum |
+| 10 | `RegisterProdukIntelijen` | `register_produk_intelijen` | Register produk intelijen |
+| 11 | `RegisterTamuPPHPPM` | `register_tamu_pph_ppm` | Register tamu PPH/PPM |
+| 12 | `RegisterTelaahanIntelijen` | `register_telaahan_intelijen` | Register telaahan intelijen |
+| 13 | `DataPeta` | `data_peta` | Data peta/lokasi |
+
+---
+
+## 9. Pola Desain yang Digunakan
+
+### 9.1 Generic Service Pattern
+
+```java
+// Interface generik untuk CRUD basic
+public interface CrudGenericService<T> {
+    T create(T request);
+    T update(String ids, T request);
+    T findByIds(String ids);
+    void delete(String ids);
+}
+
+// Extended interface untuk register surat (tambah paginasi & search)
+public interface RegisterSuratService<T> extends CrudGenericService<T> {
+    Page<T> findAll(String startDate, String endDate, String jenisSurat, Integer pages, Integer sizes);
+    Page<T> findBySearching(String start, String end, String value, String jenisSurat, Integer pages, Integer sizes);
+}
+```
+
+### 9.2 DTO Pattern (Java Record)
+
+DTO menggunakan **Java Record** (immutable) dengan validasi Bean Validation:
+
+```java
+public record RegisterSuratMasukDTO(
+    String ids,                          // Read-only, di-generate oleh server
+    @JsonFormat(...) Date tanggalPenerimaanSurat,
+    @NotBlank String asal,
+    @NotBlank String nomorSurat,
+    @NotNull JenisSurat jenisSurat,
+    // ... field lainnya
+) {}
+```
+
+### 9.3 MapStruct Mapper Pattern
+
+```java
+@Mapper
+public interface RegisterSuratMasukMapper {
+    RegisterSuratMasukMapper INSTANCE = Mappers.getMapper(RegisterSuratMasukMapper.class);
+    RegisterSuratMasukDTO toDTO(RegisterSuratMasuk entity);
+    RegisterSuratMasuk toEntity(RegisterSuratMasukDTO dto);
+}
+```
+
+> MapStruct generate kode mapping pada saat **compile-time**, sehingga lebih performant dibanding reflection-based mapper (seperti ModelMapper).
+
+---
+
+## 10. Konfigurasi Aplikasi
+
+### Environment Variables
+
+| Variable | Contoh | Deskripsi |
+|---|---|---|
+| `DB_URL` | `jdbc:postgresql://localhost:5432/bdi` | URL koneksi database |
+| `DB_USERNAME` | `postgres` | Username database |
+| `DB_PASSWORD` | `secret` | Password database |
+| `ISSUER` | `www.timposulabs.com` | Issuer pada JWT token |
+| `ORIGIN_URL` | `http://localhost:4200` | CORS allowed origin (frontend) |
+| `RANDOM_CODE` | `XRND8dD8M3K...` | Secret key untuk sign JWT (Base64) |
+
+### Profiles
+
+| Profile | Port | Token Expired | CORS Origin |
+|---|---|---|---|
+| **dev** | `8888` | 60 menit | `localhost:4200, 192.168.1.13:4200` |
+| **prod** | `8181` | 720 menit (12 jam) | Dari `ORIGIN_URL` env |
+
+### Database Configuration
+
+- **DDL Auto**: `update` — Hibernate otomatis membuat/mengupdate tabel sesuai entity
+- **Connection Pool**: HikariCP dengan max 10 koneksi
+- **Timezone**: `GMT+8` (Asia/Makassar — WITA)
+
+---
+
+## 11. Ringkasan Alur Kerja End-to-End
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        ALUR KERJA LENGKAP                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1️⃣  USER LOGIN                                                        │
+│     POST /api/v1/login → Filter → Provider → BCrypt → JWT Token        │
+│                                                                         │
+│  2️⃣  USER AKSES API (dengan token)                                     │
+│     GET/POST/PUT/DELETE /api/v1/*                                       │
+│     → JWT Filter → Extract Token → Verify Signature → Parse Claims     │
+│     → Set SecurityContext → Forward ke Controller                       │
+│                                                                         │
+│  3️⃣  CONTROLLER menerima request                                       │
+│     → Validasi @Valid → Delegasi ke Service                            │
+│                                                                         │
+│  4️⃣  SERVICE menjalankan business logic                                │
+│     → MapStruct (DTO ↔ Entity) → Repository.save/find/delete          │
+│                                                                         │
+│  5️⃣  REPOSITORY menjalankan query ke PostgreSQL                       │
+│     → JPA/JPQL Custom Query → Return result                            │
+│                                                                         │
+│  6️⃣  RESPONSE dikembalikan ke client                                   │
+│     → Entity → DTO → JSON → HTTP Response                              │
+│                                                                         │
+│  ⚠️  JIKA ERROR                                                         │
+│     → RestExceptionHandler @ControllerAdvice                            │
+│     → BDIErrorResponse {status, message, timestamp}                     │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 12. Daftar Lengkap API Endpoint
+
+### Authentication
+| Method | Endpoint | Deskripsi | Auth |
+|---|---|---|---|
+| `POST` | `/api/v1/login` | Login, mendapatkan JWT token | ❌ Public |
+| `GET` | `/api/v1/user` | Info user yang sedang login | ✅ Bearer Token |
+
+### Register Surat Masuk
+| Method | Endpoint | Deskripsi |
+|---|---|---|
+| `POST` | `/api/v1/surat-masuk` | Buat surat masuk baru |
+| `PUT` | `/api/v1/surat-masuk/{ids}` | Update surat masuk |
+| `DELETE` | `/api/v1/surat-masuk/{ids}` | Hapus surat masuk (soft delete) |
+| `GET` | `/api/v1/surat-masuk/{ids}/detail` | Detail surat masuk by UUID |
+| `GET` | `/api/v1/surat-masuk` | List semua (paginasi + filter) |
+| `GET` | `/api/v1/surat-masuk/search` | Cari surat masuk |
+
+### Register Surat Keluar
+| Method | Endpoint | Deskripsi |
+|---|---|---|
+| `POST` | `/api/v1/surat-keluar` | Buat surat keluar baru |
+| `PUT` | `/api/v1/surat-keluar/{ids}` | Update surat keluar |
+| `DELETE` | `/api/v1/surat-keluar/{ids}` | Hapus surat keluar |
+| `GET` | `/api/v1/surat-keluar/{ids}/detail` | Detail surat keluar |
+| `GET` | `/api/v1/surat-keluar` | List semua |
+| `GET` | `/api/v1/surat-keluar/search` | Cari surat keluar |
+
+### Register Arsip, Ekspedisi, Kegiatan Intelijen, dll.
+> Semua register lainnya (Arsip, Ekspedisi, Kegiatan Intelijen, Pamstra, Kerja Intelijen, Operasi Intelijen, Penkum Luhkum, Produk Intelijen, Tamu PPH/PPM, Telaahan Intelijen, Data Peta) mengikuti pola CRUD yang sama:
+> `POST`, `PUT`, `DELETE`, `GET /{ids}/detail`, `GET` (list), `GET /search`
+
+> [!NOTE]
+> Semua endpoint di atas (kecuali login) memerlukan header `Authorization: Bearer <token>` dan role yang sesuai. Role `GUEST` hanya bisa `GET`, sedangkan `USER`, `ADMIN`, dan `SUPERADMIN` bisa melakukan semua operasi.
