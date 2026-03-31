@@ -2,8 +2,8 @@ package id.go.kejaripalu.bdi.util;
 
 public enum SektorPeta {
 
-	// A
-	PENGAMANAN_PANCASILA("Pengamanan Pancasila", BidangDirektorat.IPOLHANKAM),
+    // A
+    PENGAMANAN_PANCASILA("Pengamanan Pancasila", BidangDirektorat.IPOLHANKAM),
     PERSATUAN_KESATUAN_BANGSA("Persatuan dan Kesatuan Bangsa", BidangDirektorat.IPOLHANKAM),
     GERAKAN_SEPARATIS("Gerakan Separatis", BidangDirektorat.IPOLHANKAM),
     PENYELENGGARAAN_PEMERINTAHAN("Penyelenggaraan Pemerintahan", BidangDirektorat.IPOLHANKAM),
@@ -13,16 +13,18 @@ public enum SektorPeta {
     KEJAHATAN_SIBER("Kejahatan Siber", BidangDirektorat.IPOLHANKAM),
     CEKAL("CEKAL", BidangDirektorat.IPOLHANKAM),
     PENGAWASAN_ORANG_ASING("Pengawasan Orang Asing", BidangDirektorat.IPOLHANKAM),
-    PENGAMANAN_SUMBER_DAYA_ORGANISASI_KEJAKSAAN("Pengamanan Sumber Daya Organisasi Kejaksaan", BidangDirektorat.IPOLHANKAM),
+    PENGAMANAN_SUMBER_DAYA_ORGANISASI_KEJAKSAAN("Pengamanan Sumber Daya Organisasi Kejaksaan",
+            BidangDirektorat.IPOLHANKAM),
     PENGAMANAN_PENANGANAN_PERKARA("Pengamanan Penanganan Perkara", BidangDirektorat.IPOLHANKAM),
 
     // B
-	PENGAWASAN_BARCET_DALAM_NEGERI("Pengawasan Peredaran Barang Cetakan Dalam Negeri", BidangDirektorat.SOSBUDMAS),
+    PENGAWASAN_BARCET_DALAM_NEGERI("Pengawasan Peredaran Barang Cetakan Dalam Negeri", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_BARCET_IMPORT("Pengawasan Peredaran Import Barang Cetakan Dalam Negeri", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_SISTEM_PERBUKUAN("Pengawasan Sistem Perbukuan", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_MEDIA_KOMUNIKASI("Pengawasan Media Komunikasi", BidangDirektorat.SOSBUDMAS),
     PAKEM("Pengawasan Aliran Kepercayaan dan Keagamaan dalam Masyarakat", BidangDirektorat.SOSBUDMAS),
-    PENCEGAHAN_PENYALAHGUNAAN_PENODAAN_AGAMA("Pencegahan Penyalahgunaan dan/atau Penodaan Agama", BidangDirektorat.SOSBUDMAS),
+    PENCEGAHAN_PENYALAHGUNAAN_PENODAAN_AGAMA("Pencegahan Penyalahgunaan dan/atau Penodaan Agama",
+            BidangDirektorat.SOSBUDMAS),
     KETAHANAN_BUDAYA("Ketahanan Budaya", BidangDirektorat.SOSBUDMAS),
     PEMBERDAYAAN_MASYARAKAT_DESA("Pemberdayaan Masyarakat Desa", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_ORMAS_LSM("Pengawasan Organisasi Masyarakat dan Lembaga Swadaya Masyarakat", BidangDirektorat.SOSBUDMAS),
@@ -79,19 +81,27 @@ public enum SektorPeta {
     DIGITAL_FORENSIK("Digital Forensik", BidangDirektorat.TIPRODIN),
     TRANSMISI_BERITA_SANDI("Transmisi Berita Sandi", BidangDirektorat.TIPRODIN),
     KONTRA_PENGINDERAAN("Kontra Penginderaan", BidangDirektorat.TIPRODIN),
-    AUDIT_PENGUJIAN_SISTEM_KEAMANAN_INFORMASI("Audit dan Pengujian Sistem Keamanan Informasi", BidangDirektorat.TIPRODIN),
+    AUDIT_PENGUJIAN_SISTEM_KEAMANAN_INFORMASI("Audit dan Pengujian Sistem Keamanan Informasi",
+            BidangDirektorat.TIPRODIN),
     PENGAMANAN_SINYAL("Pengamanan Sinyal", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_SDM_SANDI("Pengembangan SDM dan Sandi", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_SDM_INTELIJEN_LAINNYA("Pengembangan SDM Intelijen Lainnya", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_TEKNOLOGI("Pengembangan Teknologi", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_PROSEDUR_APLIKASI("Pengembangan Prosedur dan Aplikasi", BidangDirektorat.TIPRODIN);
 
-	private final String description;
-	private final BidangDirektorat bidangDirektorat;
+    private final String description;
+    private final BidangDirektorat bidangDirektorat;
 
-	SektorPeta(String description, BidangDirektorat bidangDirektorat) {
-		this.description = description;
-		this.bidangDirektorat = bidangDirektorat;
-	}
+    SektorPeta(String description, BidangDirektorat bidangDirektorat) {
+        this.description = description;
+        this.bidangDirektorat = bidangDirektorat;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public BidangDirektorat getBidangDirektorat() {
+        return bidangDirektorat;
+    }
 }

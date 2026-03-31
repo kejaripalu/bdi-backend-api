@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.domain;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -41,11 +39,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
-public class RegisterTamuPPHPPM extends BaseEntity implements Serializable {
+public class RegisterTamuPPHPPM extends BaseEntity {
 
-	@Serial
-    private static final long serialVersionUID = -9043424490902526315L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore

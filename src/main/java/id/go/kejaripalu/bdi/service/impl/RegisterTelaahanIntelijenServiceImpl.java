@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterTelaahanIntelijenDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterTelaahanIntelijenMapper;
@@ -30,7 +31,8 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 	public RegisterTelaahanIntelijenDTO create(RegisterTelaahanIntelijenDTO request) {
 		RegisterTelaahanIntelijenDTO lahin =
 				RegisterTelaahanIntelijenMapper.INSTANCE.toDTO(
-						repository.save(RegisterTelaahanIntelijenMapper.INSTANCE.toEntity(request)));
+						Objects.requireNonNull(repository.save(
+								Objects.requireNonNull(RegisterTelaahanIntelijenMapper.INSTANCE.toEntity(request)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Telaahan Intelijen!!!");
 		return lahin;
@@ -53,7 +55,7 @@ public class RegisterTelaahanIntelijenServiceImpl implements RegisterTelaahanInt
 
 		RegisterTelaahanIntelijenDTO telaahanIntelijen =
 				RegisterTelaahanIntelijenMapper.INSTANCE.toDTO(
-						repository.save(lahin));
+						Objects.requireNonNull(repository.save(lahin)));
 
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ)Register Telaahan Intelijen!!!");
 		return telaahanIntelijen;

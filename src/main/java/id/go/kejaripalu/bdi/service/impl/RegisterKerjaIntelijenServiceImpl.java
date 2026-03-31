@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterKerjaIntelijenDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterKerjaIntelijenMapper;
@@ -32,7 +33,8 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 	public RegisterKerjaIntelijenDTO create(RegisterKerjaIntelijenDTO request) {
         RegisterKerjaIntelijenDTO rki =
                 RegisterKerjaIntelijenMapper.INSTANCE.toDTO(
-                        rkiRepository.save(RegisterKerjaIntelijenMapper.INSTANCE.toEntity(request)));
+                        Objects.requireNonNull(rkiRepository.save(
+                                Objects.requireNonNull(RegisterKerjaIntelijenMapper.INSTANCE.toEntity(request)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");
         return rki;
@@ -56,7 +58,7 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		rki.setUrlFile(request.urlFile());
 		rki.setKeterangan(request.keterangan());
 
-        RegisterKerjaIntelijenDTO registerKerjaIntelijen = RegisterKerjaIntelijenMapper.INSTANCE.toDTO(rkiRepository.save(rki));
+        RegisterKerjaIntelijenDTO registerKerjaIntelijen = RegisterKerjaIntelijenMapper.INSTANCE.toDTO(Objects.requireNonNull(rkiRepository.save(rki)));
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) RKI!!!");
         return registerKerjaIntelijen;
 	}

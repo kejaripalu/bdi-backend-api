@@ -2,6 +2,7 @@ package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterProdukIntelijenDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterProdukIntelijenMapper;
@@ -30,7 +31,8 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
     @Transactional
     public RegisterProdukIntelijenDTO create(RegisterProdukIntelijenDTO request) {
         RegisterProdukIntelijenDTO produkIntelijen = RegisterProdukIntelijenMapper.INSTANCE.toDTO(
-                produkIntelijenRepository.save(RegisterProdukIntelijenMapper.INSTANCE.toEntity(request)));
+                Objects.requireNonNull(produkIntelijenRepository.save(
+                        Objects.requireNonNull(RegisterProdukIntelijenMapper.INSTANCE.toEntity(request)))));
 
         log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
         return produkIntelijen;
@@ -51,7 +53,7 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
         produkIntelijen.setUrlFile(request.urlFile());
 
         RegisterProdukIntelijenDTO prodin =
-                RegisterProdukIntelijenMapper.INSTANCE.toDTO(produkIntelijenRepository.save(produkIntelijen));
+                RegisterProdukIntelijenMapper.INSTANCE.toDTO(Objects.requireNonNull(produkIntelijenRepository.save(produkIntelijen)));
 
         log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Produk Intelijen!!!");
         return prodin;

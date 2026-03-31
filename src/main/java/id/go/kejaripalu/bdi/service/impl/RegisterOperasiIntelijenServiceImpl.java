@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterOperasiIntelijenDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterOperasiIntelijenMapper;
@@ -32,7 +33,8 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 	public RegisterOperasiIntelijenDTO create(RegisterOperasiIntelijenDTO request) {
 		RegisterOperasiIntelijenDTO opsin =
                 RegisterOperasiIntelijenMapper.INSTANCE.toDTO(
-                        repository.save(RegisterOperasiIntelijenMapper.INSTANCE.toEntity(request)));
+                        Objects.requireNonNull(repository.save(
+                                Objects.requireNonNull(RegisterOperasiIntelijenMapper.INSTANCE.toEntity(request)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ) Operasi Kegiatan Intelijen!!!");
         return opsin;
@@ -54,7 +56,7 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 		opsin.setUrlFile(request.urlFile());
 		
 		RegisterOperasiIntelijenDTO operasiIntelijen =
-                RegisterOperasiIntelijenMapper.INSTANCE.toDTO(repository.save(opsin));
+                RegisterOperasiIntelijenMapper.INSTANCE.toDTO(Objects.requireNonNull(repository.save(opsin)));
 
         log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Operasi Intelijen!!!");
         return operasiIntelijen;

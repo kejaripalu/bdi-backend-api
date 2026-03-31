@@ -1,6 +1,7 @@
 package id.go.kejaripalu.bdi.service.impl;
 
 import java.util.Date;
+import java.util.Objects;
 
 import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenPamstraDTO;
 import id.go.kejaripalu.bdi.mapper.RegisterKegiatanIntelijenPamstraMapper;
@@ -30,7 +31,8 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 	public RegisterKegiatanIntelijenPamstraDTO create(RegisterKegiatanIntelijenPamstraDTO request) {
 		RegisterKegiatanIntelijenPamstraDTO pamstraDTO =
                 RegisterKegiatanIntelijenPamstraMapper.INSTANCE.toDTO(
-                        repository.save(RegisterKegiatanIntelijenPamstraMapper.INSTANCE.toEntity(request)));
+                        Objects.requireNonNull(repository.save(
+                                Objects.requireNonNull(RegisterKegiatanIntelijenPamstraMapper.INSTANCE.toEntity(request)))));
 
 		log.info("✔️ Successfully saved!!! ദ്ദി(ᵔᗜᵔ)  Register Kegiatan Pamstra Intelijen!!!");
         return pamstraDTO;
@@ -66,7 +68,7 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 		kegiatanIntelijen.setUrlFile(request.urlFile());
 
         RegisterKegiatanIntelijenPamstraDTO pamstraDTO =
-                RegisterKegiatanIntelijenPamstraMapper.INSTANCE.toDTO(repository.save(kegiatanIntelijen));
+                RegisterKegiatanIntelijenPamstraMapper.INSTANCE.toDTO(Objects.requireNonNull(repository.save(kegiatanIntelijen)));
 
 		log.info("✔️ Successfully updated!!! ദ്ദി(ᵔᗜᵔ) Register Kegiatan Intelijen Pamstra!!!");
         return pamstraDTO;

@@ -14,4 +14,8 @@ public enum BidangDirektorat {
 		this.description = description;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
 }

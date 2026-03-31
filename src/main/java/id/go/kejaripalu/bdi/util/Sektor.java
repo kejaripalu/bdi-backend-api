@@ -1,9 +1,9 @@
 package id.go.kejaripalu.bdi.util;
 
 public enum Sektor {
-	
-	// A
-	PENGAMANAN_PANCASILA("Pengamanan Pancasila", BidangDirektorat.IPOLHANKAM),
+
+    // A
+    PENGAMANAN_PANCASILA("Pengamanan Pancasila", BidangDirektorat.IPOLHANKAM),
     KESATUAN_PERSATUAN_BANGSA("Kesatuan dan Persatuan Bangsa", BidangDirektorat.IPOLHANKAM),
     GERAKAN_SEPARATIS("Gerakan Separatis", BidangDirektorat.IPOLHANKAM),
     PENYELENGGARAAN_PEMERINTAHAN("Penyelenggaraan Pemerintahan", BidangDirektorat.IPOLHANKAM),
@@ -14,23 +14,25 @@ public enum Sektor {
     KEJAHATAN_SIBER("Kejahatan Siber", BidangDirektorat.IPOLHANKAM),
     CEGAH_TANGKAL("Cegah Tangkal", BidangDirektorat.IPOLHANKAM),
     PENGAWASAN_ORANG_ASING("Pengawasan Orang Asing", BidangDirektorat.IPOLHANKAM),
-    PENGAMANAN_SUMBER_DAYA_ORGANISASI_KEJAKSAAN("Pengamanan Sumber Daya Organisasi Kejaksaan", BidangDirektorat.IPOLHANKAM),
+    PENGAMANAN_SUMBER_DAYA_ORGANISASI_KEJAKSAAN("Pengamanan Sumber Daya Organisasi Kejaksaan",
+            BidangDirektorat.IPOLHANKAM),
     PENGAMANAN_PENANGANAN_PERKARA("Pengamanan Penanganan Perkara", BidangDirektorat.IPOLHANKAM),
-	
+
     // B
-	PENGAWASAN_BARCET_DALAM_NEGERI("Pengawasan Peredaran Barang Cetakan Dalam Negeri", BidangDirektorat.SOSBUDMAS),
+    PENGAWASAN_BARCET_DALAM_NEGERI("Pengawasan Peredaran Barang Cetakan Dalam Negeri", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_BARCET_IMPORT("Pengawasan Peredaran Import Barang Cetakan", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_SISTEM_PEMBUKUAN("Pengawasan Sistem Pembukuan", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_MEDIA_KOMUNIKASI("Pengawasan Media Komunikasi", BidangDirektorat.SOSBUDMAS),
     PAKEM("Pengawasan Aliran Kepercayaan dan Keagamaan dalam Masyarakat", BidangDirektorat.SOSBUDMAS),
-    PENCEGAHAN_PENYALAHGUNAAN_PENODAAN_AGAMA("Pencegahan Penyalahgunaan dan/atau Penodaan Agama", BidangDirektorat.SOSBUDMAS),
+    PENCEGAHAN_PENYALAHGUNAAN_PENODAAN_AGAMA("Pencegahan Penyalahgunaan dan/atau Penodaan Agama",
+            BidangDirektorat.SOSBUDMAS),
     KETAHANAN_BUDAYA("Ketahanan Budaya", BidangDirektorat.SOSBUDMAS),
     PEMBERDAYAAN_MASYARAKAT_DESA("Pemberdayaan Masyarakat Desa", BidangDirektorat.SOSBUDMAS),
     PENGAWASAN_ORMAS_LSM("Pengawasan Organisasi Masyarakat dan Lembaga Swadaya Masyarakat", BidangDirektorat.SOSBUDMAS),
     PENCEGAHAN_KONFLIK_SOSIAL("Pencegahan Konflik Sosial", BidangDirektorat.SOSBUDMAS),
     KETERTIBAN_KETENTRAMAN_UMUM("Ketertiban dan Ketentraman Umum", BidangDirektorat.SOSBUDMAS),
     PEMBINAAN_MASYARAKAT_TAAT_HUKUM("Pembinaan Masyarakat Taat Hukum", BidangDirektorat.SOSBUDMAS),
-    
+
     // C
     LEMBAGA_KEUANGAN("Lembaga Keuangan", BidangDirektorat.EKOKEU),
     KEUANGAN_NEGARA("Keuangan Negara", BidangDirektorat.EKOKEU),
@@ -48,7 +50,7 @@ public enum Sektor {
     LINGKUNGAN_HIDUP("Lingkungan Hidup", BidangDirektorat.EKOKEU),
     PERIKANAN("Perikanan", BidangDirektorat.EKOKEU),
     AGRARIA_TATARUANG("Agraria / Tataruang", BidangDirektorat.EKOKEU),
-    
+
     // D
     INFRASTRUKTUR_JALAN("Infrastruktur Jalan", BidangDirektorat.PAMSTRA),
     INFRASTRUKTUR_PERKERETAAPIAN("Infrastruktur Perkeretaapian", BidangDirektorat.PAMSTRA),
@@ -70,7 +72,7 @@ public enum Sektor {
     KAWASAN_INDUSTRI_PRIORITAS_KEK("Kawasan Industri Prioritas / Kawasan Ekonomi Khusus", BidangDirektorat.PAMSTRA),
     POS_LINTAS_BATAS_NEGARA_SARANA_PENUNJANG("Pos Lintas Batas Negara dan Sarana Penunjang", BidangDirektorat.PAMSTRA),
     SEKTOR_LAINNYA("Sektor Lainnya", BidangDirektorat.PAMSTRA),
-    
+
     // E
     PRODUKSI_INTELIJEN("Produksi Intelijen", BidangDirektorat.TIPRODIN),
     PEMANTAUAN("Pemantauan", BidangDirektorat.TIPRODIN),
@@ -80,19 +82,27 @@ public enum Sektor {
     DIGITAL_FORENSIK("Digital Forensik", BidangDirektorat.TIPRODIN),
     TRANSMISI_BERITA_SANDI("Transmisi Berita Sandi", BidangDirektorat.TIPRODIN),
     KONTRA_PENGINDERAAN("Kontra Penginderaan", BidangDirektorat.TIPRODIN),
-    AUDIT_PENGUJIAN_SISTEM_KEAMANAN_INFORMASI("Audit dan Pengujian Sistem Keamanan Informasi", BidangDirektorat.TIPRODIN),
+    AUDIT_PENGUJIAN_SISTEM_KEAMANAN_INFORMASI("Audit dan Pengujian Sistem Keamanan Informasi",
+            BidangDirektorat.TIPRODIN),
     PENGAMANAN_SINYAL("Pengamanan Sinyal", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_SDM_SANDI("Pengembangan SDM dan Sandi", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_SDM_INTELIJEN_LAINNYA("Pengembangan SDM Intelijen Lainnya", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_TEKNOLOGI("Pengembangan Teknologi", BidangDirektorat.TIPRODIN),
     PENGEMBANGAN_PROSEDUR_APLIKASI("Pengembangan Prosedur dan Aplikasi", BidangDirektorat.TIPRODIN);
-	
-	private final String description;
-	private final BidangDirektorat bidangDirektorat;
-	
-	Sektor(String description, BidangDirektorat bidangDirektorat) {
-		this.description = description;
-		this.bidangDirektorat = bidangDirektorat;
-	}
 
+    private final String description;
+    private final BidangDirektorat bidangDirektorat;
+
+    Sektor(String description, BidangDirektorat bidangDirektorat) {
+        this.description = description;
+        this.bidangDirektorat = bidangDirektorat;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BidangDirektorat getBidangDirektorat() {
+        return bidangDirektorat;
+    }
 }

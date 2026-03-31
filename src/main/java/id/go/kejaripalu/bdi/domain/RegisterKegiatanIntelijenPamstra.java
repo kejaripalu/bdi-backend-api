@@ -1,7 +1,5 @@
 package id.go.kejaripalu.bdi.domain;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -38,11 +36,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
-public class RegisterKegiatanIntelijenPamstra extends BaseEntity implements Serializable {
+public class RegisterKegiatanIntelijenPamstra extends BaseEntity {
 
-	@Serial
-    private static final long serialVersionUID = -4023679460470876278L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore

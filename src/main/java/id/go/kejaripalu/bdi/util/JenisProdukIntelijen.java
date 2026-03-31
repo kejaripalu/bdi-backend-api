@@ -17,5 +17,8 @@ public enum JenisProdukIntelijen {
     JenisProdukIntelijen(String description) {
         this.description = description;
     }
-
+    
+	public String getDescription() {
+		return description;
+	}
 }
