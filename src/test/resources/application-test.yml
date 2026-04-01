@@ -12,6 +12,9 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
     show-sql: true
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
 
 app:
   origin-url: http://localhost:4200

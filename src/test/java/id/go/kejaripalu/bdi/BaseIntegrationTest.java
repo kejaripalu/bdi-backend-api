@@ -42,7 +42,6 @@ public abstract class BaseIntegrationTest {
 
     @org.junit.jupiter.api.BeforeEach
     void setUpUser() {
-        objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         userRepository.findByUsername("testuser").ifPresentOrElse(
             user -> {
                 user.setPassword(passwordEncoder.encode("password"));
