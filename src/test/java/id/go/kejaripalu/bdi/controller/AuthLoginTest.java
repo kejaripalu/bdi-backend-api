@@ -9,11 +9,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SuppressWarnings({"null", "unchecked"})
+@SuppressWarnings("null")
 public class AuthLoginTest extends BaseIntegrationTest {
 
     @Test
-    @SuppressWarnings("null")
     void testLoginSuccess() throws Exception {
         LoginRequestDTO loginRequest = new LoginRequestDTO();
         loginRequest.setUsername("testuser");
@@ -28,7 +27,6 @@ public class AuthLoginTest extends BaseIntegrationTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void testLoginInvalidUsername() throws Exception {
         LoginRequestDTO loginRequest = new LoginRequestDTO();
         loginRequest.setUsername("invaliduser");
@@ -42,7 +40,6 @@ public class AuthLoginTest extends BaseIntegrationTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void testLoginInvalidPassword() throws Exception {
         LoginRequestDTO loginRequest = new LoginRequestDTO();
         loginRequest.setUsername("testuser");
@@ -56,7 +53,6 @@ public class AuthLoginTest extends BaseIntegrationTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void testLoginEmptyBody() throws Exception {
         mockMvc.perform(post(apiPrefix + "/login")
                         .contentType(MediaType.APPLICATION_JSON)
