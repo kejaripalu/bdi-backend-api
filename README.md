@@ -555,3 +555,96 @@ public interface RegisterSuratMasukMapper {
 
 > [!NOTE]
 > Semua endpoint di atas (kecuali login) memerlukan header `Authorization: Bearer <token>` dan role yang sesuai. Role `GUEST` hanya bisa `GET`, sedangkan `USER`, `ADMIN`, dan `SUPERADMIN` bisa melakukan semua operasi.
+
+---
+
+## 13. Integration Testing
+
+Project ini dilengkapi dengan **103 integration test** yang memverifikasi seluruh lapisan aplikasi — dari HTTP request hingga database — menggunakan **MockMvc** dan **H2 in-memory database**.
+
+### 13.1 Teknologi yang Digunakan
+
+| Komponen | Keterangan |
+|---|---|
+| **H2 Database** | In-memory database, menggantikan PostgreSQL saat testing |
+| **MockMvc** | Simulasi HTTP request tanpa menjalankan server nyata |
+| **`@SpringBootTest`** | Memuat full ApplicationContext untuk integration testing |
+| **`@Transactional`** | Setiap test dijalankan dalam transaksi yang di-rollback otomatis setelah test selesai |
+| **`@ActiveProfiles("test")`** | Memuat konfigurasi dari `application-test.yml` |
+
+### 13.2 Cara Menjalankan Test
+
+```bash
+# Menjalankan seluruh test suite
+mvn test
+
+# Menjalankan test class tertentu
+mvn test -Dtest=AuthLoginTest
+mvn test -Dtest=DataPetaControllerTest
+```
+
+> [!NOTE]
+> Tidak perlu setup database apapun sebelum menjalankan test. H2 in-memory database akan otomatis dibuat dan dihancurkan setiap kali test suite dijalankan.
+
+### 13.3 Struktur Test
+
+```
+src/test/java/id/go/kejaripalu/bdi/
+├── BaseIntegrationTest.java              ← Abstract base class, setup MockMvc & auth helper
+└── controller/
+    ├── AuthLoginTest.java                ← Test login sukses, gagal, dan validasi
+    ├── DataPetaControllerTest.java
+    ├── RegisterArsipControllerTest.java
+    ├── RegisterEkspedisiControllerTest.java
+    ├── RegisterKegiatanIntelijenControllerTest.java
+    ├── RegisterKegiatanIntelijenPamstraControllerTest.java
+    ├── RegisterKerjaIntelijenControllerTest.java
+    ├── RegisterOperasiIntelijenControllerTest.java
+    ├── RegisterPenkumLuhkumControllerTest.java
+    ├── RegisterProdukIntelijenControllerTest.java
+    ├── RegisterSuratKeluarControllerTest.java
+    ├── RegisterSuratMasukControllerTest.java
+    ├── RegisterTamuPPHPPMControllerTest.java
+    ├── RegisterTelaahanIntelijenControllerTest.java
+    └── UserControllerTest.java
+```
+
+### 13.4 BaseIntegrationTest
+
+Semua test class mewarisi `BaseIntegrationTest` yang menyediakan:
+
+- **`mockMvc`** — untuk mengirim HTTP request simulasi
+- **`objectMapper`** — untuk serialisasi/deserialisasi JSON
+- **`apiPrefix`** — prefix URL dari properties (`/api/v1`)
+- **`getAuthToken()`** — helper method untuk mendapatkan JWT token `testuser`
+- **`setUpUser()`** — membuat/memperbarui user `testuser` sebelum tiap test berjalan
+
+### 13.5 Cakupan Test per Controller
+
+Setiap controller test mencakup skenario:
+
+| Skenario | Keterangan |
+|---|---|
+| **Create Success** | POST dengan payload valid → `201 Created` |
+| **Create Validation Error** | POST dengan payload tidak valid (field kosong/null) → `400 Bad Request` |
+| **Update Success** | PUT dengan data baru → `200 OK` |
+| **Get By ID** | GET `/{ids}/detail` → `200 OK` + data yang benar |
+| **Get All** | GET dengan paginasi → `200 OK` + array |
+| **Search** | GET `/search` → `200 OK` + array |
+| **Delete** | DELETE (soft delete) → `202 Accepted` |
+| **Unauthorized** | Request tanpa token → `401 Unauthorized` |
+
+### 13.6 Konfigurasi Test (`application-test.yml`)
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+```
