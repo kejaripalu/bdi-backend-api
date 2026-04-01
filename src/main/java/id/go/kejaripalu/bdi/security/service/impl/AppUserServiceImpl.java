@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import id.go.kejaripalu.bdi.exception.NotFoundException;
 import id.go.kejaripalu.bdi.security.dto.AppUserDetailResponseDTO;
 import id.go.kejaripalu.bdi.security.repository.AppUserRepository;
 import id.go.kejaripalu.bdi.security.service.AppUserService;
@@ -21,7 +20,7 @@ public class AppUserServiceImpl implements AppUserService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return repository.findByUsername(username)
-				.orElseThrow(() -> new NotFoundException("INVALID_USERNAME"));
+				.orElseThrow(() -> new UsernameNotFoundException("INVALID_USERNAME"));
 	}
 
 	@Override

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    show-sql: true
+
+app:
+  origin-url: http://localhost:4200
+  api-url: /api/v1
+  time-zone: GMT+8
+  zone-id: Asia/Makassar
+  token-expired: 60
+  issuer: test-issuer
+  random-code: VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGFuZCBwaHlzaWNhbGx5IGxvbmcgc2lnbmluZyBrZXkgZm9yIEpXVCB1c2FnZQ==

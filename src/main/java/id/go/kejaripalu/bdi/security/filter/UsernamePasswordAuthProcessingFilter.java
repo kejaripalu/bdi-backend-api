@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import id.go.kejaripalu.bdi.exception.BadRequestException;
 import id.go.kejaripalu.bdi.security.dto.LoginRequestDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -48,7 +47,7 @@ public class UsernamePasswordAuthProcessingFilter extends AbstractAuthentication
 		LoginRequestDTO dto = objectMapper.readValue(request.getReader(), LoginRequestDTO.class);
 		
 		if (StringUtils.isBlank(dto.getUsername()) || StringUtils.isBlank(dto.getPassword())) {
-			throw new BadRequestException("USERNAME_PASSWORD_REQUIRED");
+			throw new org.springframework.security.authentication.AuthenticationServiceException("USERNAME_PASSWORD_REQUIRED");
 		}
 		
 		UsernamePasswordAuthenticationToken token = 

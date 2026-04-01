@@ -29,15 +29,24 @@ public class RestExceptionHandler {
 		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	}
 
-//	// Handling Expired JWT Exception
-//	@ExceptionHandler(ExpiredJwtException.class)
-//	public ResponseEntity<BDIErrorResponse> handleException(ExpiredJwtException exception) {
-//		BDIErrorResponse response = new BDIErrorResponse(
-//				HttpStatus.FORBIDDEN.value(),
-//				exception.getMessage(),
-//				System.currentTimeMillis() / 1000);
-//		return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-//	}
+	// Handling BadCredentialsException
+	@ExceptionHandler(org.springframework.security.authentication.BadCredentialsException.class)
+	public ResponseEntity<BDIErrorResponse> handleException(org.springframework.security.authentication.BadCredentialsException exception) {
+		BDIErrorResponse response = new BDIErrorResponse(
+				HttpStatus.UNAUTHORIZED.value(), 
+				exception.getMessage(),
+				System.currentTimeMillis() / 1000);
+		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+	}
+	
+	@ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+	public ResponseEntity<BDIErrorResponse> handleException(org.springframework.security.core.AuthenticationException exception) {
+		BDIErrorResponse response = new BDIErrorResponse(
+				HttpStatus.UNAUTHORIZED.value(), 
+				exception.getMessage(),
+				System.currentTimeMillis() / 1000);
+		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+	}
 	
 	// Handling Generic Exception
 	@ExceptionHandler({Exception.class})
