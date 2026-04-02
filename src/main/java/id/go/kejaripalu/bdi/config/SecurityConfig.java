@@ -48,13 +48,13 @@ public class SecurityConfig {
 
 	@Autowired
 	private JWTAuthenticationAuthProvider jwtAuthenticationAuthProvider;
-	
-	
-	//tambahkan url endpoint yang permit dan authenticated sesuai kebutuhan, ubah ke List/Collection jika dibutuhkan
+
+	// tambahkan url endpoint yang permit dan authenticated sesuai kebutuhan, ubah
+	// ke List/Collection jika dibutuhkan
 	private String getAuthUrl() {
 		return env.getProperty("app.api-url") + "/login";
 	}
-	
+
 	private String getApiUrl() {
 		return env.getProperty("app.api-url") + "/**";
 	}
@@ -72,7 +72,7 @@ public class SecurityConfig {
 	@Autowired
 	void registerProvider(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(usernamePasswordAuthProvider)
-			.authenticationProvider(jwtAuthenticationAuthProvider);
+				.authenticationProvider(jwtAuthenticationAuthProvider);
 	}
 
 	@Bean
@@ -85,7 +85,8 @@ public class SecurityConfig {
 			AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler,
 			AuthenticationManager manager) {
 
-		UsernamePasswordAuthProcessingFilter filter = new UsernamePasswordAuthProcessingFilter(this.getAuthUrl(), objectMapper,
+		UsernamePasswordAuthProcessingFilter filter = new UsernamePasswordAuthProcessingFilter(this.getAuthUrl(),
+				objectMapper,
 				successHandler, failureHandler);
 		filter.setAuthenticationManager(manager);
 		return filter;
@@ -96,24 +97,31 @@ public class SecurityConfig {
 			AuthenticationFailureHandler failureHandler,
 			AuthenticationManager manager) {
 
-		//tambahkan url endpoint yang permit dan authenticated sesuai kebutuhan ke dalam
-		//List yang ada pada variabel permitEndPointList dan autheticatedEndPointList		
-		List<String> permitEndPointList = Arrays.asList(this.getAuthUrl());
+		// tambahkan url endpoint yang permit dan authenticated sesuai kebutuhan ke
+		// dalam
+		// List yang ada pada variabel permitEndPointList dan autheticatedEndPointList
+		List<String> permitEndPointList = Arrays.asList(
+				this.getAuthUrl(),
+				"/v3/api-docs/**",
+				"/swagger-ui/**",
+				"/swagger-ui.html",
+				"/swagger-resources/**",
+				"/webjars/**");
 		List<String> autheticatedEndPointList = Arrays.asList(this.getApiUrl());
 
-		SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(permitEndPointList, autheticatedEndPointList);				
+		SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(permitEndPointList, autheticatedEndPointList);
 		JWTAuthProcessingFilter filter = new JWTAuthProcessingFilter(matcher, tokenExtractor, failureHandler);
 		filter.setAuthenticationManager(manager);
 		return filter;
 	}
-	
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList(env.getProperty("app.origin-url")));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
-		
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
@@ -123,12 +131,12 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http,
 			UsernamePasswordAuthProcessingFilter usernamePasswordAuthProcessingFilter,
 			JWTAuthProcessingFilter jwtAuthProcessingFilter) throws Exception {
-		http.authorizeHttpRequests(autz -> 
-			autz.requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
+		http.authorizeHttpRequests(autz -> autz.requestMatchers(this.getAuthUrl() + "/**").permitAll()
+				.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**").permitAll()
+				.requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
 				.requestMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
 				.requestMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN", "SUPERADMIN")
 				.requestMatchers(HttpMethod.GET).hasAnyRole("GUEST", "USER", "ADMIN", "SUPERADMIN")
-				.requestMatchers(this.getAuthUrl() + "/**").permitAll()				
 				.requestMatchers(this.getApiUrl()).authenticated())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.csrf(csrf -> csrf.disable())
@@ -136,7 +144,7 @@ public class SecurityConfig {
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.addFilterBefore(usernamePasswordAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(jwtAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(jwtAuthProcessingFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
