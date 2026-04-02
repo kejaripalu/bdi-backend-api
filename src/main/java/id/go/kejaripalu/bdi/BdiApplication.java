@@ -2,7 +2,6 @@ package id.go.kejaripalu.bdi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -25,7 +24,6 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
     scheme = "bearer"
 )
 @SpringBootApplication
-@CrossOrigin(origins = "*")
 public class BdiApplication {
 
 	public static void main(String[] args) {
