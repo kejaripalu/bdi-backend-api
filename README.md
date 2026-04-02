@@ -24,6 +24,7 @@
 | **Maven** | 3.9+ | Build tool & dependency management |
 | **BCrypt** | (bawaan) | Hashing password |
 | **HikariCP** | (bawaan) | Connection pooling database |
+| **SpringDoc OpenAPI** | 2.8.5 | Dokumentasi API otomatis (Swagger) |
 
 ---
 
@@ -648,3 +649,34 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
 ```
+---
+ 
+ ## 14. Dokumentasi API (Swagger/OpenAPI)
+ 
+ Proyek ini menggunakan **SpringDoc OpenAPI (Swagger)** untuk dokumentasi API otomatis yang memudahkan pengujian dan integrasi bagi developer lain.
+ 
+ ### 14.1 Cara Mengakses (Development)
+ 
+ Saat aplikasi berjalan di profil default atau `dev`, Anda dapat mengakses dokumentasi melalui URL berikut:
+ 
+ - **Swagger UI**: [http://localhost:8888/swagger-ui.html](http://localhost:8888/swagger-ui.html)
+ - **OpenAPI Specs (JSON)**: [http://localhost:8888/v3/api-docs](http://localhost:8888/v3/api-docs)
+ 
+ ### 14.2 Cara Menguji Endpoint Terproteksi
+ 
+ Karena API ini menggunakan **JWT (Bearer Token)**, Anda perlu memasukkan token ke dalam Swagger UI untuk menguji endpoint yang memerlukan autentikasi:
+ 
+ 1. Lakukan login melalui endpoint `/api/v1/login` untuk mendapatkan token.
+ 2. Salin nilai token (`eyJhbG...`) dari response body.
+ 3. Pada halaman Swagger UI, klik tombol **"Authorize"** (ikon gembok) di pojok kanan atas.
+ 4. Pada kotak dialog yang muncul, masukkan token Anda ke field **Value**. (Tidak perlu mengetik "Bearer" karena UI akan menambahkannya secara otomatis).
+ 5. Klik **"Authorize"** lalu **"Close"**.
+ 
+ Sekarang Anda dapat melakukan request ke semua endpoint yang memiliki tanda gembok terlepas dari status otentikasinya langsung dari browser.
+ 
+ ### 14.3 Keamanan di Production
+ 
+ > [!CAUTION]
+ > Demi alasan keamanan, seluruh fitur **Swagger UI dan API Docs dinonaktifkan sepenuhnya** pada profil `prod` (production). Hal ini dilakukan untuk mencegah *API discovery* oleh pihak yang tidak bertanggung jawab pada *environment* asli.
+ 
+ Untuk mengaktifkan/menonaktifkan Swagger, silakan cek konfigurasi `springdoc.swagger-ui.enabled` di file `application.yml`.
