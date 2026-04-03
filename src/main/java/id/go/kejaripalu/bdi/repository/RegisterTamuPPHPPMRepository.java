@@ -1,23 +1,21 @@
 package id.go.kejaripalu.bdi.repository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import id.go.kejaripalu.bdi.dto.RegisterTamuPPHPPMDTO;
+import id.go.kejaripalu.bdi.domain.RegisterTamuPPHPPM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import id.go.kejaripalu.bdi.domain.RegisterTamuPPHPPM;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public interface RegisterTamuPPHPPMRepository extends JpaRepository<RegisterTamuPPHPPM, Long> {
 
 	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false "
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC")
-	Page<RegisterTamuPPHPPMDTO> findAllPPHPPM(Date startDate, Date endDate, Pageable pageable);
+	Page<RegisterTamuPPHPPM> findAllPPHPPM(Date startDate, Date endDate, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false "
 			+ "AND (LOWER(r.namaPetugasPenerima) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -29,14 +27,14 @@ public interface RegisterTamuPPHPPMRepository extends JpaRepository<RegisterTamu
 			+ "OR LOWER(r.dokumenYangDisampaikan) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggal DESC")
-	Page<RegisterTamuPPHPPMDTO> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
+	Page<RegisterTamuPPHPPM> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 	
 	Optional<RegisterTamuPPHPPM> findByIdsAndDeletedFalse(String ids);
 	
 	@Query("SELECT r FROM RegisterTamuPPHPPM r WHERE r.deleted=false "
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC, r.tanggal DESC")
-	Page<RegisterTamuPPHPPMDTO> findAllPPHPPMtoPrint(Date startDate, Date endDate, Pageable pageable);
+	Page<RegisterTamuPPHPPM> findAllPPHPPMtoPrint(Date startDate, Date endDate, Pageable pageable);
 	
 	@Query("SELECT "
 			+ "(SELECT COUNT(r.jenisPelayanan) r FROM RegisterTamuPPHPPM r WHERE r.jenisPelayanan = 'PPH' "

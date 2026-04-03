@@ -35,7 +35,8 @@ public class DataPetaServiceImpl implements DataPetaService {
         Date end = ParserDateUtil.end(endDate);
         Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findAll(start, end, bidangDirektorat, pageRequest);
+        return repository.findAll(start, end, bidangDirektorat, pageRequest)
+                .map(DataPetaMapper.INSTANCE::toDTO);
     }
 
     @Override
@@ -52,7 +53,8 @@ public class DataPetaServiceImpl implements DataPetaService {
         Date end = ParserDateUtil.end(endDate);
         Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findBySearching(start, end, bidangDirektorat, value, pageRequest);
+        return repository.findBySearching(start, end, bidangDirektorat, value, pageRequest)
+                .map(DataPetaMapper.INSTANCE::toDTO);
     }
 
     @Override

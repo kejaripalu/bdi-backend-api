@@ -73,31 +73,31 @@ public class RegisterTamuPPHPPMServiceImpl implements RegisterTamuPPHPPMService 
 
 	@Override
 	@Transactional
-	public Page<RegisterTamuPPHPPMDTO> findAll(String startDate, String endDate, Integer pages, Integer sizes) {
+	public Page<RegisterTamuPPHPPMDTO> findAll(String start, String end, Integer pages, Integer sizes) {
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
+		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        Date start = ParserDateUtil.start(startDate);
-        Date end = ParserDateUtil.end(endDate);
-        Pageable pageable = PageRequest.of(pages, sizes);
-
-        return repository.findAllPPHPPM(start, end, pageable);
+		return repository.findAllPPHPPM(startDate, endDate, pageRequest)
+				.map(RegisterTamuPPHPPMMapper.INSTANCE::toDTO);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterTamuPPHPPMDTO> findBySearching(String startDate, String endDate, String value,
-                                                    Integer pages, Integer sizes) {
-
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
+	public Page<RegisterTamuPPHPPMDTO> findBySearching(String start, String end, String value, Integer pages,
+			Integer sizes) {
+		log.info("🔍 Value for searching: {}", value);
 		if (value.isBlank()) {
-			log.warn("💀 Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-        Date start = ParserDateUtil.start(startDate);
-        Date end = ParserDateUtil.end(endDate);
-        Pageable pageable = PageRequest.of(pages, sizes);
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
+		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findBySearching(start, end, value, pageable);
+		return repository.findBySearching(startDate, endDate, value, pageRequest)
+				.map(RegisterTamuPPHPPMMapper.INSTANCE::toDTO);
 	}
 
 	@Override

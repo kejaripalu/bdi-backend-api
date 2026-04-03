@@ -62,31 +62,29 @@ public class RegisterProdukIntelijenServiceImpl implements RegisterProdukIntelij
     @Override
     @Transactional
     public Page<RegisterProdukIntelijenDTO> findAll(String start, String end, Integer pages, Integer sizes) {
-
         Date startDate = ParserDateUtil.start(start);
         Date endDate = ParserDateUtil.end(end);
         Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return produkIntelijenRepository.findProdukIntelijenAll(
-                startDate, endDate, pageRequest);
+        return produkIntelijenRepository.findProdukIntelijenAll(startDate, endDate, pageRequest)
+                .map(RegisterProdukIntelijenMapper.INSTANCE::toDTO);
     }
 
     @Override
     @Transactional
     public Page<RegisterProdukIntelijenDTO> findBySearching(String start, String end, String value, Integer pages, Integer sizes) {
-
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
+        log.info("🔍 Value for searching: {}", value);
         if (value.isBlank()) {
-        	log.warn("💀 Isi text pencarian kosong...");
-			return null;
+            log.error("💀 Isi text pencarian kosong...");
+            return null;
         }
 
         Date startDate = ParserDateUtil.start(start);
         Date endDate = ParserDateUtil.end(end);
         Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return produkIntelijenRepository.findProdukIntelijenBySearching(
-                startDate, endDate, value, pageRequest);
+        return produkIntelijenRepository.findProdukIntelijenBySearching(startDate, endDate, value, pageRequest)
+                .map(RegisterProdukIntelijenMapper.INSTANCE::toDTO);
     }
 
     @Override

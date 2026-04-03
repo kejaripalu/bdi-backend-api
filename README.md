@@ -165,9 +165,9 @@ graph TB
 |---|---|
 | **Security Filters** | Mengintercept setiap request. Endpoint `/api/v1/login` ditangani oleh `UsernamePasswordAuthProcessingFilter`. Endpoint lainnya ditangani oleh `JWTAuthProcessingFilter` yang memvalidasi JWT token. |
 | **Controller** | Menerima HTTP request, mendelegasikan ke Service layer, dan mengembalikan HTTP response. |
-| **Service** | Business logic — create, update, delete (soft delete), find, search. |
+| **Service** | **Business Logic & Data Transformation** — Mengelola alur data dan melakukan mapping antara Entity dan DTO menggunakan MapStruct. |
 | **Mapper** | Konversi antara Entity (JPA) dan DTO (response/request) menggunakan MapStruct. |
-| **Repository** | Akses database via Spring Data JPA. Menjalankan query JPQL custom. |
+| **Repository** | **Akses Database** — Mengambil data dari PostgreSQL. **Wajib mengembalikan JPA Entity**. Hindari mengembalikan DTO langsung dari query untuk mencegah `ConverterNotFoundException`. |
 | **Exception Handler** | Menangkap exception global dan mengembalikan response error yang konsisten. |
 
 ---
@@ -331,6 +331,9 @@ Terdapat 3 jenis operasi read:
 | **Find By ID** | `GET /surat-masuk/{ids}/detail` | Cari berdasarkan UUID (`ids`) |
 | **Search** | `GET /surat-masuk/search?value=...&...` | Pencarian teks pada field `asal`, `nomorSurat`, `perihal` (case-insensitive LIKE) |
 
+> [!IMPORTANT]
+> **Repository Return Type**: Semua method repository pada operasi READ wajib mengembalikan `Page<Entity>` atau `Entity`. Konversi ke `DTO` **harus** dilakukan di Service layer sebelum dikirim ke Controller.
+
 ---
 
 ## 8. Model Data (Entity Relationship)
@@ -426,6 +429,11 @@ public interface RegisterSuratService<T> extends CrudGenericService<T> {
     Page<T> findAll(String startDate, String endDate, String jenisSurat, Integer pages, Integer sizes);
     Page<T> findBySearching(String start, String end, String value, String jenisSurat, Integer pages, Integer sizes);
 }
+
+> [!IMPORTANT]
+> **Aturan Mapping Data:**
+> - **Repository Layer** harus selalu mengembalikan objek **Entity**.
+> - **Service Layer** bertanggung jawab mengubah `Page<Entity>` atau `Entity` menjadi `DTO` sebelum dikirim ke Controller.
 ```
 
 ### 9.2 DTO Pattern (Java Record)

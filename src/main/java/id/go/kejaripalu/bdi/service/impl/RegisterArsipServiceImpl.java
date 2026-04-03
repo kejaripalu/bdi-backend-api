@@ -64,31 +64,32 @@ public class RegisterArsipServiceImpl implements RegisterArsipService {
 	@Override
 	@Transactional
 	public Page<RegisterArsipDTO> findAll(String start, String end, Integer pages, Integer sizes) {
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
-		
+
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return arsipRepository.findAllArsip(
-                startDate, endDate, pageRequest);
+		return arsipRepository.findAllArsip(startDate, endDate, pageRequest)
+				.map(RegisterArsipMapper.INSTANCE::toDTO);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterArsipDTO> findBySearching(
-			String start, String end, String value, Integer pages, Integer sizes) {
-        log.info("Value : {}", value);
+	public Page<RegisterArsipDTO> findBySearching(String start, String end, String value, Integer pages,
+			Integer sizes) {
+
+		log.info("🔍 Value for searching: {}", value);
 		if (value.isBlank()) {
 			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
-		
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-        return arsipRepository.findBySearching(
-                startDate, endDate, value, pageRequest);
+
+		return arsipRepository.findBySearching(startDate, endDate, value, pageRequest)
+				.map(RegisterArsipMapper.INSTANCE::toDTO);
 	}
 
 	@Override
