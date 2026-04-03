@@ -74,15 +74,37 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 
 	@Override
 	@Transactional
-	public Page<RegisterKerjaIntelijenDTO> findAll(
-            String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
-
+	public Page<RegisterKerjaIntelijenDTO> findAll(String start, String end, String stringBidangDirektorat,
+			Integer pages, Integer sizes) {
 		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
-        Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return rkiRepository.findRKIAll(startDate, endDate, bidangDirektorat, pageRequest);
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
+		Pageable pageRequest = PageRequest.of(pages, sizes);
+
+		return rkiRepository.findRKIAll(startDate, endDate, bidangDirektorat, pageRequest)
+				.map(RegisterKerjaIntelijenMapper.INSTANCE::toDTO);
+	}
+
+	@Override
+	@Transactional
+	public Page<RegisterKerjaIntelijenDTO> findBySearching(String start, String end, String stringBidangDirektorat,
+			String value, Integer pages,
+			Integer sizes) {
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
+
+		log.info("🔍 Value for searching: {}", value);
+		if (value.isBlank()) {
+			log.error("💀 Isi text pencarian kosong...");
+			return null;
+		}
+
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
+		Pageable pageRequest = PageRequest.of(pages, sizes);
+
+		return rkiRepository.findRKIBySearching(startDate, endDate, value, bidangDirektorat, pageRequest)
+				.map(RegisterKerjaIntelijenMapper.INSTANCE::toDTO);
 	}
 
 	@Override
@@ -94,26 +116,6 @@ public class RegisterKerjaIntelijenServiceImpl implements RegisterKerjaIntelijen
 		rki.setUraianPeristiwaMasalah(rki.getIds() + " | " + rki.getUraianPeristiwaMasalah());
 		rkiRepository.save(rki);
         log.info("✔️ Soft Delete Successfully!!! ദ്ദി(ᵔᗜᵔ): {}", rki);
-	}
-
-	@Override
-	@Transactional
-	public Page<RegisterKerjaIntelijenDTO> findBySearching(String start, String end, String value, String stringBidangDirektorat,
-                                                           Integer pages, Integer sizes) {
-
-		log.info("\uD83D\uDD0E Value for searching: {}", value);
-		if (value.isBlank()) {
-			log.error("💀 Isi text pencarian kosong...");
-			return null;
-		}
-
-		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
-		Pageable pageRequest = PageRequest.of(pages, sizes);
-
-        return rkiRepository.findRKIBySearching(
-                startDate, endDate, value, bidangDirektorat, pageRequest);
 	}
 
 }

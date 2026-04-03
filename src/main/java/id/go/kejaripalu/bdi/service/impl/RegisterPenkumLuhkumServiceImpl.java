@@ -70,36 +70,36 @@ public class RegisterPenkumLuhkumServiceImpl implements RegisterPenkumLuhkumServ
 
 	@Override
 	@Transactional
-	public Page<RegisterPenkumLuhkumDTO> findAll(String start, String end, String stringJenisKegiatan,
-			Integer pages, Integer sizes) {
-		
+	public Page<RegisterPenkumLuhkumDTO> findAll(String start, String end, String stringJenisKegiatan, Integer pages,
+			Integer sizes) {
 		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
+
 		Date startDate = ParserDateUtil.start(start);
 		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findAllPenkumLuhkum(
-                startDate, endDate, jenisKegiatan, pageRequest);
+		return repository.findAllPenkumLuhkum(startDate, endDate, jenisKegiatan, pageRequest)
+				.map(RegisterPenkumLuhkumMapper.INSTANCE::toDTO);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterPenkumLuhkumDTO> findBySearching(String start, String end,
-			String stringJenisKegiatan, String value, Integer pages, Integer sizes) {
+	public Page<RegisterPenkumLuhkumDTO> findBySearching(String start, String end, String stringJenisKegiatan,
+			String value, Integer pages, Integer sizes) {
+		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
 
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
+		log.info("🔍 Value for searching: {}", value);
 		if (value.isBlank()) {
 			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-		JenisKegiatanPenkumLuhkum jenisKegiatan = getJenisKegiatan(stringJenisKegiatan);
 		Date startDate = ParserDateUtil.start(start);
 		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findBySearching(
-                startDate, endDate, jenisKegiatan, value, pageRequest);
+		return repository.findBySearching(startDate, endDate, jenisKegiatan, value, pageRequest)
+				.map(RegisterPenkumLuhkumMapper.INSTANCE::toDTO);
 	}
 
 	@Override

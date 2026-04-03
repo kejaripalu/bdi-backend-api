@@ -1,22 +1,20 @@
 package id.go.kejaripalu.bdi.repository;
 
-import java.util.Date;
-import java.util.Optional;
-
-import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenPamstraDTO;
+import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijenPamstra;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import id.go.kejaripalu.bdi.domain.RegisterKegiatanIntelijenPamstra;
+import java.util.Date;
+import java.util.Optional;
 
 public interface RegisterKegiatanIntelijenPamstraRepository extends JpaRepository<RegisterKegiatanIntelijenPamstra, Long> {
 
 	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
 			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC")
-	Page<RegisterKegiatanIntelijenPamstraDTO> findAllKegiatan(Date startDate, Date endDate, Pageable pageable);
+	Page<RegisterKegiatanIntelijenPamstra> findAllKegiatan(Date startDate, Date endDate, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
 			+ "AND (LOWER(r.instansi) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -31,13 +29,13 @@ public interface RegisterKegiatanIntelijenPamstraRepository extends JpaRepositor
 			+ "OR LOWER(r.namaPetugasPelaksana) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggalSuratPermohonan DESC")
-	Page<RegisterKegiatanIntelijenPamstraDTO> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
+	Page<RegisterKegiatanIntelijenPamstra> findBySearching(Date startDate, Date endDate, String value, Pageable pageable);
 	
 	Optional<RegisterKegiatanIntelijenPamstra> findByIdsAndDeletedFalse(String ids);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijenPamstra r WHERE r.deleted=false "
 			+ "AND r.tanggalSuratPermohonan BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id  DESC, r.tanggalSuratPermohonan DESC")
-	Page<RegisterKegiatanIntelijenPamstraDTO> findAllKegiatanToPrint(Date startDate, Date endDate, Pageable pageable);
+	Page<RegisterKegiatanIntelijenPamstra> findAllKegiatanToPrint(Date startDate, Date endDate, Pageable pageable);
 	
 }

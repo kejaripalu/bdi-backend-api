@@ -77,30 +77,30 @@ public class RegisterKegiatanIntelijenPamstraServiceImpl implements RegisterKegi
 	@Override
 	@Transactional
 	public Page<RegisterKegiatanIntelijenPamstraDTO> findAll(String start, String end, Integer pages, Integer sizes) {
-
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findAllKegiatan(startDate, endDate, pageRequest);
+		return repository.findAllKegiatan(startDate, endDate, pageRequest)
+				.map(RegisterKegiatanIntelijenPamstraMapper.INSTANCE::toDTO);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterKegiatanIntelijenPamstraDTO> findBySearching(String start, String end, String value, Integer pages,
-			Integer sizes) {
-
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
+	public Page<RegisterKegiatanIntelijenPamstraDTO> findBySearching(String start, String end, String value,
+			Integer pages, Integer sizes) {
+		log.info("🔍 Value for searching: {}", value);
 		if (value.isBlank()) {
-			log.warn("💀 Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return repository.findBySearching(startDate, endDate, value, pageRequest);
+		return repository.findBySearching(startDate, endDate, value, pageRequest)
+				.map(RegisterKegiatanIntelijenPamstraMapper.INSTANCE::toDTO);
 	}
 
 	@Override

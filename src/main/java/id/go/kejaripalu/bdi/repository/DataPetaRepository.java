@@ -1,7 +1,6 @@
 package id.go.kejaripalu.bdi.repository;
 
 import id.go.kejaripalu.bdi.domain.DataPeta;
-import id.go.kejaripalu.bdi.dto.DataPetaDTO;
 import id.go.kejaripalu.bdi.util.BidangDirektorat;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,7 @@ public interface DataPetaRepository extends JpaRepository<DataPeta, Long> {
         AND p.tanggal BETWEEN :startDate AND :endDate \s
         ORDER BY p.tanggal DESC
         """)
-    Page<DataPetaDTO> findAll(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
+    Page<DataPeta> findAll(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 
     @Query("""
         SELECT p FROM DataPeta p WHERE p.deleted=false AND p.bidangDirektorat=:bidangDirektorat \s
@@ -31,7 +30,7 @@ public interface DataPetaRepository extends JpaRepository<DataPeta, Long> {
         AND p.tanggal BETWEEN :startDate AND :endDate \s
         ORDER BY p.tanggal DESC
         """)
-    Page<DataPetaDTO> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
+    Page<DataPeta> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
 
     Optional<DataPeta> findByIdsAndDeletedFalse(String ids);
 

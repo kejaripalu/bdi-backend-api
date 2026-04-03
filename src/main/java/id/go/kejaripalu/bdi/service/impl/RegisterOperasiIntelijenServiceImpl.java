@@ -64,35 +64,37 @@ public class RegisterOperasiIntelijenServiceImpl implements RegisterOperasiIntel
 
 	@Override
 	@Transactional
-	public Page<RegisterOperasiIntelijenDTO> findAll(String start, String end, String stringBidangDirektorat,
-			Integer pages, Integer sizes) {
+	public Page<RegisterOperasiIntelijenDTO> findAll(String start, String end, String stringBidangDirektorat, Integer pages, Integer sizes) {
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
 
-        BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
-		Date startDate = ParserDateUtil.start(start);
-		Date endDate = ParserDateUtil.end(end);
-		Pageable pageRequest = PageRequest.of(pages, sizes);
+        Date startDate = ParserDateUtil.start(start);
+        Date endDate = ParserDateUtil.end(end);
+        Pageable pageRequest = PageRequest.of(pages, sizes);
 
         return repository.findAllOpsin(
-                startDate, endDate, bidangDirektorat, pageRequest);
+                startDate, endDate, bidangDirektorat, pageRequest)
+				.map(RegisterOperasiIntelijenMapper.INSTANCE::toDTO);
 	}
 
 	@Override
 	@Transactional
-	public Page<RegisterOperasiIntelijenDTO> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages, Integer sizes) {
+	public Page<RegisterOperasiIntelijenDTO> findBySearching(String start, String end, String stringBidangDirektorat, String value, Integer pages,
+			Integer sizes) {
+		BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
 
-        log.info("\uD83D\uDD0E Value : {}", value);
+        log.info("\uD83D\uDD0E Value for searching: {}", value);
 		if (value.isBlank()) {
-			log.warn("💀 Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-        BidangDirektorat bidangDirektorat = GetBidangDirektorat.get(stringBidangDirektorat);
         Date startDate = ParserDateUtil.start(start);
         Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
         return repository.findBySearching(
-                startDate, endDate, bidangDirektorat, value, pageRequest);
+                startDate, endDate, bidangDirektorat, value, pageRequest)
+				.map(RegisterOperasiIntelijenMapper.INSTANCE::toDTO);
 	}
 
 	@Override

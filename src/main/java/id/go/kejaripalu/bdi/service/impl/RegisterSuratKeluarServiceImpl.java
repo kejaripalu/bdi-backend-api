@@ -29,23 +29,6 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratKeluarDTO> findAll(String startDate, String endDate, String stringJenisSurat,
-											   Integer pages, Integer sizes) {
-
-        JenisSurat jenisSurat = JenisSurat.BIASA;
-		if (stringJenisSurat.equals("RAHASIA")) {
-			jenisSurat = JenisSurat.RAHASIA;
-		}
-
-        Date start = ParserDateUtil.start(startDate);
-        Date end = ParserDateUtil.end(endDate);
-        Pageable pageRequest = PageRequest.of(pages, sizes);
-
-        return suratKeluarRepository.findSuratKeluar(start, end, jenisSurat, pageRequest);
-	}
-
-	@Override
-	@Transactional
 	public RegisterSuratKeluarDTO create(RegisterSuratKeluarDTO request) {
 		RegisterSuratKeluarDTO suratKeluar =
 				RegisterSuratKeluarMapper.INSTANCE.toDTO(
@@ -99,24 +82,41 @@ public class RegisterSuratKeluarServiceImpl implements RegisterSuratService<Regi
 
 	@Override
 	@Transactional
-	public Page<RegisterSuratKeluarDTO> findBySearching(String start, String end, String value,
-			String stringJenisSurat, Integer pages, Integer sizes) {
-
+	public Page<RegisterSuratKeluarDTO> findAll(String start, String end, String stringJenisSurat, Integer pages,
+			Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
+
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
+		Pageable pageRequest = PageRequest.of(pages, sizes);
+
+		return suratKeluarRepository.findSuratKeluar(startDate, endDate, jenisSurat, pageRequest)
+				.map(RegisterSuratKeluarMapper.INSTANCE::toDTO);
+	}
+
+	@Override
+	@Transactional
+	public Page<RegisterSuratKeluarDTO> findBySearching(String start, String end, String stringJenisSurat, String value,
+			Integer pages, Integer sizes) {
+		JenisSurat jenisSurat = JenisSurat.BIASA;
+		if (stringJenisSurat.equals("RAHASIA")) {
+			jenisSurat = JenisSurat.RAHASIA;
+		}
+
+		log.info("🔍 Value for searching: {}", value);
 		if (value.isBlank()) {
-			log.warn("💀 Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
-        Pageable pageRequest = PageRequest.of(pages, sizes);
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
+		Pageable pageRequest = PageRequest.of(pages, sizes);
 
-        return suratKeluarRepository.findSuratKeluarBySearch(
-                startDate, endDate, value, jenisSurat, pageRequest);
+		return suratKeluarRepository.findSuratKeluarBySearch(startDate, endDate, value, jenisSurat, pageRequest)
+				.map(RegisterSuratKeluarMapper.INSTANCE::toDTO);
 	}
 }

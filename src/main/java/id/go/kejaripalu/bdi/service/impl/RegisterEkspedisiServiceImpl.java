@@ -73,12 +73,12 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
 
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-        return ekspedisiRepository.findEkspedisiAll(
-                startDate, endDate, jenisSurat, pageRequest);
+		return ekspedisiRepository.findEkspedisiAll(startDate, endDate, jenisSurat, pageRequest)
+				.map(RegisterEkspedisiMapper.INSTANCE::toDTO);
 	}
 	
 	@Override
@@ -103,24 +103,25 @@ public class RegisterEkspedisiServiceImpl implements RegisterEkspedisiService {
 
 	@Override
 	@Transactional
-	public Page<RegisterEkspedisiDTO> findBySearching(
-			String start, String end, String value, String stringJenisSurat, Integer pages, Integer sizes) {
+	public Page<RegisterEkspedisiDTO> findBySearching(String start, String end, String stringJenisSurat, String value,
+			Integer pages, Integer sizes) {
 		JenisSurat jenisSurat = JenisSurat.BIASA;
 		if (stringJenisSurat.equals("RAHASIA")) {
 			jenisSurat = JenisSurat.RAHASIA;
 		}
-        log.info("\uD83D\uDD0E Value for searching: {}", value);
+
+		log.info("🔍 Value for searching: {}", value);
 		if (value.isBlank()) {
-			log.warn("💀 Isi text pencarian kosong...");
+			log.error("💀 Isi text pencarian kosong...");
 			return null;
 		}
 
-        Date startDate = ParserDateUtil.start(start);
-        Date endDate = ParserDateUtil.end(end);
-		
+		Date startDate = ParserDateUtil.start(start);
+		Date endDate = ParserDateUtil.end(end);
 		Pageable pageRequest = PageRequest.of(pages, sizes);
-        return ekspedisiRepository.findEkspedisiBySearching(
-                startDate, endDate, value, jenisSurat, pageRequest);
+
+		return ekspedisiRepository.findEkspedisiBySearching(startDate, endDate, value, jenisSurat, pageRequest)
+				.map(RegisterEkspedisiMapper.INSTANCE::toDTO);
 	}
 	
 }

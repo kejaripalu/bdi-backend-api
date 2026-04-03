@@ -3,7 +3,6 @@ package id.go.kejaripalu.bdi.repository;
 import java.util.Date;
 import java.util.Optional;
 
-import id.go.kejaripalu.bdi.dto.RegisterKegiatanIntelijenDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +16,7 @@ public interface RegisterKegiatanIntelijenRepository extends JpaRepository<Regis
 	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC")
-	Page<RegisterKegiatanIntelijenDTO> findAllKegiatan(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
+	Page<RegisterKegiatanIntelijen> findAllKegiatan(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
 			+ "AND (LOWER(r.perihal) LIKE LOWER(CONCAT('%', :value, '%')) "
@@ -26,13 +25,13 @@ public interface RegisterKegiatanIntelijenRepository extends JpaRepository<Regis
 			+ "OR LOWER(r.namaPetugasPelaksana) LIKE LOWER(CONCAT('%', :value, '%'))) "
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.tanggal  DESC")
-	Page<RegisterKegiatanIntelijenDTO> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
+	Page<RegisterKegiatanIntelijen> findBySearching(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, String value, Pageable pageable);
 	
 	Optional<RegisterKegiatanIntelijen> findByIdsAndDeletedFalse(String ids);
 	
 	@Query("SELECT r FROM RegisterKegiatanIntelijen r WHERE r.deleted=false AND r.bidangDirektorat=:bidangDirektorat "
 			+ "AND r.tanggal BETWEEN :startDate AND :endDate "
 			+ "ORDER BY r.id DESC, r.tanggal DESC")
-	Page<RegisterKegiatanIntelijenDTO> findAllKegiatanToPrint(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
+	Page<RegisterKegiatanIntelijen> findAllKegiatanToPrint(Date startDate, Date endDate, BidangDirektorat bidangDirektorat, Pageable pageable);
 	
 }

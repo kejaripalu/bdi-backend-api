@@ -71,7 +71,8 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
         Pageable pageRequest = PageRequest.of(pages, sizes);
 
         return repository.findAllKegiatan(
-                startDate, endDate, bidangDirektorat, pageRequest);
+                startDate, endDate, bidangDirektorat, pageRequest)
+				.map(RegisterKegiatanIntelijenMapper.INSTANCE::toDTO);
 	}
 
 	@Override
@@ -91,7 +92,8 @@ public class RegisterKegiatanIntelijenServiceImpl implements RegisterKegiatanInt
 		Pageable pageRequest = PageRequest.of(pages, sizes);
 
         return repository.findBySearching(
-                startDate, endDate, bidangDirektorat, value, pageRequest);
+                startDate, endDate, bidangDirektorat, value, pageRequest)
+				.map(RegisterKegiatanIntelijenMapper.INSTANCE::toDTO);
 	}
 
 	@Override
